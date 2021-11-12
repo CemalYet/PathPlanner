@@ -1,0 +1,38 @@
+QT       += core gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+CONFIG += c++11
+
+# You can make your code fail to compile if it uses deprecated APIs.
+# In order to do so, uncomment the following line.
+#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+
+SOURCES += \
+    main.cpp \
+    mainwindow.cpp \
+    node.cpp \
+    pathplanner.cpp
+
+HEADERS += \
+    mainwindow.h \
+    node.h \
+    pathplanner.h
+
+FORMS += \
+    mainwindow.ui
+
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target
+#Library
+
+
+unix:!macx: LIBS += -L$$PWD/../world_source_v4/ -lworld
+
+INCLUDEPATH += $$PWD/../world_source_v4
+DEPENDPATH += $$PWD/../world_source_v4
+
+RESOURCES += \
+    images.qrc

@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/maze1.jpg</file>
+        <file>images/maze2.jpg</file>
+        <file>images/maze3.jpg</file>
+        <file>images/worldmap.jpg</file>
+        <file>images/worldmap4.jpg</file>
+    </qresource>
+</RCC>
