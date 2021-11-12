@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
         cout<<"|";
         for(int y=0;y<5;y++){
             tile[i*5+y]->getValue();
-            if()
+
             cout<<tile[i*5+y]->getValue();
         }
         cout<<endl;
