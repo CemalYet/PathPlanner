@@ -28,9 +28,26 @@ MainWindow::MainWindow(QWidget *parent)
     auto world = make_shared<World>();
     world->createWorld(":/images/worldmap.jpg",1,1);
 
+
     auto pathPlanner=make_shared<PathPlanner>(3.3);
     vector<pair<int,int>> dummy=pathPlanner->solution(4,4,world);
+    auto tiles=pathPlanner->getGameBoard();
+
+    cout<<"printing  path"<<endl;
+
     for (auto &d :dummy ) {
+        for(int i=0;i<5;i++){
+                cout<<"|";
+                for(int y=0;y<5;y++){
+                    if(i==d.first && y==d.second){
+                        cout<<"p"<<" |";
+                    } else{
+                         cout<< tiles[i*5+y]->getValue()<<" |";
+                    }
+                }
+                cout<<endl;
+            }
+
         cout<<d.first<<d.second<<endl;
     }
 
