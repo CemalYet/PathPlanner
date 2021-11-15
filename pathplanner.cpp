@@ -25,13 +25,14 @@ void PathPlanner::addTile(unique_ptr<Tile> tile) {
     //return tile->getValue();
 }
 
-vector<pair<int,int>> PathPlanner::solution(int x,int y,shared_ptr<World> &w){
+vector<pair<int,int>> PathPlanner::solution(int x_,int y_,shared_ptr<World> &w){
     /*for(unsigned int i=0;w->getTiles().size();i++){
         auto tiles = w->getTiles();
         auto tile=move(tiles[i]);
         cout<<"cekf;akjdlajd"<<endl;
         cout<<tile->getValue()<<endl;
     }*/
+    //cout<<x_<<y_<<endl;
     closedList.clear();
     int startX=w->getProtagonist()->getXPos();
     int startY=w->getProtagonist()->getYPos();
@@ -40,7 +41,7 @@ vector<pair<int,int>> PathPlanner::solution(int x,int y,shared_ptr<World> &w){
     //cout<<"ganeasdasdads "<<gameBoard.size()<<endl;
 
     vector<pair<int,int>> dummy;
-    float heuristicCost=findDistance(x,y,startX,startY);
+    float heuristicCost=findDistance(x_,y_,startX,startY);
     auto rootNode = make_shared<Node>(startX,startY,heuristicCost,0,nullptr);
 
     this->openList.push(rootNode);
@@ -50,7 +51,7 @@ vector<pair<int,int>> PathPlanner::solution(int x,int y,shared_ptr<World> &w){
         auto currentNode = openList.top();
         openList.pop();
 
-        if(currentNode->getXPos()==x && currentNode->getYPos()==y){
+        if(currentNode->getXPos()==x_ && currentNode->getYPos()==y_){
             dummy=fillPath(currentNode);
             break;
         }
@@ -72,9 +73,12 @@ vector<pair<int,int>> PathPlanner::solution(int x,int y,shared_ptr<World> &w){
                 //cout<<posX[i]<<" "<<posY[i]<<" ===> "<<gameBoard[w->getCols()*posY[i]+posX[i]]->getXPos()<<gameBoard[w->getCols()*posY[i]+posX[i]]->getYPos()<<endl;
                 //cout<<posY[i]<<" "<<posX[i]<<" ===> "<<w->getCols()*posY[i]+posX[i]<<endl;
                 float givenCostOfSuccessor=currentNode->getGivenCost()+value;
-                float heuristicOfSuccessor=findDistance(x,y,posX[i],posY[i]);
-                //cout<<"MY GivenCost() "<<currentNode->getGivenCost()<<endl;
-                cout<<"MY getFinalCost "<<currentNode->getFinalCost()<<endl;
+                //cout<<x<<y<<endl;
+
+                //RAMOYA SOR X MI YOKSA X_ MI????????
+                float heuristicOfSuccessor=findDistance(x_,y_,posX[i],posY[i]);
+                cout<<"MY GivenCost() "<<currentNode->getGivenCost()<<endl;
+                //cout<<"MY getFinalCost "<<currentNode->getFinalCost()<<endl;
                 if(value==std::numeric_limits<float>::infinity()){
                     continue;
                 }
@@ -95,7 +99,7 @@ vector<pair<int,int>> PathPlanner::solution(int x,int y,shared_ptr<World> &w){
 
 
 float PathPlanner::findDistance(int x1,int y1,int x2,int y2) const{
-    return (float)(abs(4-x2) + abs(4-y2));
+    return (float)(abs(x1-x2) + abs(y1-y2));
 }
 
 vector<pair<int,int>> PathPlanner::fillPath(shared_ptr<Node> &node){
