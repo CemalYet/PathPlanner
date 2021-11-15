@@ -8,16 +8,15 @@
 #include <memory>
 
 using namespace std;
-void showpq(
-     priority_queue<shared_ptr<Node>, vector<shared_ptr<Node>>, OrderByFinalCost >  g)
-{
+//void showpq(priority_queue<shared_ptr<Node>, vector<shared_ptr<Node>>, OrderByFinalCost >  g)
+//{
 
-    while (!g.empty()) {
-        cout << '\t' << g.top()->getFinalCost();
-        g.pop();
-    }
-    cout << '\n';
-}
+//    while (!g.empty()) {
+//        cout << '\t' << g.top()->getFinalCost();
+//        g.pop();
+//    }
+//    cout << '\n';
+//}
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -34,8 +33,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 
      cout<<"TILE VALUES"<<endl;
-     int eX=enemy[0]->getXPos();
-     int eY=enemy[0]->getYPos();
+     //int eX=enemy[0]->getXPos();
+     //int eY=enemy[0]->getYPos();
 
 
 
@@ -54,11 +53,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
-    priority_queue<shared_ptr<Node>, vector<shared_ptr<Node>>, OrderByFinalCost > openList;
-    openList.push(make_shared<Node>(2,2,2.2,nullptr));
-    openList.push(make_shared<Node>(2,2,3.2,nullptr));
-    openList.push(make_shared<Node>(2,2,4.2,nullptr));
-    showpq(openList);
+//      priority_queue<shared_ptr<Node>, vector<shared_ptr<Node>>, OrderByFinalCost > openList;
+//    openList.push(make_shared<Node>(2,2,2.2,nullptr));
+//    openList.push(make_shared<Node>(2,2,3.2,nullptr));
+//    openList.push(make_shared<Node>(2,2,4.2,nullptr));
+//      showpq(openList);
 }
 
 MainWindow::~MainWindow()

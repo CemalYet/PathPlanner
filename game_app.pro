@@ -2,17 +2,16 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+CONFIG += c++17
+
+CONFIG += console
+QT -= gui
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    main.cpp \
-    mainwindow.cpp \
-    node.cpp \
-    pathplanner.cpp \
     HealthPackModel.cpp \
     PenemyModel.cpp \
     TileModel.cpp \
@@ -28,12 +27,12 @@ SOURCES += \
     controllerViewSwitch.cpp \
     enemyModel.cpp \
     gameModel.cpp \
+    main.cpp \
+    mainwindow.cpp \
+    pathplanner.cpp \
     protagonistModel.cpp
 
 HEADERS += \
-    mainwindow.h \
-    node.h \
-    pathplanner.h \
     HealthPackModel.h \
     PenemyModel.h \
     TileModel.h \
@@ -49,6 +48,9 @@ HEADERS += \
     controllerViewSwitch.h \
     enemyModel.h \
     gameModel.h \
+    mainwindow.h \
+    node.h \
+    pathplanner.h \
     protagonistModel.h
 
 FORMS += \
@@ -58,20 +60,11 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-#Library
 
+unix:!macx: LIBS += -L$$PWD/./ -lworld
 
-#unix:!macx: LIBS += -L$$PWD/../world_source_v4/ -lworld
-
-#INCLUDEPATH += $$PWD/../world_source_v4
-#DEPENDPATH += $$PWD/../world_source_v4
+INCLUDEPATH += $$PWD/.
+DEPENDPATH += $$PWD/.
 
 RESOURCES += \
     images.qrc
-
-
-
-unix:!macx: LIBS += -L$$PWD/mylib/ -lmylib
-
-INCLUDEPATH += $$PWD/mylib
-DEPENDPATH += $$PWD/mylib
