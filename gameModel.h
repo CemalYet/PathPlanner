@@ -3,31 +3,39 @@
 #include<string>
 #include <iostream>
 #include <vector>
-#include <functional>
-#include <QTimer>
 #include <memory>
-#include "TileModel.h"
-#include "HealthPackModel.h"
-#include "PenemyModel.h"
-#include "enemyModel.h"
-#include "protagonistModel.h"
-#include "XenemyModel.h"
+#include "world.h"
 
-class XenemyModel;
-
-
-class  gameModel
+class GameModel
 {
-public:
-    std::shared_ptr<protagonistModel> protagonist;
-    std::shared_ptr<TileModel> tile;
-    std::shared_ptr<HealthPackModel> healthPack;
-    std::shared_ptr<enemyModel> pEnemy;
+private:
 
-    void method();
+    std::shared_ptr<Protagonist> protagonist;
+    std::vector<std::shared_ptr<Tile>> tiles;
+    std::vector<std::shared_ptr<Tile>> healthPacks;
+    std::vector<std::shared_ptr<PEnemy>> pEnemies;
+    std::vector<std::shared_ptr<Enemy> >  enemies;
+    std::map<std::string,std::shared_ptr<PEnemy>> penemyMap;
+    std::map<std::string,std::shared_ptr<Enemy>> enemyMap;
+    int numCols;
+    int numRows;
+    std::string sep =":";
+public:
+     GameModel();
     //enemyModel::selectNearestEnemy();
     //TileModel::findFirstHealthPack();
-    void getXenemy (std::shared_ptr<XenemyModel> xEnemy);
+
+
+    std::shared_ptr<Protagonist> getProtagonist() const;
+    void setProtagonist(std::unique_ptr<Protagonist> &value);
+    std::vector<std::shared_ptr<Tile> > getTiles() const;
+    void setTiles(std::vector<std::unique_ptr<Tile> > &value);
+    std::vector<std::shared_ptr<Tile> > getHealthPacks() const;
+    void setHealthPacks(std::vector<std::unique_ptr<Tile> > &value);
+    std::vector<std::shared_ptr<Enemy> > getEnemies();
+    void setEnemies(std::vector<std::unique_ptr<Enemy> > &value);
+    std::vector<std::shared_ptr<PEnemy> > getPEnemies();
+
 
 };
 
