@@ -1,7 +1,10 @@
 #include "gameModel.h"
 
 
+GameModel::GameModel()
+{
 
+}
 std::shared_ptr<Protagonist> GameModel::getProtagonist() const
 {
    return protagonist;
@@ -12,6 +15,7 @@ void GameModel::setProtagonist(std::unique_ptr<Protagonist> &value)
   protagonist = std::move(value);
 }
 
+
 std::vector<std::shared_ptr<Tile> > GameModel::getTiles() const
 {
   return tiles;
@@ -21,7 +25,7 @@ std::vector<std::shared_ptr<Tile> > GameModel::getTiles() const
 void GameModel::setTiles(std::vector<std::unique_ptr<Tile> > &value)
 {
     for(auto &tile:value){
-           tiles.push_back(std::move(tile));
+          tiles.push_back(std::move(tile));
         }
 }
 
@@ -59,7 +63,7 @@ void GameModel::setEnemies(std::vector<std::unique_ptr<Enemy> > &value)
          }
 }
 
-std::vector<std::shared_ptr<PEnemy> > GameModel::getPEnemies()
+std::vector<std::shared_ptr<Enemy> > GameModel::getPEnemies()
 {
     for(auto & entry: penemyMap)
         pEnemies.push_back(entry.second);

@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include "gameModel.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -17,5 +17,6 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    std::unique_ptr<GameModel> gameModel;
 };
 #endif // MAINWINDOW_H

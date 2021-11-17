@@ -13,7 +13,7 @@ private:
     std::shared_ptr<Protagonist> protagonist;
     std::vector<std::shared_ptr<Tile>> tiles;
     std::vector<std::shared_ptr<Tile>> healthPacks;
-    std::vector<std::shared_ptr<PEnemy>> pEnemies;
+    std::vector<std::shared_ptr<Enemy>> pEnemies;
     std::vector<std::shared_ptr<Enemy> >  enemies;
     std::map<std::string,std::shared_ptr<PEnemy>> penemyMap;
     std::map<std::string,std::shared_ptr<Enemy>> enemyMap;
@@ -34,7 +34,7 @@ public:
     void setHealthPacks(std::vector<std::unique_ptr<Tile> > &value);
     std::vector<std::shared_ptr<Enemy> > getEnemies();
     void setEnemies(std::vector<std::unique_ptr<Enemy> > &value);
-    std::vector<std::shared_ptr<PEnemy> > getPEnemies();
+    std::vector<std::shared_ptr<Enemy> > getPEnemies();
 
 
 };

@@ -24,21 +24,62 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    auto world = make_shared<World>();
+    auto world = make_unique<World>();
     world->createWorld(":/images/worldmap.jpg",1,1);
-    auto tile=world->getTiles();
+    gameModel = std::make_unique<GameModel>();
+
+
+
+    auto world_tiles=world->getTiles();
+    gameModel->setTiles(world_tiles);
+    auto gamemodel_tiles=gameModel->getTiles();
+    cout<<"Tiles at location"<<endl;
+    for(auto &e:gamemodel_tiles){
+          cout<<'['<<e->getXPos()<<','<<e->getYPos()<<']'<<endl;
+        }
+
+
+
     auto enemy=world->getEnemies();
+    gameModel->setEnemies(enemy);
+    auto enemies_gamemodel=gameModel->getEnemies();
+    std::cout<<"enemies at location"<<std::endl;
+    for(auto &e:enemies_gamemodel){
+          cout<<'['<<e->getXPos()<<','<<e->getYPos()<<']'<<endl;
+        }
+
+
+    auto penemies_gamemodel=gameModel->getPEnemies();
+    std::cout<<"Penemies at location"<<std::endl;
+    for(auto &e:penemies_gamemodel){
+          cout<<'['<<e->getXPos()<<','<<e->getYPos()<<']'<<endl;
+        }
+
+    auto protagonist=world->getProtagonist();
+    gameModel->setProtagonist(protagonist);
+    auto protagonist_gamemodel=gameModel->getProtagonist();
+    std::cout<< "protagonist at ["<<protagonist_gamemodel->getXPos()<<", "<< protagonist_gamemodel->getYPos()<<"]"<<std::endl;
 
     auto health=world->getHealthPacks();
+    gameModel->setHealthPacks(health);
+    auto healthpack_gamemodel=gameModel->getHealthPacks();
+    std::cout<<"Healthpack at location"<<std::endl;
+    for(auto &h:healthpack_gamemodel){
+          cout<<'['<<h->getXPos()<<','<<h->getYPos()<<']'<<endl;
+        }
 
 
-     cout<<"TILE VALUES"<<endl;
+
+
+
+
+     //cout<<"TILE VALUES"<<endl;
      //int eX=enemy[0]->getXPos();
      //int eY=enemy[0]->getYPos();
 
 
 
-    for(int i=0;i<5;i++){
+  /* for(int i=0;i<5;i++){
         cout<<"|";
         for(int y=0;y<5;y++){
             tile[i*5+y]->getValue();
@@ -49,7 +90,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     cout<<enemy[0]->getXPos()<<endl;
-    cout<<enemy[0]->getYPos()<<endl;
+    cout<<enemy[0]->getYPos()<<endl;*/
 
 
 
