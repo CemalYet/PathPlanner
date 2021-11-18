@@ -9,12 +9,23 @@
 #include "enemyModel.h"
 #include "gameModel.h"
 
-class  XenemyModel
+class XEnemy: public Enemy
 {
+    Q_OBJECT
 public:
-    std::shared_ptr<enemyModel> xEnemy;
+    XEnemy(int xPosition, int yPosition, float strength);
+    ~XEnemy() override = default;
+    float getShapeType() const;
+    void setShapeType(float value);
 
-    void createEnemy();
+public slots:
+    bool status();
+
+signals:
+    void shapeTypeUpdated(int value);
+
+private:
+    enum shapeType {cute, Mad, furious, dead};
 };
 
 #endif // XENEMYMODEL_H

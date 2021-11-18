@@ -46,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent)
     std::cout<<"enemies at location"<<std::endl;
     for(auto &e:enemies_gamemodel){
           cout<<'['<<e->getXPos()<<','<<e->getYPos()<<']'<<endl;
+          std::vector<std::shared_ptr<Tile>> healthPacks;
         }
 
 
@@ -53,6 +54,8 @@ MainWindow::MainWindow(QWidget *parent)
     std::cout<<"Penemies at location"<<std::endl;
     for(auto &e:penemies_gamemodel){
           cout<<'['<<e->getXPos()<<','<<e->getYPos()<<']'<<endl;
+          std::cout<<"Xenemies at location"<<std::endl;
+          cout<<'['<<e->getXPos() + rand() % 28+1 <<','<<e->getYPos() + rand() % 28+1<<']'<<endl;
         }
 
     auto protagonist=world->getProtagonist();
