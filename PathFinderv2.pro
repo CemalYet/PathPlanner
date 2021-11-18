@@ -61,17 +61,17 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 #Library
 
 
-#unix:!macx: LIBS += -L$$PWD/../world_source_v4/ -lworld
+unix:!macx: LIBS += -L$$PWD/../world_source_v4/ -lworld
 
-#INCLUDEPATH += $$PWD/../world_source_v4
-#DEPENDPATH += $$PWD/../world_source_v4
+INCLUDEPATH += $$PWD/../world_source_v4
+DEPENDPATH += $$PWD/../world_source_v4
 
 RESOURCES += \
     images.qrc
 
 
 
-unix:!macx: LIBS += -L$$PWD/mylib/ -lmylib
+#unix:!macx: LIBS += -L$$PWD/mylib/ -lmylib
 
-INCLUDEPATH += $$PWD/mylib
-DEPENDPATH += $$PWD/mylib
+#INCLUDEPATH += $$PWD/mylib
+#DEPENDPATH += $$PWD/mylib

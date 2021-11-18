@@ -3,6 +3,7 @@
 #include "world_global.h"
 #include "world.h"
 #include "node.h"
+#include "protagonistModel.h"
 #include <queue>
 #include <vector>
 #include <memory>
@@ -62,6 +63,26 @@ MainWindow::MainWindow(QWidget *parent)
     gameModel->setProtagonist(protagonist);
     auto protagonist_gamemodel=gameModel->getProtagonist();
     std::cout<< "protagonist at ["<<protagonist_gamemodel->getXPos()<<", "<< protagonist_gamemodel->getYPos()<<"]"<<std::endl;
+    //protagonist_gamemodel->setHealth(98.0);
+
+
+    auto protagonist_model=make_shared<protagonistModel>();
+    protagonist_model->setProtagonist(protagonist_gamemodel);
+    protagonist_model->moveRight();
+    protagonist_model->moveRight();
+    protagonist_model->moveRight();
+    protagonist_model->moveLeft();
+    protagonist_model->moveUp();
+    protagonist_model->moveUp();
+    protagonist_model->moveDown();
+    std::cout<< "protagonist move to position ["<<protagonist_model->getProtagonist()->getXPos()<<", "<< protagonist_model->getProtagonist()->getYPos()<<"]"<<std::endl;
+    std::cout<<"Protagonist has "<<protagonist_gamemodel->getHealth()<<" health"<<std::endl;
+    protagonist_model->decreaseHealth(15.6);
+    std::cout<<"Protagonist has been attacked new health is "<<protagonist_model->getProtagonist()->getHealth()<<std::endl;
+    std::cout<<"Protagonist has "<<protagonist_gamemodel->getEnergy()<<" energy"<<std::endl;
+    protagonist_model->decreaseEnergy(0.9);
+    std::cout<<"Protagonist lost energy new energy is "<<protagonist_model->getProtagonist()->getEnergy()<<std::endl;
+
 
     auto health=world->getHealthPacks();
     gameModel->setHealthPacks(health);
@@ -71,37 +92,6 @@ MainWindow::MainWindow(QWidget *parent)
           cout<<'['<<h->getXPos()<<','<<h->getYPos()<<']'<<endl;
         }
 
-
-
-
-
-
-     //cout<<"TILE VALUES"<<endl;
-     //int eX=enemy[0]->getXPos();
-     //int eY=enemy[0]->getYPos();
-
-
-
-  /* for(int i=0;i<5;i++){
-        cout<<"|";
-        for(int y=0;y<5;y++){
-            tile[i*5+y]->getValue();
-
-            cout<<tile[i*5+y]->getValue();
-        }
-        cout<<endl;
-    }
-
-    cout<<enemy[0]->getXPos()<<endl;
-    cout<<enemy[0]->getYPos()<<endl;*/
-
-
-
-//      priority_queue<shared_ptr<Node>, vector<shared_ptr<Node>>, OrderByFinalCost > openList;
-//    openList.push(make_shared<Node>(2,2,2.2,nullptr));
-//    openList.push(make_shared<Node>(2,2,3.2,nullptr));
-//    openList.push(make_shared<Node>(2,2,4.2,nullptr));
-//      showpq(openList);
 }
 
 MainWindow::~MainWindow()

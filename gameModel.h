@@ -22,8 +22,6 @@ private:
     std::string sep =":";
 public:
      GameModel();
-    //enemyModel::selectNearestEnemy();
-    //TileModel::findFirstHealthPack();
 
 
     std::shared_ptr<Protagonist> getProtagonist() const;

@@ -13,15 +13,10 @@
 class  TileModel
 {
 private:
-    std::shared_ptr<TileModel> tile;
-
+    std::shared_ptr<Tile> tile;
 
 public:
-    std::vector<std::shared_ptr<Tile>> tiles;
-    std::vector<std::shared_ptr<Tile> > getTiles() const;
-    void setTiles(std::vector<std::shared_ptr<Tile> > &value);
-    void addAll( std::vector<std::shared_ptr<Tile>> &tiles);
-    void addTile(std::shared_ptr<Tile> tile);
+    bool isObstacle();
 
 };
 
