@@ -1,6 +1,16 @@
 #include "gameModel.h"
 
 
+int GameModel::getNumCols() const
+{
+    return numCols;
+}
+
+int GameModel::getNumRows() const
+{
+    return numRows;
+}
+
 GameModel::GameModel()
 {
 

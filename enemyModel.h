@@ -6,11 +6,17 @@
 #include <functional>
 #include <QTimer>
 #include <memory>
+#include "world.h"
 
 class  enemyModel
 {
 public:
-    std::shared_ptr<enemyModel> enemy;
+
+    const std::shared_ptr<Enemy> &getEnemy() const{return enemy;};
+    void setEnemy(const std::shared_ptr<Enemy> &newEnemy){enemy = newEnemy;};
+
+private:
+    std::shared_ptr<Enemy> enemy;
 
 };
 

@@ -14,8 +14,6 @@ class  protagonistModel
 public:
     protagonistModel();
 
-
-
     void moveRight();
     void moveLeft();
     void moveUp();
@@ -25,18 +23,8 @@ public:
     void decreaseEnergy(float value);
     void increaseHealth(float value);
 
-//  might be
-//  void attack();
-
-
-
-
-    const std::shared_ptr<Protagonist> &getProtagonist() const{
-        return protagonist;
-    };
-    void setProtagonist(const std::shared_ptr<Protagonist> &newProtagonist){
-        protagonist = newProtagonist;
-    };
+    const std::shared_ptr<Protagonist> &getProtagonist() const{return protagonist;};
+    void setProtagonist(const std::shared_ptr<Protagonist> &newProtagonist){protagonist = newProtagonist;};
 
 private:
     std::shared_ptr<Protagonist> protagonist;

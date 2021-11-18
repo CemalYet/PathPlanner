@@ -9,15 +9,6 @@
 #include <memory>
 
 using namespace std;
-//void showpq(priority_queue<shared_ptr<Node>, vector<shared_ptr<Node>>, OrderByFinalCost >  g)
-//{
-
-//    while (!g.empty()) {
-//        cout << '\t' << g.top()->getFinalCost();
-//        g.pop();
-//    }
-//    cout << '\n';
-//}
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -65,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
     std::cout<< "protagonist at ["<<protagonist_gamemodel->getXPos()<<", "<< protagonist_gamemodel->getYPos()<<"]"<<std::endl;
     //protagonist_gamemodel->setHealth(98.0);
 
-
+    //TEST PROTAGONIST MODEL
     auto protagonist_model=make_shared<protagonistModel>();
     protagonist_model->setProtagonist(protagonist_gamemodel);
     protagonist_model->moveRight();

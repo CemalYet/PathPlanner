@@ -7,7 +7,7 @@ protagonistModel::protagonistModel()
 
 //Methods
 void protagonistModel::moveRight()
-{   //if in range and not infinity and have enough energy and health
+{  //if in range and not infinity and have enough energy
    protagonist->setXPos(protagonist->getXPos()+1);
 }
 
@@ -28,22 +28,35 @@ void protagonistModel::moveDown()
 
 void protagonistModel::goTo(int x, int y)
 {
-    //implement when pathfinder is done
+    //call pathfinder when is done
 }
 
 void protagonistModel::decreaseHealth(float value)
-{  //Do not alllow to decrease under zero
-   protagonist->setHealth(protagonist->getHealth() - value);
+{  if(protagonist->getHealth()-value >0){
+        protagonist->setHealth(protagonist->getHealth() - value);
+    }else{
+        protagonist->setHealth(0.0);
+    }
+
+
 }
 
 void protagonistModel::decreaseEnergy(float value)
-{   //Do not alllow to decrease under zero
-    protagonist->setEnergy(protagonist->getEnergy() - value);
+{   if(protagonist->getEnergy()-value >0){
+        protagonist->setEnergy(protagonist->getEnergy() - value);
+    }else{
+        protagonist->setEnergy(0.0);
+    }
+
 }
 
 void protagonistModel::increaseHealth(float value)
-{   //Do not alllow to increase above 100
-    protagonist->setHealth(protagonist->getHealth() + value);
+{   if(protagonist->getHealth()+value<100){
+        protagonist->setHealth(protagonist->getHealth() + value);
+    }else{
+        protagonist->setHealth(100);
+    }
+
 }
 
 

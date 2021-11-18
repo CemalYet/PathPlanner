@@ -35,6 +35,8 @@ public:
     std::vector<std::shared_ptr<Enemy> > getPEnemies();
 
 
+    int getNumCols() const;
+    int getNumRows() const;
 };
 
 
