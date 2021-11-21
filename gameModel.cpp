@@ -15,18 +15,18 @@ GameModel::GameModel()
 {
 
 }
-std::shared_ptr<Protagonist> GameModel::getProtagonist() const
+std::shared_ptr<protagonistModel> GameModel::getProtagonist() const
 {
    return protagonist;
 }
 
-void GameModel::setProtagonist(std::unique_ptr<Protagonist> &value)
+void GameModel::setProtagonist(std::shared_ptr<protagonistModel> &value)
 {
-  protagonist = std::move(value);
+  protagonist = value;
 }
 
 
-std::vector<std::shared_ptr<Tile> > GameModel::getTiles() const
+std::vector<std::shared_ptr<TileModel> > GameModel::getTiles() const
 {
   return tiles;
 }
@@ -35,7 +35,9 @@ std::vector<std::shared_ptr<Tile> > GameModel::getTiles() const
 void GameModel::setTiles(std::vector<std::unique_ptr<Tile> > &value)
 {
     for(auto &tile:value){
-          tiles.push_back(std::move(tile));
+        auto tile_model= std::make_shared<TileModel>();
+             tile_model->setTile(std::move(tile));
+          tiles.push_back(tile_model);
         }
 }
 

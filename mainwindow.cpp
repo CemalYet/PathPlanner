@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     auto gamemodel_tiles=gameModel->getTiles();
     cout<<"Tiles at location"<<endl;
     for(auto &e:gamemodel_tiles){
-          cout<<'['<<e->getXPos()<<','<<e->getYPos()<<']'<<endl;
+          cout<<'['<<e->getTile()->getXPos()<<','<<e->getTile()->getYPos()<<"] "<<e->isObstacle()<<endl;
         }
 
 
@@ -50,29 +50,37 @@ MainWindow::MainWindow(QWidget *parent)
           cout<<'['<<e->getXPos() + rand() % 28+1 <<','<<e->getYPos() + rand() % 28+1<<']'<<endl;
         }
 
-    auto protagonist=world->getProtagonist();
-    gameModel->setProtagonist(protagonist);
-    auto protagonist_gamemodel=gameModel->getProtagonist();
-    std::cout<< "protagonist at ["<<protagonist_gamemodel->getXPos()<<", "<< protagonist_gamemodel->getYPos()<<"]"<<std::endl;
-    //protagonist_gamemodel->setHealth(98.0);
+      auto protagonist=world->getProtagonist();
+      auto protagonist_model=make_shared<protagonistModel>();
+      protagonist_model->setProtagonist(protagonist);
+      auto protagonist_gamemodel = protagonist_model->getProtagonist();
+      gameModel->setProtagonist(protagonist_model);
+      auto actual_protagonist=gameModel->getProtagonist();
+
+
+
+
+
+    std::cout<< "protagonist at ["<<actual_protagonist->getProtagonist()->getXPos()<<", "<< actual_protagonist->getProtagonist()->getYPos()<<"]"<<std::endl;
+    actual_protagonist->getProtagonist()->setHealth(98.0);
 
     //TEST PROTAGONIST MODEL
-    auto protagonist_model=make_shared<protagonistModel>();
-    protagonist_model->setProtagonist(protagonist_gamemodel);
-    protagonist_model->moveRight();
-    protagonist_model->moveRight();
-    protagonist_model->moveRight();
-    protagonist_model->moveLeft();
-    protagonist_model->moveUp();
-    protagonist_model->moveUp();
-    protagonist_model->moveDown();
-    std::cout<< "protagonist move to position ["<<protagonist_model->getProtagonist()->getXPos()<<", "<< protagonist_model->getProtagonist()->getYPos()<<"]"<<std::endl;
-    std::cout<<"Protagonist has "<<protagonist_gamemodel->getHealth()<<" health"<<std::endl;
+
+
+    actual_protagonist->moveRight();
+    actual_protagonist->moveRight();
+    actual_protagonist->moveRight();
+    actual_protagonist->moveLeft();
+    actual_protagonist->moveUp();
+    actual_protagonist->moveUp();
+    actual_protagonist->moveDown();
+    std::cout<< "protagonist move to position ["<<actual_protagonist->getProtagonist()->getXPos()<<", "<< actual_protagonist->getProtagonist()->getYPos()<<"]"<<std::endl;
+    std::cout<<"Protagonist has "<<actual_protagonist->getProtagonist()->getHealth()<<" health"<<std::endl;
     protagonist_model->decreaseHealth(15.6);
-    std::cout<<"Protagonist has been attacked new health is "<<protagonist_model->getProtagonist()->getHealth()<<std::endl;
-    std::cout<<"Protagonist has "<<protagonist_gamemodel->getEnergy()<<" energy"<<std::endl;
+    std::cout<<"Protagonist has been attacked new health is "<<actual_protagonist->getProtagonist()->getHealth()<<std::endl;
+    std::cout<<"Protagonist has "<<actual_protagonist->getProtagonist()->getEnergy()<<" energy"<<std::endl;
     protagonist_model->decreaseEnergy(0.9);
-    std::cout<<"Protagonist lost energy new energy is "<<protagonist_model->getProtagonist()->getEnergy()<<std::endl;
+    std::cout<<"Protagonist lost energy new energy is "<<actual_protagonist->getProtagonist()->getEnergy()<<std::endl;
 
 
     auto health=world->getHealthPacks();

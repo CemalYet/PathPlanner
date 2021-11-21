@@ -7,28 +7,29 @@ protagonistModel::protagonistModel()
 
 //Methods
 void protagonistModel::moveRight()
-{  //if in range and not infinity and have enough energy
+{
    protagonist->setXPos(protagonist->getXPos()+1);
 }
 
 void protagonistModel::moveLeft()
-{   //if in range and not infinity and have enough energy
+{
     protagonist->setXPos(protagonist->getXPos()-1);
 }
 
 void protagonistModel::moveUp()
-{  //if in range and not infinity and have enough energy
+{
     protagonist->setYPos(protagonist->getYPos()+1);
 }
 
 void protagonistModel::moveDown()
-{   //if in range and not infinity and have enough energy
+{
     protagonist->setYPos(protagonist->getYPos()-1);
 }
 
 void protagonistModel::goTo(int x, int y)
 {
-    //call pathfinder when is done
+    protagonist->setXPos(x);
+    protagonist->setYPos(y);
 }
 
 void protagonistModel::decreaseHealth(float value)
@@ -37,7 +38,6 @@ void protagonistModel::decreaseHealth(float value)
     }else{
         protagonist->setHealth(0.0);
     }
-
 
 }
 

@@ -6,7 +6,7 @@
 #include <functional>
 #include <QTimer>
 #include <memory>
-#include "gameModel.h"
+#include "world.h"
 
 class  protagonistModel
 {
@@ -23,8 +23,8 @@ public:
     void decreaseEnergy(float value);
     void increaseHealth(float value);
 
-    const std::shared_ptr<Protagonist> &getProtagonist() const{return protagonist;};
-    void setProtagonist(const std::shared_ptr<Protagonist> &newProtagonist){protagonist = newProtagonist;};
+    std::shared_ptr<Protagonist> getProtagonist() const{return protagonist;};
+    void setProtagonist(std::unique_ptr<Protagonist> &value){protagonist = std::move(value);};
 
 private:
     std::shared_ptr<Protagonist> protagonist;

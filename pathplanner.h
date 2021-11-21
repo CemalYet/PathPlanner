@@ -5,6 +5,8 @@
 #include <queue>
 #include <vector>
 #include <memory>
+#include <algorithm>    // std::reverse
+
 using namespace std;
 
 class PathPlanner
