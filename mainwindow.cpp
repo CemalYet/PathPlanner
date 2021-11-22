@@ -17,32 +17,36 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     auto world = make_shared<World>();
-        world->createWorld(":/images/worldmap.jpg",1,1);
-        gameModel = std::make_unique<GameModel>();
+    world->createWorld(":/images/worldmap.jpg",1,1);
+    gameModel = std::make_unique<GameModel>();
 
 
-        auto pathPlanner=make_shared<PathPlanner>(world,0.2);
-        vector<pair<int,int>> dummy=pathPlanner->solution(4,4);
-        auto tiles=pathPlanner->getGameBoard();
+    auto pathPlanner=make_shared<PathPlanner>(world,0.2);
+    vector<pair<int,int>> dummy=pathPlanner->solution(4,4);
+    auto tiles=pathPlanner->getGameBoard();
 
 
-        cout<<"PATH === "<<dummy.size()<<endl;
+    cout<<"PATH === "<<dummy.size()<<endl;
 
-        for (auto &d :dummy ) {
-            for(int i=0;i<world->getCols();i++){
+    for (auto &d :dummy ) {
+        for(int i=0;i<world->getCols();i++){
                 cout<<"|";
                 for(int y=0;y<world->getRows();y++){
                     if(i==d.second && y==d.first){
                         cout<<"p"<<" |";
                     } else{
-                        cout<< tiles[i*world->getCols()+y]->getValue()<<" |";
+                         cout<< tiles[i*world->getCols()+y]->getValue()<<" |";
                     }
                 }
                 cout<<endl;
             }
 
-          /*
+        cout<<d.first<<d.second<<endl;
+    }
+
+        /*
             auto world_tiles=world->getTiles();
             gameModel->setTiles(world_tiles);
             auto gamemodel_tiles=gameModel->getTiles();
@@ -124,7 +128,7 @@ MainWindow::MainWindow(QWidget *parent)
                 cout<<'['<<h->getHealthPack()->getXPos()<<','<<h->getHealthPack()->getYPos()<<']'<<endl;
             }*/
 
- }
+
 }
 
 MainWindow::~MainWindow()
