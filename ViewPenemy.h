@@ -11,7 +11,7 @@
 class  ViewPenemy
 {
 public:
-    std::shared_ptr<enemyModel> pEnemy;
+    std::shared_ptr<PenemyModel> pEnemy;
     void selectNearestEnemy();
 
 };

@@ -1,16 +1,5 @@
 #include "gameModel.h"
 
-
-int GameModel::getNumCols() const
-{
-    return numCols;
-}
-
-int GameModel::getNumRows() const
-{
-    return numRows;
-}
-
 GameModel::GameModel()
 {
 
@@ -41,21 +30,21 @@ void GameModel::setTiles(std::vector<std::unique_ptr<Tile> > &value)
         }
 }
 
-std::vector<std::shared_ptr<Tile> > GameModel::getHealthPacks() const
+std::vector<std::shared_ptr<HealthPackModel> > GameModel::getHealthPacks() const
 {
     return healthPacks;
 }
 
 void GameModel::setHealthPacks( std::vector<std::unique_ptr<Tile> > &value)
 {
-    for(auto &tile:value){
-       healthPacks.push_back(std::move(tile));
+    for(auto &t:value){
+       auto healthpack_model=std::make_shared<HealthPackModel>();
+       healthpack_model->setHealthPack(std::move(t));
+       healthPacks.push_back(healthpack_model);
     }
 }
-std::vector<std::shared_ptr<Enemy> > GameModel::getEnemies()
+std::vector<std::shared_ptr<EnemyModel>> GameModel::getEnemies() const
 {
-    for(auto & entry: enemyMap)
-        enemies.push_back(entry.second);
     return enemies;
 }
 
@@ -64,21 +53,21 @@ void GameModel::setEnemies(std::vector<std::unique_ptr<Enemy> > &value)
     for(auto &enemy:value){
             std::shared_ptr<PEnemy> penemy (qobject_cast<PEnemy*>(enemy.get()));
             if (  penemy != nullptr){ //if it is penemy
-                std::string XPosTile=std::to_string(penemy->getXPos());
-                std::string YPosTile=std::to_string(penemy->getYPos());
-                penemyMap[XPosTile+sep+YPosTile]=penemy;
+                auto pEnemy_model=std::make_shared<PenemyModel>();
+                pEnemy_model->setPEnemy(std::move(penemy));
+                pEnemies.push_back(pEnemy_model);
+
+
             } else {
-                std::string XPosTile=std::to_string(enemy->getXPos());
-                std::string YPosTile=std::to_string(enemy->getYPos());
-                enemyMap[XPosTile+sep+YPosTile]=std::move(enemy);
+                auto enemy_model=std::make_shared<EnemyModel>();
+                enemy_model->setEnemy(std::move(enemy));
+                enemies.push_back(enemy_model);
             }
          }
 }
 
-std::vector<std::shared_ptr<Enemy> > GameModel::getPEnemies()
+std::vector<std::shared_ptr<PenemyModel> > GameModel::getPEnemies() const
 {
-    for(auto & entry: penemyMap)
-        pEnemies.push_back(entry.second);
     return pEnemies;
 }
 

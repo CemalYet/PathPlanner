@@ -3,16 +3,17 @@
 #include<string>
 #include <iostream>
 #include <vector>
-#include <functional>
-#include <QTimer>
 #include <memory>
-#include "enemyModel.h"
-#include "gameModel.h"
+#include "world.h"
+
 
 class  PenemyModel
 {
 public:
-    std::shared_ptr<enemyModel> pEnemyModel;
+    const std::shared_ptr<PEnemy> &getPEnemy() const{return penemy;};
+    void setPEnemy(const std::shared_ptr<PEnemy> &newPEnemy){penemy = newPEnemy;};
+private:
+    std::shared_ptr<PEnemy> penemy;
 
     void getEnemyPosition();
 

@@ -8,7 +8,7 @@
 #include <memory>
 #include "world.h"
 
-class  enemyModel
+class  EnemyModel
 {
 public:
 

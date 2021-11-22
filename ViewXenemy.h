@@ -6,12 +6,12 @@
 #include <functional>
 #include <QTimer>
 #include <memory>
-#include "PenemyModel.h"
+#include "enemyModel.h"
 
 class  ViewXenemy
 {
 public:
-    std::shared_ptr<enemyModel> xEnemy;
+    std::shared_ptr<EnemyModel> xEnemy;
     void selectNearestEnemy();
 
 };

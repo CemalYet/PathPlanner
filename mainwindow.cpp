@@ -4,6 +4,8 @@
 #include "world.h"
 #include "node.h"
 #include "protagonistModel.h"
+#include "PenemyModel.h"
+#include "enemyModel.h"
 #include <queue>
 #include <vector>
 #include <memory>
@@ -17,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     auto world = make_unique<World>();
-    world->createWorld(":/images/worldmap.jpg",1,1);
+    world->createWorld(":/images/worldmap.jpg",3,3);
     gameModel = std::make_unique<GameModel>();
 
 
@@ -32,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
-    auto enemy=world->getEnemies();
+   /* auto enemy=world->getEnemies();
     gameModel->setEnemies(enemy);
     auto enemies_gamemodel=gameModel->getEnemies();
     std::cout<<"enemies at location"<<std::endl;
@@ -48,7 +50,26 @@ MainWindow::MainWindow(QWidget *parent)
           cout<<'['<<e->getXPos()<<','<<e->getYPos()<<']'<<endl;
           std::cout<<"Xenemies at location"<<std::endl;
           cout<<'['<<e->getXPos() + rand() % 28+1 <<','<<e->getYPos() + rand() % 28+1<<']'<<endl;
-        }
+        }*/
+
+     auto enemies=world->getEnemies();
+     gameModel->setEnemies(enemies);
+     auto actual_enemies=gameModel->getEnemies();
+
+     //Test enemies
+     std::cout<<"enzmies at"<<endl;
+     for(auto &e:actual_enemies){
+           cout<<'['<<e->getEnemy()->getXPos()<<','<<e->getEnemy()->getYPos()<<']'<<endl;
+         }
+
+     //Test Penemies
+     auto actual_penemies= gameModel->getPEnemies();
+     std::cout<<"Penemies at"<<endl;
+     for(auto &e:actual_penemies){
+           cout<<'['<<e->getPEnemy()->getXPos()<<','<<e->getPEnemy()->getYPos()<<']'<<endl;
+         }
+
+
 
       auto protagonist=world->getProtagonist();
       auto protagonist_model=make_shared<protagonistModel>();
@@ -82,13 +103,13 @@ MainWindow::MainWindow(QWidget *parent)
     protagonist_model->decreaseEnergy(0.9);
     std::cout<<"Protagonist lost energy new energy is "<<actual_protagonist->getProtagonist()->getEnergy()<<std::endl;
 
-
+    //Test HealthPack
+    cout<<"Health pack at "<<endl;
     auto health=world->getHealthPacks();
     gameModel->setHealthPacks(health);
-    auto healthpack_gamemodel=gameModel->getHealthPacks();
-    std::cout<<"Healthpack at location"<<std::endl;
-    for(auto &h:healthpack_gamemodel){
-          cout<<'['<<h->getXPos()<<','<<h->getYPos()<<']'<<endl;
+    auto actual_healthpack=gameModel->getHealthPacks();
+    for(auto &h:actual_healthpack){
+          cout<<'['<<h->getHealthPack()->getXPos()<<','<<h->getHealthPack()->getYPos()<<']'<<endl;
         }
 
 }
