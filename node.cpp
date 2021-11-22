@@ -1,8 +1,9 @@
 #include "node.h"
 
-Node::Node(int xPos, int yPos, float finalCost, const std::shared_ptr<Node> &parent) : xPos(xPos),
+Node::Node(int xPos, int yPos, float finalCost,float givenCost, const std::shared_ptr<Node> &parent) : xPos(xPos),
     yPos(yPos),
     finalCost(finalCost),
+    givenCost(givenCost),
     parent(parent)
 {}
 
@@ -25,11 +26,11 @@ void Node::setParent(const std::shared_ptr<Node> &newParent)
 {
     parent = newParent;
 }
-bool Node::operator<(std::shared_ptr<Node> &nodeTwo) const{
-    return this->finalCost < nodeTwo->finalCost;
+
+void Node::setGivenCost(float newGivenCost)
+{
+    givenCost = newGivenCost;
 }
-/*
-bool Node::operator>(std::shared_ptr<Node> &nodeTwo) const{
-    return this->finalCost > nodeTwo->finalCost;
-}
-*/
+
+
+

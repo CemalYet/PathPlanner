@@ -9,10 +9,10 @@
 class Node
 {
 public:
+    Node(int xPos, int yPos, float finalCost, float givenCost, const std::shared_ptr<Node> &parent);
+
     //constructor
-    Node(int xPos, int yPos, float finalCost, const std::shared_ptr<Node> &parent);
-    bool operator<(std::shared_ptr<Node> &nodeTwo) const;
-    bool operator>(std::shared_ptr<Node> &nodeTwo) const;
+
 
 
     //getters
@@ -27,18 +27,23 @@ public:
     };
     const std::shared_ptr<Node> &getParent() const{
         return parent;
-    }
-;
+    };
+    float getGivenCost() const{
+        return givenCost;
+    };
+
     //setters
     void setXPos(int newXPos);
     void setYPos(int newYPos);
     void setFinalCost(float newFinalCost);
     void setParent(const std::shared_ptr<Node> &newParent);
+    void setGivenCost(float newGivenCost);
 
 private:
     int xPos;
     int yPos;
     float finalCost;
+    float givenCost;
     std::shared_ptr<Node> parent;
 };
 
@@ -53,3 +58,4 @@ class OrderByFinalCost
 
 
 #endif // NODE_H
+
