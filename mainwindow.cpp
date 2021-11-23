@@ -7,6 +7,7 @@
 #include "PenemyModel.h"
 #include "enemyModel.h"
 #include "pathplanner.h"
+#include "XenemyModel.h"
 #include <queue>
 #include <vector>
 #include <memory>
@@ -47,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
         cout<<d.first<<d.second<<endl;
     }
 
-        /*
+
             auto world_tiles=world->getTiles();
             gameModel->setTiles(world_tiles);
             auto gamemodel_tiles=gameModel->getTiles();
@@ -60,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
         auto enemies_gamemodel=gameModel->getEnemies();
         std::cout<<"enemies at location"<<std::endl;
         for(auto &e:enemies_gamemodel){
-              cout<<'['<<e->getXPos()<<','<<e->getYPos()<<']'<<endl;
+              cout<<'['<<e->getEnemy()->getXPos()<<','<<e->getEnemy()->getYPos()<<']'<<endl;
               std::vector<std::shared_ptr<Tile>> healthPacks;
             }
 
@@ -68,9 +69,7 @@ MainWindow::MainWindow(QWidget *parent)
         auto penemies_gamemodel=gameModel->getPEnemies();
         std::cout<<"Penemies at location"<<std::endl;
         for(auto &e:penemies_gamemodel){
-              cout<<'['<<e->getXPos()<<','<<e->getYPos()<<']'<<endl;
-              std::cout<<"Xenemies at location"<<std::endl;
-              cout<<'['<<e->getXPos() + rand() % 28+1 <<','<<e->getYPos() + rand() % 28+1<<']'<<endl;
+              cout<<'['<<e->getPEnemy()->getXPos()<<','<<e->getPEnemy()->getYPos()<<']'<<endl;
             }
 
             auto enemies=world->getEnemies();
@@ -90,7 +89,27 @@ MainWindow::MainWindow(QWidget *parent)
                 cout<<'['<<e->getPEnemy()->getXPos()<<','<<e->getPEnemy()->getYPos()<<']'<<endl;
             }
 
+        //Test Xenemies and set their positions
 
+            std::cout<<"Xenemies at"<<endl;
+            int xPos=0; int yPos=0;
+            XenemyModel setXenemies;
+            auto actual_xenemies= gameModel->getPEnemies();
+
+            for(auto &x_enemy:actual_xenemies){
+                cout<<'['<<(x_enemy->getPEnemy()->getXPos())/2 <<','<<x_enemy->getPEnemy()->getYPos() + rand() % 2+1<<']'<<endl;
+                xPos = x_enemy->getPEnemy()->getXPos() + rand();
+                if(xPos > 30){
+                    xPos = xPos - rand() % 25 + 1;
+                }
+                yPos = x_enemy->getPEnemy()->getYPos() + rand();
+                if (yPos > 30){
+                    yPos = yPos - rand() % 25 + 1;
+                }
+                setXenemies.setXEnemy(xPos, yPos);
+                }
+
+/*
 
             auto protagonist=world->getProtagonist();
             auto protagonist_model=make_shared<protagonistModel>();
