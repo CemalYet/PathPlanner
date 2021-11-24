@@ -71,4 +71,9 @@ std::vector<std::shared_ptr<PenemyModel> > GameModel::getPEnemies() const
     return pEnemies;
 }
 
+std::vector<std::shared_ptr<XenemyModel> > GameModel::getXEnemies() const
+{
+    return xEnemies;
+}
+
 
