@@ -69,9 +69,9 @@ MainWindow::MainWindow(QWidget *parent)
         auto penemies_gamemodel=gameModel->getPEnemies();
         std::cout<<"Penemies at location"<<std::endl;
         for(auto &e:penemies_gamemodel){
-              cout<<'['<<e->getXPos()<<','<<e->getYPos()<<']'<<endl;
+              cout<<'['<<e->getPEnemy()->getXPos()<<','<<e->getPEnemy()->getYPos()<<']'<<endl;
               std::cout<<"Xenemies at location"<<std::endl;
-              cout<<'['<<e->getXPos() + rand() % 28+1 <<','<<e->getYPos() + rand() % 28+1<<']'<<endl;
+              cout<<'['<<e->getPEnemy()->getXPos() + rand() % 28+1 <<','<<e->getPEnemy()->getYPos() + rand() % 28+1<<']'<<endl;
             }
 
             auto enemies=world->getEnemies();
