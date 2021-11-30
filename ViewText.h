@@ -9,7 +9,7 @@
 #include "ViewGraphical.h"
 #include "controllerViewSwitch.h"
 #include "QGraphicsRectItem"
-#include "ViewTile.h"
+#include "viewTiletext.h"
 
 //class ViewGraphical;
 //class ControllerViewSwitch;
@@ -21,7 +21,7 @@ private:
     QString view;
     QGraphicsScene* scene;
 
-    std::shared_ptr<ViewTile> tileView;
+    std::vector<std::shared_ptr<ViewTileText>>tileViewVectors;
 public:
 
    // std::shared_ptr<ViewText> textView;

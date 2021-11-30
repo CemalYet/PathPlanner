@@ -70,8 +70,9 @@ void ViewText::isEnemyDefeated()
 
 void ViewText::setTextTileView(int Xpos, int Ypos, float value)
 {
-     tileView=std::make_shared<ViewTile>();
-     view =tileView->viewTileText(Xpos,Ypos,value);
+     auto tileView=std::make_shared<ViewTileText>(Xpos,Ypos,value);
+     tileViewVectors.push_back(tileView);
+     //view =tileView->viewTileText(Xpos,Ypos,value);
 
 }
 

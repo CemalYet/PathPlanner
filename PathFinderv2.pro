@@ -29,7 +29,8 @@ SOURCES += \
     enemyModel.cpp \
     gameModel.cpp \
     protagonistModel.cpp \
-    stringtextview.cpp
+    stringtextview.cpp \
+    viewTiletext.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -51,7 +52,8 @@ HEADERS += \
     enemyModel.h \
     gameModel.h \
     protagonistModel.h \
-    stringtextview.h
+    stringtextview.h \
+    viewTiletext.h
 
 FORMS += \
     mainwindow.ui

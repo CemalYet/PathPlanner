@@ -1,15 +1,15 @@
 #include "stringtextview.h"
-#include <sstream>
+//#include <sstream>
 
 StringTextView::StringTextView(int &Xpos, int &Ypos, float &value):
     stringXpos{Xpos},stringYpos{Ypos},stringvalue{value}
 {
-
+    tileDrawing=drawTextTile();
 }
 
 QString StringTextView::drawTextTile()
 {
-    std::stringstream ss;
+    //std::stringstream ss;
   //  int jfrom=stringXpos*width;
    // int ifrom=stringYpos*width;
 
