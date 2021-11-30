@@ -3,6 +3,10 @@
 
 #include <QMainWindow>
 #include "gameModel.h"
+#include "ViewText.h"
+#include<QGraphicsScene>
+#include<QGraphicsView>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -15,8 +19,14 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_radioButton_Text_clicked();
+
 private:
     Ui::MainWindow *ui;
+    QGraphicsScene* scene;
     std::unique_ptr<GameModel> gameModel;
+    std::shared_ptr<ViewText>gameTextView;
+
 };
 #endif // MAINWINDOW_H

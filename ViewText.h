@@ -8,22 +8,37 @@
 #include <memory>
 #include "ViewGraphical.h"
 #include "controllerViewSwitch.h"
+#include "QGraphicsRectItem"
+#include "ViewTile.h"
 
-class ViewGraphical;
-class ControllerViewSwitch;
+//class ViewGraphical;
+//class ControllerViewSwitch;
+
 
 class  ViewText
 {
+private:
+    QString view;
+    QGraphicsScene* scene;
+
+    std::shared_ptr<ViewTile> tileView;
 public:
 
-    std::shared_ptr<ViewText> textView;
-    std::shared_ptr<ViewGraphical> graphicsView;
-    bool isText;
-    std::shared_ptr<ControllerViewSwitch> controller;
+   // std::shared_ptr<ViewText> textView;
+   // std::shared_ptr<ViewGraphical> graphicsView;
+   // bool isText;
+   // std::shared_ptr<ControllerViewSwitch> controller;
 
+    ViewText();
     void initWorld();
     void gameResult();
     void updateOverallView();
+    void selectNearestTile();
+    void setTextTileView(int Xpos,int Ypos, float value);
+    QString getTextView() const;
+    QGraphicsScene *getScene() const;
+
+
 
 public slots:
     void startNewGame();

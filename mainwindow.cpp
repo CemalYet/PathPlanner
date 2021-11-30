@@ -6,6 +6,8 @@
 #include "protagonistModel.h"
 #include "PenemyModel.h"
 #include "enemyModel.h"
+#include "ViewTile.h"
+
 #include <queue>
 #include <vector>
 #include <memory>
@@ -112,10 +114,35 @@ MainWindow::MainWindow(QWidget *parent)
           cout<<'['<<h->getHealthPack()->getXPos()<<','<<h->getHealthPack()->getYPos()<<']'<<endl;
         }
 
+//for text view
+//gameTextView = std::make_shared<ViewText>();
+
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+
+void MainWindow::on_radioButton_Text_clicked()
+{
+    gameTextView =std::make_shared<ViewText>();
+    scene = gameTextView->getScene();
+    ui->graphicsView->setScene(scene);
+
+
+    for (auto &tile: gameModel->getTiles()){
+
+        auto XPosTile=tile->getTile()->getXPos();
+        auto YPosTile=tile->getTile()->getYPos();
+        auto valueTile=tile->getTile()->getValue();
+
+        gameTextView->setTextTileView(XPosTile,YPosTile,valueTile);
+
+       // scene->addItem(gameTextView->getTextView());
+        scene->addText(gameTextView->getTextView());
+    }
 }
 

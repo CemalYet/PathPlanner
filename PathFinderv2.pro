@@ -28,7 +28,8 @@ SOURCES += \
     controllerViewSwitch.cpp \
     enemyModel.cpp \
     gameModel.cpp \
-    protagonistModel.cpp
+    protagonistModel.cpp \
+    stringtextview.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -49,7 +50,8 @@ HEADERS += \
     controllerViewSwitch.h \
     enemyModel.h \
     gameModel.h \
-    protagonistModel.h
+    protagonistModel.h \
+    stringtextview.h
 
 FORMS += \
     mainwindow.ui
@@ -61,10 +63,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 #Library
 
 
-unix:!macx: LIBS += -L$$PWD/../world_source_v4/ -lworld
+#unix:!macx: LIBS += -L$$PWD/../world_source_v4/ -lworld
 
-INCLUDEPATH += $$PWD/../world_source_v4
-DEPENDPATH += $$PWD/../world_source_v4
+#INCLUDEPATH += $$PWD/../world_source_v4
+#DEPENDPATH += $$PWD/../world_source_v4
 
 RESOURCES += \
     images.qrc
@@ -75,3 +77,10 @@ RESOURCES += \
 
 #INCLUDEPATH += $$PWD/mylib
 #DEPENDPATH += $$PWD/mylib
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../world_v4/release/ -lworld
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../world_v4/debug/ -lworld
+else:unix: LIBS += -L$$PWD/../world_v4/ -lworld
+
+INCLUDEPATH += $$PWD/../world_v4
+DEPENDPATH += $$PWD/../world_v4

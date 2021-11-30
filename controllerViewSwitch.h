@@ -13,9 +13,6 @@ class  ControllerViewSwitch
 {
 public:
     ControllerViewSwitch ();
-
-    //std::shared_ptr<ViewText> textView;
-    //std::shared_ptr<ViewGraphical> graphicalView;
     int HW;
     QTimer *timer;
 
