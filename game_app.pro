@@ -17,6 +17,7 @@ SOURCES += \
     TileModel.cpp \
     ViewEnemy.cpp \
     ViewGraphical.cpp \
+    ViewHealth.cpp \
     ViewHealthPack.cpp \
     ViewPenemy.cpp \
     ViewProtagonist.cpp \
@@ -29,6 +30,7 @@ SOURCES += \
     gameModel.cpp \
     main.cpp \
     mainwindow.cpp \
+    myRect.cpp \
     pathplanner.cpp \
     protagonistModel.cpp
 
@@ -38,6 +40,7 @@ HEADERS += \
     TileModel.h \
     ViewEnemy.h \
     ViewGraphical.h \
+    ViewHealth.h \
     ViewHealthPack.h \
     ViewPenemy.h \
     ViewProtagonist.h \
@@ -49,6 +52,7 @@ HEADERS += \
     enemyModel.h \
     gameModel.h \
     mainwindow.h \
+    myRect.h \
     node.h \
     pathplanner.h \
     protagonistModel.h

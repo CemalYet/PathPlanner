@@ -12,6 +12,15 @@
 #include <vector>
 #include <memory>
 
+#include <QGraphicsView>
+#include <QGraphicsRectItem>
+#include <QImage>
+#include <QBrush>
+#include <QFont>
+#include <QGraphicsScene>
+#include <QApplication>
+#include "myRect.h"
+
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -24,29 +33,28 @@ MainWindow::MainWindow(QWidget *parent)
     world->createWorld(":/images/worldmap.jpg",1,1);
     gameModel = std::make_unique<GameModel>();
 
+    //auto pathPlanner=make_shared<PathPlanner>(world,0.2);
+    //vector<pair<int,int>> dummy=pathPlanner->solution(4,4);
+    //auto tiles=pathPlanner->getGameBoard();
 
-    auto pathPlanner=make_shared<PathPlanner>(world,0.2);
-    vector<pair<int,int>> dummy=pathPlanner->solution(4,4);
-    auto tiles=pathPlanner->getGameBoard();
 
+//    cout<<"PATH === "<<dummy.size()<<endl;
 
-    cout<<"PATH === "<<dummy.size()<<endl;
+//    for (auto &d :dummy ) {
+//        for(int i=0;i<world->getCols();i++){
+//                cout<<"|";
+//                for(int y=0;y<world->getRows();y++){
+//                    if(i==d.second && y==d.first){
+//                        cout<<"p"<<" |";
+//                    } else{
+//                         cout<< tiles[i*world->getCols()+y]->getValue()<<" |";
+//                    }
+//                }
+//                cout<<endl;
+//            }
 
-    for (auto &d :dummy ) {
-        for(int i=0;i<world->getCols();i++){
-                cout<<"|";
-                for(int y=0;y<world->getRows();y++){
-                    if(i==d.second && y==d.first){
-                        cout<<"p"<<" |";
-                    } else{
-                         cout<< tiles[i*world->getCols()+y]->getValue()<<" |";
-                    }
-                }
-                cout<<endl;
-            }
-
-        cout<<d.first<<d.second<<endl;
-    }
+//        cout<<d.first<<d.second<<endl;
+//    }
 
 
             auto world_tiles=world->getTiles();
@@ -91,23 +99,23 @@ MainWindow::MainWindow(QWidget *parent)
 
         //Test Xenemies and set their positions
 
-            std::cout<<"Xenemies at"<<endl;
-            int xPos=0; int yPos=0;
-            XenemyModel setXenemies;
-            auto actual_xenemies= gameModel->getPEnemies();
+//            std::cout<<"Xenemies at"<<endl;
+//            int xPos=0; int yPos=0;
+//            XenemyModel setXenemies;
+//            auto actual_xenemies= gameModel->getPEnemies();
 
-            for(auto &x_enemy:actual_xenemies){
-                cout<<'['<<(x_enemy->getPEnemy()->getXPos())/2 <<','<<x_enemy->getPEnemy()->getYPos() + rand() % 2+1<<']'<<endl;
-                xPos = x_enemy->getPEnemy()->getXPos() + rand();
-                if(xPos > 30){
-                    xPos = xPos - rand() % 25 + 1;
-                }
-                yPos = x_enemy->getPEnemy()->getYPos() + rand();
-                if (yPos > 30){
-                    yPos = yPos - rand() % 25 + 1;
-                }
-                setXenemies.setXEnemy(xPos, yPos);
-                }
+//            for(auto &x_enemy:actual_xenemies){
+//                cout<<'['<<(x_enemy->getPEnemy()->getXPos())/2 <<','<<x_enemy->getPEnemy()->getYPos() + rand() % 2+1<<']'<<endl;
+//                xPos = x_enemy->getPEnemy()->getXPos() + rand();
+//                if(xPos > 30){
+//                    xPos = xPos - rand() % 25 + 1;
+//                }
+//                yPos = x_enemy->getPEnemy()->getYPos() + rand();
+//                if (yPos > 30){
+//                    yPos = yPos - rand() % 25 + 1;
+//                }
+//                setXenemies.setXEnemy(xPos, yPos);
+//                }
 
 /*
 

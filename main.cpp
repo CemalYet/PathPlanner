@@ -1,15 +1,15 @@
-#include "mainwindow.h"
-#include <iostream>
 #include <QApplication>
+#include "ViewGraphical.h"
 
 
-using namespace std;
+ViewGraphical * viewGraphical;
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
-    cout << "Hello World!" << endl;
-    w.show();
+
+    viewGraphical = new ViewGraphical();
+    viewGraphical->show();
 
     return a.exec();
 }

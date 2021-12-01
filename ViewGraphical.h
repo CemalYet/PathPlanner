@@ -6,19 +6,28 @@
 #include <functional>
 #include <QTimer>
 #include <memory>
-#include "controllerViewSwitch.h"
+#include <QGraphicsView>
+#include "ViewProtagonist.h"
+#include "ViewHealth.h"
 
-class ViewText;
-class ControllerViewSwitch;
 
-class  ViewGraphical
+//class ViewText;
+//class ControllerViewSwitch;
+
+class  ViewGraphical: public QGraphicsView
 {
 public:
+    ViewGraphical(QWidget * parent=0);  //constructor
 
-    std::shared_ptr<ViewText> textView;
+    QGraphicsScene * scene;
+    ViewProtagonist * viewProtagonist;
+    ViewHealth * viewHealth;
+
+
+    //std::shared_ptr<ViewText> textView;
     std::shared_ptr<ViewGraphical> graphicsView;
     bool isGraphical;
-    std::shared_ptr<ControllerViewSwitch> controller;
+    //std::shared_ptr<ControllerViewSwitch> controller;
 
     void initWorld();
     void gameResult();

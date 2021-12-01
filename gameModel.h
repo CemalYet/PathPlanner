@@ -11,6 +11,7 @@
 #include "HealthPackModel.h"
 #include "world.h"
 #include "PenemyModel.h"
+#include <QGraphicsRectItem>
 
 class GameModel
 {

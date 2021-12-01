@@ -8,13 +8,19 @@
 #include <memory>
 #include "enemyModel.h"
 #include "protagonistModel.h"
+#include <QGraphicsRectItem>
+#include <QGraphicsPixmapItem>
+#include <QObject>
 
-class  ViewProtagonist
+class  ViewProtagonist : public QGraphicsPixmapItem
 {
 public:
-    std::shared_ptr<protagonistModel> protagonist;
+    ViewProtagonist(QGraphicsItem * parent=0);
 
+    std::shared_ptr<protagonistModel> protagonist;
+    void keyPressEvent(QKeyEvent * event) override;
     void selectNearestEnemy();
 };
 
 #endif // VIEWPROTAGONIST_H
+
