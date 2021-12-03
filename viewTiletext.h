@@ -10,7 +10,8 @@ private:
    std::shared_ptr<StringTextView>stringTextTile;
 
 public:
-    ViewTileText(int &Xpos, int &Ypos, float &value);
+   ViewTileText(int &Xpos, int &Ypos, float &value);
+   const std::shared_ptr<StringTextView> &getStringTextTile() const;
 };
 
 #endif // VIEWTILETEXT_H

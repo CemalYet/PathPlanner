@@ -9,9 +9,12 @@
 #include "ViewTile.h"
 #include "pathplanner.h"
 #include "XenemyModel.h"
+#include "TileModel.h"
+#include "gameModel.h"
 #include <queue>
 #include <vector>
 #include <memory>
+#include <sstream>
 
 using namespace std;
 
@@ -22,11 +25,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     auto world = make_shared<World>();
-    world->createWorld(":/images/worldmap.jpg",1,1);
+    world->createWorld(":/images/worldmap.jpg",5,5);
     gameModel = std::make_unique<GameModel>();
 
 
-    auto pathPlanner=make_shared<PathPlanner>(world,0.2);
+   /* auto pathPlanner=make_shared<PathPlanner>(world,0.2);
     vector<pair<int,int>> dummy=pathPlanner->solution(4,4);
     auto tiles=pathPlanner->getGameBoard();
 
@@ -47,48 +50,56 @@ MainWindow::MainWindow(QWidget *parent)
             }
 
         cout<<d.first<<d.second<<endl;
-    }
+    }*/
 
 
             auto world_tiles=world->getTiles();
             gameModel->setTiles(world_tiles);
-            auto gamemodel_tiles=gameModel->getTiles();
-            cout<<"Tiles at location"<<endl;
+           // auto gamemodel_tiles=gameModel->getTiles();
+            /*int xpos;
+            int ypos;
+            int index;*/
+           /* cout<<"Tiles at location"<<endl;
             for(auto &e:gamemodel_tiles){
-                cout<<'['<<e->getTile()->getXPos()<<','<<e->getTile()->getYPos()<<"] "<<e->isObstacle()<<endl;
-            }
+                xpos=e->getTile()->getXPos();
+                ypos=e->getTile()->getYPos();
+                cout<<'['<<xpos<<','<< ypos<<"]"<<endl;
+                //cout<<'['<<xpos<<','<< ypos<<"] "<<e->isObstacle()<<endl;
+
+            }*/
+
+            auto row=world->getRows();
+            auto col=world->getCols();
+
+
+            gameModel->setRows(row);
+            gameModel->setCols(col);
+
+
+
+
        auto enemy=world->getEnemies();
         gameModel->setEnemies(enemy);
-        auto enemies_gamemodel=gameModel->getEnemies();
+       /* auto enemies_gamemodel=gameModel->getEnemies();
         std::cout<<"enemies at location"<<std::endl;
         for(auto &e:enemies_gamemodel){
               cout<<'['<<e->getEnemy()->getXPos()<<','<<e->getEnemy()->getYPos()<<']'<<endl;
               std::vector<std::shared_ptr<Tile>> healthPacks;
-            }
+            }*/
 
 
         auto penemies_gamemodel=gameModel->getPEnemies();
-        std::cout<<"Penemies at location"<<std::endl;
+        /*std::cout<<"Penemies at location"<<std::endl;
         for(auto &e:penemies_gamemodel){
               cout<<'['<<e->getPEnemy()->getXPos()<<','<<e->getPEnemy()->getYPos()<<']'<<endl;
-            }
+            }*/
 
-            auto enemies=world->getEnemies();
-            gameModel->setEnemies(enemies);
-            auto actual_enemies=gameModel->getEnemies();
+       auto hp=world->getHealthPacks();
+       gameModel->setHealthPacks(hp);
 
-            //Test enemies
-            std::cout<<"enzmies at"<<endl;
-            for(auto &e:actual_enemies){
-                cout<<'['<<e->getEnemy()->getXPos()<<','<<e->getEnemy()->getYPos()<<']'<<endl;
-            }
 
-            //Test Penemies
-            auto actual_penemies= gameModel->getPEnemies();
-            std::cout<<"Penemies at"<<endl;
-            for(auto &e:actual_penemies){
-                cout<<'['<<e->getPEnemy()->getXPos()<<','<<e->getPEnemy()->getYPos()<<']'<<endl;
-            }
+
+
 
         //Test Xenemies and set their positions
 
@@ -110,14 +121,14 @@ MainWindow::MainWindow(QWidget *parent)
                 setXenemies.setXEnemy(xPos, yPos);
                 }*/
 
-/*
+
 
             auto protagonist=world->getProtagonist();
             auto protagonist_model=make_shared<protagonistModel>();
             protagonist_model->setProtagonist(protagonist);
             auto protagonist_gamemodel = protagonist_model->getProtagonist();
             gameModel->setProtagonist(protagonist_model);
-            auto actual_protagonist=gameModel->getProtagonist();
+            /*auto actual_protagonist=gameModel->getProtagonist();
 
             std::cout<< "protagonist at ["<<actual_protagonist->getProtagonist()->getXPos()<<", "<< actual_protagonist->getProtagonist()->getYPos()<<"]"<<std::endl;
             actual_protagonist->getProtagonist()->setHealth(98.0);
@@ -161,10 +172,13 @@ MainWindow::~MainWindow()
 }
 
 
+
 void MainWindow::on_radioButton_Text_clicked()
 {
-    gameTextView =std::make_shared<ViewText>();
+
+    gameTextView =std::make_shared<ViewText>(gameModel->getRows(),gameModel->getCols());
     scene = gameTextView->getScene();
+    scene->setSceneRect(0,0,800,600);//added
     ui->graphicsView->setScene(scene);
 
 
@@ -174,10 +188,14 @@ void MainWindow::on_radioButton_Text_clicked()
         auto YPosTile=tile->getTile()->getYPos();
         auto valueTile=tile->getTile()->getValue();
 
-        gameTextView->setTextTileView(XPosTile,YPosTile,valueTile);
 
-       // scene->addItem(gameTextView->getTextView());
-        scene->addText(gameTextView->getTextView());
+
+        auto tileType=gameModel->getTileType(XPosTile,YPosTile);
+        gameTextView->setTextTileView(XPosTile,YPosTile,valueTile,tileType);
+
+
     }
+
+    scene->addText(gameTextView->buildView());
 }
 

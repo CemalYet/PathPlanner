@@ -12,7 +12,7 @@
 #include "world.h"
 #include "PenemyModel.h"
 #include "XenemyModel.h"
-
+#include "tileType.h"
 class GameModel
 {
 private:
@@ -23,6 +23,11 @@ private:
     std::vector<std::shared_ptr<EnemyModel>> enemies;
     std::vector<std::shared_ptr<PenemyModel>> pEnemies;
     std::vector<std::shared_ptr<XenemyModel>> xEnemies;
+    std::map<std::string,TileType> tileTypeMap;
+    int rows;
+    int cols;
+    std::string sep =":";
+    //const char sep=':';
 
 public:
      GameModel();
@@ -38,6 +43,13 @@ public:
     void setEnemies(std::vector<std::unique_ptr<Enemy> > &value);
     std::vector<std::shared_ptr<PenemyModel> > getPEnemies()const;
     std::vector<std::shared_ptr<XenemyModel> > getXEnemies()const;
+    TileType getTileType(int xposTile,int YposTile);
+    int getRows() const;
+    int getCols() const;
+    void setRows(int newRows);
+    void setCols(int newCols);
+
+
 };
 
 

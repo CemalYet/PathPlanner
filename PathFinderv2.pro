@@ -30,6 +30,7 @@ SOURCES += \
     gameModel.cpp \
     protagonistModel.cpp \
     stringtextview.cpp \
+    tileType.cpp \
     viewTiletext.cpp
 
 HEADERS += \
@@ -53,6 +54,7 @@ HEADERS += \
     gameModel.h \
     protagonistModel.h \
     stringtextview.h \
+    tileType.h \
     viewTiletext.h
 
 FORMS += \

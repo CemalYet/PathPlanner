@@ -8,9 +8,10 @@ QGraphicsScene *ViewText::getScene() const
     return scene;
 }
 
-ViewText::ViewText()
+
+ViewText::ViewText(int rowsize, int colsize):rows{rowsize},cols{colsize}
 {
-   scene = new QGraphicsScene();
+    scene = new QGraphicsScene();
 }
 
 void ViewText::initWorld()
@@ -68,17 +69,45 @@ void ViewText::isEnemyDefeated()
 
 
 
-void ViewText::setTextTileView(int Xpos, int Ypos, float value)
+void ViewText::setTextTileView(int Xpos, int Ypos, float value, TileType type)
 {
-     auto tileView=std::make_shared<ViewTileText>(Xpos,Ypos,value);
+
+     auto tileView=std::make_shared<StringTextView>(Xpos,Ypos,value,type);
      tileViewVectors.push_back(tileView);
-     //view =tileView->viewTileText(Xpos,Ypos,value);
 
 }
 
-QString ViewText::ViewText::getTextView() const
+
+QString ViewText::buildView()
 {
-    return view;
+    QString tileBuilded="";
+
+    for(int i=0;i<rows;i++){
+
+       appendBoundaryLine(tileBuilded);
+
+
+        tileBuilded=tileBuilded%"+\n";
+        int tileRowBeginIndex = i * cols ;
+        for(int j=0;j<cols;j++){
+             auto tileView = tileViewVectors.at(tileRowBeginIndex+j);
+            tileBuilded=tileBuilded%(tileView->getTileDrawing());
+        }
+        tileBuilded=tileBuilded%"+\n";
+       if(i==rows-1){
+           appendBoundaryLine(tileBuilded);
+       }
+
+    }
+
+    return tileBuilded;
+}
+
+void ViewText::appendBoundaryLine(QString &tileBuilded){
+    QString upperdimension="+----";
+    for (int j=0;j<cols;j++){
+    tileBuilded=tileBuilded%upperdimension;
+    }
 }
 
 void ViewText::selectNearestTile()

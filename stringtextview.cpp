@@ -1,42 +1,26 @@
 #include "stringtextview.h"
 //#include <sstream>
 
-StringTextView::StringTextView(int &Xpos, int &Ypos, float &value):
-    stringXpos{Xpos},stringYpos{Ypos},stringvalue{value}
+StringTextView::StringTextView(int &Xpos, int &Ypos, float &value, TileType type):
+    stringXpos{Xpos},stringYpos{Ypos},stringvalue{value},tileType{type}
 {
     tileDrawing=drawTextTile();
 }
 
+const QString &StringTextView::getTileDrawing() const
+{
+    return tileDrawing;
+}
+
 QString StringTextView::drawTextTile()
 {
-    //std::stringstream ss;
-  //  int jfrom=stringXpos*width;
-   // int ifrom=stringYpos*width;
-
-   /* for (int j = jfrom; j < (jfrom+width); j++) {
-            for (int i = ifrom; i < (ifrom+width); i++) {
-                if (i == ifrom|| i == ifrom+width-1|| j == ifrom || j == jfrom+width-1)
-                    ss << "*";
-                if (i==(ifrom+width)/2 &&j==(jfrom+width)/2)
-                    ss << "E";
-                else
-                    ss << "  ";
-            }
-            ss << "\n";
-        }*/
-    QString ldimension="- ";
-    QString upperdimension="* ";
-    for (int i = 0; i < width; ++i){
-          upperdimension= upperdimension%ldimension;
-        }
-    upperdimension=upperdimension%"*";
-   // QString wdimension="* ";
     QString gap="  ";
-    QString midwidthText="* ";
-    for (int i = 0; i < width; ++i){
-        if(i == width/2)
+    QString midwidthText="|";
+    for (int i = 0; i < 3; ++i){
+        if(i == 1)
         {
-             midwidthText= midwidthText%"E";
+            auto type=QString::fromStdString(getStringForEnum(tileType));
+             midwidthText= midwidthText%type;
         }
         else
         {
@@ -44,8 +28,5 @@ QString StringTextView::drawTextTile()
           midwidthText= midwidthText%gap;
         }
     }
-    midwidthText=midwidthText%"*";
-    QString box=upperdimension%"\n"%midwidthText%"\n"%upperdimension;
-    //return  QString::fromStdString(ss.str());
-    return box;
+    return midwidthText;
 }
