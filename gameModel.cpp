@@ -26,6 +26,9 @@ void GameModel::setTiles(std::vector<std::unique_ptr<Tile> > &value)
 {
     for(auto &tile:value){
         auto tile_model= std::make_shared<TileModel>();
+        if(tile->getValue() != std::numeric_limits<float>::infinity()){
+            tile->setValue(abs(1.001-(tile->getValue())));
+    }
           tile_model->setTile(std::move(tile));
           tiles.push_back(tile_model);
         }

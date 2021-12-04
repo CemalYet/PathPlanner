@@ -20,44 +20,43 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    auto world = make_shared<World>();
-    world->createWorld(":/images/maze3.jpg",1,1);
-
-    //gameModel = std::make_unique<GameModel>();
-
 /// (0,22) -> (1200,1205); maze3
 /// (0,45) -> (999, 938)
 
+       auto world = make_shared<World>();
+       world->createWorld(":/images/worldmap4.jpg",1,1);
+       gameModel = std::make_unique<GameModel>();
 
-    auto pathPlanner=make_shared<PathPlanner>(world,10);
+       //set tiles
+       auto world_tiles=world->getTiles();
+       gameModel->setTiles(world_tiles);
 
-    vector<pair<int,int>> dummy=pathPlanner->solution1(1200,1205);
-    auto tiles=pathPlanner->getGameBoard();
+       //set enemies
+       auto enemy=world->getEnemies();
+       gameModel->setEnemies(enemy);
+
+       //set protagonist
+       auto protagonist=world->getProtagonist();
+       auto protagonist_model=make_shared<protagonistModel>();
+       protagonist_model->setProtagonist(protagonist);
+       auto protagonist_gamemodel = protagonist_model->getProtagonist();
+       gameModel->setProtagonist(protagonist_model);
+       gameModel->getProtagonist()->getProtagonist()->setXPos(0);
+        gameModel->getProtagonist()->getProtagonist()->setYPos(45);
+
+       //set cols rows
+       gameModel->setCols(world->getCols());
+       gameModel->setRows(world->getRows());
 
 
-    cout<<"PATH === "<<dummy.size()<<endl;
+      auto pathPlanner=make_shared<PathPlanner>(gameModel,10);
+      vector<pair<int,int>> dummy=pathPlanner->solution1(999,938);
 
+
+      cout<<"PATH === "<<dummy.size()<<endl;
         for (auto d :dummy ) {
             cout<<"X: " <<d.first<<" Y: "<< d.second<<endl;
-
         }
-
-
-//    for (auto &d :dummy ) {
-//        for(int i=0;i<world->getCols();i++){
-//                cout<<"|";
-//                for(int y=0;y<world->getRows();y++){
-//                    if(i==d.second && y==d.first){
-//                        cout<<"p"<<" |";
-//                    } else{
-//                         cout<< tiles[i*world->getCols()+y]->getValue()<<" |";
-//                    }
-//                }
-//                cout<<endl;
-//            }
-
-//        cout<<d.first<<d.second<<endl;
-//    }
 
 
 //    auto world_tiles=world->getTiles();
