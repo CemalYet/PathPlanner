@@ -31,7 +31,7 @@ void PathPlanner::addAll( vector<unique_ptr<Tile>> &tiles,vector<unique_ptr<Tile
 
 void PathPlanner::addTile(unique_ptr<Tile> tile,vector<unique_ptr<Tile>> &data) {
     if(tile->getValue() != std::numeric_limits<float>::infinity()){
-        tile->setValue(abs(1-(tile->getValue())));
+        tile->setValue(abs(1.001-(tile->getValue())));
 }
     data.push_back(move(tile));
 }
@@ -45,7 +45,7 @@ vector<pair<int,int>> PathPlanner::fillPath(shared_ptr<Node> &node){
     vector<pair<int,int>> dummy;
     auto tempNode=node;
     while (tempNode->getParent()) {
-        cout<<tempNode->getFinalCost()<<" X : "<<tempNode->getXPos()<<" Y : "<<tempNode->getYPos()<< endl;
+        //cout<<tempNode->getFinalCost()<<" X : "<<tempNode->getXPos()<<" Y : "<<tempNode->getYPos()<< endl;
         dummy.push_back(make_pair(tempNode->getXPos(),tempNode->getYPos()));
         tempNode=tempNode->getParent();
 
@@ -64,12 +64,13 @@ vector<pair<int,int>> PathPlanner::solution1(int goalX,int goalY){
 
     int posX []={-1, 1, 0, 0, -1, -1,+1, +1};
     int posY []={ 0, 0,+1,-1, +1, -1,+1, -1};
+    int startX=0;
+    int startY=22;
 
     auto start = std::chrono::system_clock::now();
 
 
-    int startX=0;
-    int startY=45;
+
 
     vector<pair<int,int>> dummy;
 

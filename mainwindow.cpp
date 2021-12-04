@@ -21,25 +21,26 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     auto world = make_shared<World>();
-    world->createWorld(":/images/worldmap4.jpg",1,1);
+    world->createWorld(":/images/maze3.jpg",1,1);
 
     //gameModel = std::make_unique<GameModel>();
 
+/// (0,22) -> (1200,1205); maze3
+/// (0,45) -> (999, 938)
 
 
+    auto pathPlanner=make_shared<PathPlanner>(world,10);
 
-    auto pathPlanner=make_shared<PathPlanner>(world,1);
-
-    vector<pair<int,int>> dummy=pathPlanner->solution1(999,938);
+    vector<pair<int,int>> dummy=pathPlanner->solution1(1200,1205);
     auto tiles=pathPlanner->getGameBoard();
 
 
-//    cout<<"PATH === "<<dummy.size()<<endl;
+    cout<<"PATH === "<<dummy.size()<<endl;
 
-//        for (auto d :dummy ) {
-//            cout<<"X: " <<d.first<<" Y: "<< d.second<<endl;
+        for (auto d :dummy ) {
+            cout<<"X: " <<d.first<<" Y: "<< d.second<<endl;
 
-//        }
+        }
 
 
 //    for (auto &d :dummy ) {
