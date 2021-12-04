@@ -3,6 +3,16 @@
 
 #include <QMainWindow>
 #include "gameModel.h"
+#include<string>
+#include <iostream>
+#include <vector>
+#include <functional>
+#include <QTimer>
+#include <memory>
+#include <QGraphicsView>
+#include "ViewProtagonist.h"
+#include "ViewHealth.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -18,5 +28,9 @@ public:
 private:
     Ui::MainWindow *ui;
     std::unique_ptr<GameModel> gameModel;
+    //--------------------------------------
+    QGraphicsScene * scene;
+    ViewProtagonist * viewProtagonist;
+    ViewHealth * viewHealth;
 };
 #endif // MAINWINDOW_H

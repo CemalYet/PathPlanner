@@ -7,5 +7,6 @@
         <file>images/worldmap4.jpg</file>
         <file>images/sub-zero.png</file>
         <file>images/scorpion_32px.png</file>
+        <file>images/dead.png</file>
     </qresource>
 </RCC>

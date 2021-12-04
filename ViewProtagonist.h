@@ -11,6 +11,9 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsPixmapItem>
 #include <QObject>
+#include "world.h"
+#include "world_global.h"
+#include "TileModel.h"
 
 class  ViewProtagonist : public QGraphicsPixmapItem
 {
@@ -20,6 +23,9 @@ public:
     std::shared_ptr<protagonistModel> protagonist;
     void keyPressEvent(QKeyEvent * event) override;
     void selectNearestEnemy();
+
+private:
+    std::shared_ptr<TileModel> tile;
 };
 
 #endif // VIEWPROTAGONIST_H

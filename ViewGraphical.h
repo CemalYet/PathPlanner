@@ -9,7 +9,7 @@
 #include <QGraphicsView>
 #include "ViewProtagonist.h"
 #include "ViewHealth.h"
-
+#include "ViewPenemy.h"
 
 //class ViewText;
 //class ControllerViewSwitch;
@@ -22,6 +22,7 @@ public:
     QGraphicsScene * scene;
     ViewProtagonist * viewProtagonist;
     ViewHealth * viewHealth;
+    ViewPenemy * viewPEnemy;
 
 
     //std::shared_ptr<ViewText> textView;

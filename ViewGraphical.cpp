@@ -8,7 +8,7 @@ ViewGraphical::ViewGraphical(QWidget *parent)
 {
     scene = new QGraphicsScene();
     scene->setSceneRect(0,0,800,600);
-    setBackgroundBrush(QBrush(QImage(":/images/maze3")));
+    setBackgroundBrush(QBrush(QImage(":/images/maze1")));
 
     setScene(scene);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -27,6 +27,16 @@ ViewGraphical::ViewGraphical(QWidget *parent)
     viewHealth = new ViewHealth();
     scene->addItem(viewHealth);
     viewHealth->setPos(viewHealth->x()+90,viewHealth->y()+25);
+
+
+
+    viewPEnemy = new ViewPenemy();
+    viewPEnemy->setPixmap(QPixmap(":/images/scorpion_32px.png"));
+    //std::cout<<"penemy x coordination is : "<< viewPEnemy->pEnemy->getPEnemy()->getXPos()<<std::endl;
+    //viewPEnemy->setPos(viewPEnemy->pEnemy->getPEnemy()->getXPos() , viewPEnemy->pEnemy->getPEnemy()->getYPos());
+    viewPEnemy->setPos(250, 300);
+
+    scene->addItem(viewPEnemy);
 
     show();
 }

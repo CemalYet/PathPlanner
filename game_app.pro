@@ -14,6 +14,7 @@ QT -= gui
 SOURCES += \
     HealthPackModel.cpp \
     PenemyModel.cpp \
+    Projectile.cpp \
     TileModel.cpp \
     ViewEnemy.cpp \
     ViewGraphical.cpp \
@@ -37,6 +38,7 @@ SOURCES += \
 HEADERS += \
     HealthPackModel.h \
     PenemyModel.h \
+    Projectile.h \
     TileModel.h \
     ViewEnemy.h \
     ViewGraphical.h \

@@ -7,9 +7,10 @@
 #include <QTimer>
 #include <memory>
 #include "PenemyModel.h"
+#include <QGraphicsPixmapItem>
 #include <QGraphicsRectItem>
 
-class  ViewPenemy : public QGraphicsRectItem
+class  ViewPenemy : public QGraphicsPixmapItem
 {
 public:
     std::shared_ptr<PenemyModel> pEnemy;
