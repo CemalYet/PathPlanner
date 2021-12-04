@@ -21,6 +21,8 @@ private:
     std::vector<std::shared_ptr<HealthPackModel>>healthPacks;
     std::vector<std::shared_ptr<EnemyModel>> enemies;
     std::vector<std::shared_ptr<PenemyModel>> pEnemies;
+    int cols;
+    int rows;
 
 public:
      GameModel();
@@ -35,6 +37,26 @@ public:
     std::vector<std::shared_ptr<EnemyModel> > getEnemies()const;
     void setEnemies(std::vector<std::unique_ptr<Enemy> > &value);
     std::vector<std::shared_ptr<PenemyModel> > getPEnemies()const;
+
+    int getCols() const
+    {
+        return cols;
+    }
+
+    int getRows() const
+    {
+        return rows;
+    }
+
+    void setCols(int newCols)
+    {
+        cols = newCols;
+    }
+
+    void setRows(int newRows)
+    {
+        rows = newRows;
+    }
 };
 
 

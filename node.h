@@ -13,8 +13,6 @@ public:
 
     //constructor
 
-
-
     //getters
     int getXPos() const{
         return xPos;
@@ -33,11 +31,29 @@ public:
     };
 
     //setters
-    void setXPos(int newXPos);
-    void setYPos(int newYPos);
-    void setFinalCost(float newFinalCost);
-    void setParent(const std::shared_ptr<Node> &newParent);
-    void setGivenCost(float newGivenCost);
+    void setXPos(int newXPos)
+    {
+        xPos = newXPos;
+    };
+    void setYPos(int newYPos)
+    {
+        yPos = newYPos;
+    }
+
+    ;
+    void setFinalCost(float newFinalCost)
+    {
+        finalCost = newFinalCost;
+    };
+    void setParent(const std::shared_ptr<Node> &newParent)
+    {
+        parent = newParent;
+    };
+    void setGivenCost(float newGivenCost){
+        givenCost = newGivenCost;
+    };
+
+
 
 private:
     int xPos;
@@ -45,6 +61,7 @@ private:
     float finalCost;
     float givenCost;
     std::shared_ptr<Node> parent;
+
 };
 
 class OrderByFinalCost
