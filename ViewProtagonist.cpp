@@ -41,9 +41,27 @@ void ViewProtagonist::keyPressEvent(QKeyEvent *event)
         setPos(x(),y()+10);
         }
     }
-    else if (event->key() == Qt::Key_Space){
+    else if (event->key() == Qt::Key_D){
             // create a bullet
             Projectile * projectile = new Projectile();
+            projectile->setPos(x(),y());
+            scene()->addItem(projectile);
+        }
+    else if (event->key() == Qt::Key_Z){
+            // create a bullet
+            Projectile * projectile = new Projectile(5);
+            projectile->setPos(x(),y());
+            scene()->addItem(projectile);
+        }
+    else if (event->key() == Qt::Key_S){
+            // create a bullet
+            Projectile * projectile = new Projectile(5,6);
+            projectile->setPos(x(),y());
+            scene()->addItem(projectile);
+        }
+    else if (event->key() == Qt::Key_Q){
+            // create a bullet
+            Projectile * projectile = new Projectile(5,6,6);
             projectile->setPos(x(),y());
             scene()->addItem(projectile);
         }

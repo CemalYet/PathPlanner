@@ -8,7 +8,7 @@ ViewGraphical::ViewGraphical(QWidget *parent)
 {
     scene = new QGraphicsScene();
     scene->setSceneRect(0,0,800,600);
-    setBackgroundBrush(QBrush(QImage(":/images/maze1")));
+    setBackgroundBrush(QBrush(QImage(":/images/maze3")));
 
     setScene(scene);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
