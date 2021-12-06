@@ -20,6 +20,13 @@ void GameModel::setCols(int newCols)
     cols = newCols;
 }
 
+void GameModel::printMap()
+{
+    for(auto &map:tileTypeMap){
+    std::cout<<"[" <<map.first<<", "<<getStringForEnum(map.second)<<"]"<<std::endl;
+    }
+}
+
 
 GameModel::GameModel()
 {
@@ -33,12 +40,22 @@ std::shared_ptr<protagonistModel> GameModel::getProtagonist() const
 void GameModel::setProtagonist(std::shared_ptr<protagonistModel> &value)
 {
     protagonist = value;
-    auto protagonistXPos=std::to_string(value->getProtagonist()->getXPos());
-    auto protagonistYPos=std::to_string(value->getProtagonist()->getYPos());
-    std::cout<<"protogonist at "<< protagonistXPos << protagonistYPos << std::endl;
-    tileTypeMap[protagonistXPos+sep+protagonistYPos]=TileType::Protagonist;
+    updateProtagonistPositionInMap();
 }
 
+void GameModel::clearProtagonistFromMap(){
+    auto protagonistXPos=std::to_string(protagonist->getProtagonist()->getXPos());
+    auto protagonistYPos=std::to_string(protagonist->getProtagonist()->getYPos());
+    tileTypeMap.erase(protagonistXPos+sep+protagonistYPos);
+}
+
+void GameModel::updateProtagonistPositionInMap()
+{
+    auto protagonistXPos=std::to_string(protagonist->getProtagonist()->getXPos());
+    auto protagonistYPos=std::to_string(protagonist->getProtagonist()->getYPos());
+    //std::cout<<"protogonist at "<< protagonistXPos << protagonistYPos << std::endl;
+    tileTypeMap[protagonistXPos+sep+protagonistYPos]=TileType::Protagonist;
+}
 
 std::vector<std::shared_ptr<TileModel> > GameModel::getTiles() const
 {
@@ -110,6 +127,11 @@ TileType GameModel:: getTileType(int xposTile,int YposTile){
     }else{
         return it->second;
     }
+}
+
+std::shared_ptr<TileModel> GameModel::getTileAtAPos(const int &xpos, const int &ypos)
+{
+    return tiles.at(xpos+cols*ypos);
 }
 
 std::vector<std::shared_ptr<PenemyModel> > GameModel::getPEnemies() const

@@ -18,15 +18,18 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void processTextCommand(QString userCommand);
 
 private slots:
-    void on_radioButton_Text_clicked();
+    void on_radioButton_Text_clicked();  
+    void on_executeButton_clicked();
 
 private:
     Ui::MainWindow *ui;
     QGraphicsScene* scene;
     std::unique_ptr<GameModel> gameModel;
     std::shared_ptr<ViewText>gameTextView;
+    QGraphicsItem* textViewItem;
 
 };
 #endif // MAINWINDOW_H

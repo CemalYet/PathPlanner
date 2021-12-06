@@ -9,6 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    arrowtextcommand.cpp \
     main.cpp \
     mainwindow.cpp \
     node.cpp \
@@ -30,10 +31,12 @@ SOURCES += \
     gameModel.cpp \
     protagonistModel.cpp \
     stringtextview.cpp \
+    textcommands.cpp \
     tileType.cpp \
     viewTiletext.cpp
 
 HEADERS += \
+    arrowtextcommand.h \
     mainwindow.h \
     node.h \
     pathplanner.h \
@@ -54,6 +57,7 @@ HEADERS += \
     gameModel.h \
     protagonistModel.h \
     stringtextview.h \
+    textcommands.h \
     tileType.h \
     viewTiletext.h
 

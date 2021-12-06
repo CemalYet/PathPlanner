@@ -18,12 +18,12 @@ void protagonistModel::moveLeft()
 
 void protagonistModel::moveUp()
 {
-    protagonist->setYPos(protagonist->getYPos()+1);
+    protagonist->setYPos(protagonist->getYPos()-1);//in text view(string builder) it is only possible to go to next line and not possible to go a line back
 }
 
 void protagonistModel::moveDown()
 {
-    protagonist->setYPos(protagonist->getYPos()-1);
+    protagonist->setYPos(protagonist->getYPos()+1);
 }
 
 void protagonistModel::goTo(int x, int y)

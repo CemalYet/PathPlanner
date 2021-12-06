@@ -11,6 +11,7 @@
 #include "XenemyModel.h"
 #include "TileModel.h"
 #include "gameModel.h"
+#include "arrowtextcommand.h"
 #include <queue>
 #include <vector>
 #include <memory>
@@ -55,18 +56,18 @@ MainWindow::MainWindow(QWidget *parent)
 
             auto world_tiles=world->getTiles();
             gameModel->setTiles(world_tiles);
-           // auto gamemodel_tiles=gameModel->getTiles();
-            /*int xpos;
+/*           auto gamemodel_tiles=gameModel->getTiles();
+            int xpos;
             int ypos;
-            int index;*/
-           /* cout<<"Tiles at location"<<endl;
+            int index;
+            cout<<"Tiles at location"<<endl;
             for(auto &e:gamemodel_tiles){
                 xpos=e->getTile()->getXPos();
                 ypos=e->getTile()->getYPos();
                 cout<<'['<<xpos<<','<< ypos<<"]"<<endl;
                 //cout<<'['<<xpos<<','<< ypos<<"] "<<e->isObstacle()<<endl;
 
-            }*/
+           }*/
 
             auto row=world->getRows();
             auto col=world->getCols();
@@ -160,9 +161,10 @@ MainWindow::MainWindow(QWidget *parent)
                 cout<<'['<<h->getHealthPack()->getXPos()<<','<<h->getHealthPack()->getYPos()<<']'<<endl;
             }*/
 
-//for text view
-//gameTextView = std::make_shared<ViewText>();
 
+
+/*auto tile=gameModel->getTileAtAPos(4,1);
+std::cout<<tile->getXPos() <<","<<tile->getYPos();*/
 
 }
 
@@ -187,15 +189,70 @@ void MainWindow::on_radioButton_Text_clicked()
         auto XPosTile=tile->getTile()->getXPos();
         auto YPosTile=tile->getTile()->getYPos();
         auto valueTile=tile->getTile()->getValue();
-
-
-
         auto tileType=gameModel->getTileType(XPosTile,YPosTile);
         gameTextView->setTextTileView(XPosTile,YPosTile,valueTile,tileType);
-
-
     }
 
-    scene->addText(gameTextView->buildView());
+    textViewItem=scene->addText(gameTextView->buildView());
+
+}
+
+void MainWindow::processTextCommand(QString userCommand)
+{
+    QStringList CommandList = userCommand.split(" ");
+    std::string command=CommandList[0].toStdString();
+    std::list<std::string> joinedString = {};
+    for( int i=1; i<CommandList.count(); ++i ){
+        std::string commandtail=CommandList[i].toStdString();
+        joinedString.push_back(commandtail);
+    }
+
+   /* if(textCommandToClassMap[command]){
+       textCommandToClassMap[command]->execute(command,joinedString);
+     }*/
+}
+
+/*void MainWindow::createTextCommandToClassMap()
+{
+    auto commandObject =  std::make_shared<ArrowTextCommand>();
+    textCommandToClassMap["left"]=commandObject;
+    textCommandToClassMap["right"]=commandObject;
+    textCommandToClassMap["up"]=commandObject;
+    textCommandToClassMap["down"]=commandObject;
+
+
+}*/
+
+
+void MainWindow::on_executeButton_clicked()
+{
+    QString inputCommand=ui->userInput->toPlainText();
+    auto protagonistCurrentXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
+    auto protagonistCurrentYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
+
+    auto tileAtRightPos=gameModel->getTileAtAPos(protagonistCurrentXPos+1,protagonistCurrentYPos);
+
+    if(!(tileAtRightPos->isObstacle())){
+
+        gameModel->clearProtagonistFromMap();
+       // gameTextView->printTileViewVectors();//test
+        gameTextView->clearProtagonistTileView(protagonistCurrentXPos,protagonistCurrentYPos);
+
+        gameModel->getProtagonist()->moveRight();
+        gameModel->updateProtagonistPositionInMap();
+
+        auto protagonistNewXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
+        auto protagonistNewYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
+        gameTextView->updateProgonistTileView(protagonistNewXPos,protagonistNewYPos);
+        std::cout<<"after changing protagonist"<<std::endl;//test
+        //gameTextView->printTileViewVectors();//test
+
+        //gameModel->printMap();//test
+
+        }
+
+    scene->removeItem(textViewItem);
+    textViewItem=scene->addText(gameTextView->buildView());
+   // processTextCommand(inputCommand.toLower());
 }
 

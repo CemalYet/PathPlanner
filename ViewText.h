@@ -44,6 +44,9 @@ public:
    // ViewTileText getTextView() const;
     QGraphicsScene *getScene() const;
     QString buildView();
+    void updateProgonistTileView(const int &xPos,const int &yPos);
+    void clearProtagonistTileView(const int &xPos,const int &yPos);
+    void printTileViewVectors();//for testing purpose, delete after once the game is working
 
 
 

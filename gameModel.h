@@ -44,10 +44,14 @@ public:
     std::vector<std::shared_ptr<PenemyModel> > getPEnemies()const;
     std::vector<std::shared_ptr<XenemyModel> > getXEnemies()const;
     TileType getTileType(int xposTile,int YposTile);
+    std::shared_ptr<TileModel>getTileAtAPos(const int &xpos,const int &ypos);
+    void clearProtagonistFromMap();
+    void updateProtagonistPositionInMap();
     int getRows() const;
     int getCols() const;
     void setRows(int newRows);
     void setCols(int newCols);
+    void printMap();//for testing purpose, delete after once the game is working
 
 
 };

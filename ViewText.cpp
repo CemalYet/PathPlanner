@@ -65,10 +65,6 @@ void ViewText::isEnemyDefeated()
 }
 
 
-
-
-
-
 void ViewText::setTextTileView(int Xpos, int Ypos, float value, TileType type)
 {
 
@@ -91,7 +87,7 @@ QString ViewText::buildView()
         int tileRowBeginIndex = i * cols ;
         for(int j=0;j<cols;j++){
              auto tileView = tileViewVectors.at(tileRowBeginIndex+j);
-            tileBuilded=tileBuilded%(tileView->getTileDrawing());
+            tileBuilded=tileBuilded%(tileView->drawTextTile());
         }
         tileBuilded=tileBuilded%"+\n";
        if(i==rows-1){
@@ -101,6 +97,26 @@ QString ViewText::buildView()
     }
 
     return tileBuilded;
+}
+
+void ViewText::updateProgonistTileView(const int &xPos, const int &yPos)
+{
+
+    auto newProtagonistView=tileViewVectors.at(xPos+yPos*cols);
+    newProtagonistView->setTileType(TileType::Protagonist);
+}
+
+void ViewText::clearProtagonistTileView(const int &xPos, const int &yPos)
+{
+    auto currentProtagonistView=tileViewVectors.at(xPos+yPos*cols);
+    currentProtagonistView->setTileType(TileType::NormalTile);
+}
+
+void ViewText::printTileViewVectors()
+{
+    for(auto &v:tileViewVectors){
+    std::cout<<"["<<v->getStringXpos()<<","<<v->getStringYpos()<<"], " <<getStringForEnum(v->getTileType())<<std::endl;
+    }
 }
 
 void ViewText::appendBoundaryLine(QString &tileBuilded){

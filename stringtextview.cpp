@@ -4,12 +4,33 @@
 StringTextView::StringTextView(int &Xpos, int &Ypos, float &value, TileType type):
     stringXpos{Xpos},stringYpos{Ypos},stringvalue{value},tileType{type}
 {
-    tileDrawing=drawTextTile();
+    //tileDrawing=drawTextTile();
 }
 
-const QString &StringTextView::getTileDrawing() const
+/*const QString &StringTextView::tileDrawing()
 {
+    tileDrawing=drawTextTile();
     return tileDrawing;
+}*/
+
+void StringTextView::setTileType(TileType newTileType)
+{
+    tileType = newTileType;
+}
+
+TileType StringTextView::getTileType() const
+{
+    return tileType;
+}
+
+int StringTextView::getStringXpos() const
+{
+    return stringXpos;
+}
+
+int StringTextView::getStringYpos() const
+{
+    return stringYpos;
 }
 
 QString StringTextView::drawTextTile()
