@@ -45,11 +45,13 @@ MainWindow::MainWindow(QWidget *parent)
         gameModel->getProtagonist()->getProtagonist()->setYPos(45);
 
        //set cols rows
+//        cout<<world->getCols()<<endl;
+//        cout<<world->getRows()<<endl;
        gameModel->setCols(world->getCols());
        gameModel->setRows(world->getRows());
 
 
-      auto pathPlanner=make_shared<PathPlanner>(gameModel,10);
+      auto pathPlanner=make_shared<PathPlanner>(gameModel,1);
       vector<pair<int,int>> dummy=pathPlanner->solution1(999,938);
 
 
