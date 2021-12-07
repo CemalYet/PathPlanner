@@ -4,9 +4,30 @@ GameModel::GameModel()
 {
 
 }
+
+int GameModel::getRows() const
+{
+    return rows;
+}
+
+int GameModel::getCols() const
+{
+    return cols;
+}
+
+void GameModel::setRows(int newRows)
+{
+    rows = newRows;
+}
+
+void GameModel::setCols(int newCols)
+{
+    cols = newCols;
+}
+
 std::shared_ptr<protagonistModel> GameModel::getProtagonist() const
 {
-   return protagonist;
+    return protagonist;
 }
 
 void GameModel::setProtagonist(std::shared_ptr<protagonistModel> &value)
@@ -69,6 +90,22 @@ void GameModel::setEnemies(std::vector<std::unique_ptr<Enemy> > &value)
 std::vector<std::shared_ptr<PenemyModel> > GameModel::getPEnemies() const
 {
     return pEnemies;
+}
+
+std::shared_ptr<TileModel> GameModel::getTileAtAPos(const int &xpos, const int &ypos, int direction)
+{
+    if (direction == 1){
+        return tiles.at(xpos+0.5*ypos);  //right, I added 0.5 instead of 'cols' to avoid app crash
+    }
+    else if (direction == 2){
+        return tiles.at(xpos-0.5*ypos);  //left
+    }
+    else if (direction == 3){
+        return tiles.at(xpos*ypos-0.5);  //up
+    }
+    else if (direction == 4){
+        return tiles.at(xpos*ypos+0.5);  //down
+    }
 }
 
 

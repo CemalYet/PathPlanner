@@ -31,7 +31,6 @@ SOURCES += \
     gameModel.cpp \
     main.cpp \
     mainwindow.cpp \
-    myRect.cpp \
     pathplanner.cpp \
     protagonistModel.cpp
 
@@ -54,7 +53,6 @@ HEADERS += \
     enemyModel.h \
     gameModel.h \
     mainwindow.h \
-    myRect.h \
     node.h \
     pathplanner.h \
     protagonistModel.h

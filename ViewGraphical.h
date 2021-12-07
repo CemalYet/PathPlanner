@@ -19,10 +19,10 @@ class  ViewGraphical: public QGraphicsView
 public:
     ViewGraphical(QWidget * parent=0);  //constructor
 
-    QGraphicsScene * scene;
-    ViewProtagonist * viewProtagonist;
-    ViewHealth * viewHealth;
-    ViewPenemy * viewPEnemy;
+//    QGraphicsScene * scene;
+//    ViewProtagonist * viewProtagonist;
+//    ViewHealth * viewHealth;
+//    ViewPenemy * viewPEnemy;
 
 
     //std::shared_ptr<ViewText> textView;

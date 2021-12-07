@@ -6,12 +6,12 @@
 #include <functional>
 #include <QTimer>
 #include <memory>
-#include "enemyModel.h"
+#include "XenemyModel.h"
 
-class  ViewXenemy
+class  ViewXenemy : public QGraphicsPixmapItem
 {
 public:
-    std::shared_ptr<EnemyModel> xEnemy;
+    std::shared_ptr<XenemyModel> xEnemy;
     void selectNearestEnemy();
 
 };

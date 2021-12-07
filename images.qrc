@@ -5,8 +5,11 @@
         <file>images/maze3.jpg</file>
         <file>images/worldmap.jpg</file>
         <file>images/worldmap4.jpg</file>
-        <file>images/sub-zero.png</file>
         <file>images/scorpion_32px.png</file>
         <file>images/dead.png</file>
+        <file>images/Raiden.png</file>
+        <file>images/sindel.png</file>
+        <file>images/projectile.png</file>
+        <file>images/sindel_scream.png</file>
     </qresource>
 </RCC>

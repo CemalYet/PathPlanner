@@ -2,20 +2,22 @@
 #define PROJECTILE_H
 
 #include <QGraphicsRectItem>
+#include <QGraphicsPixmapItem>
+#include <QGraphicsItem>
 #include <QObject>
 #include "world.h"
 #include "world_global.h"
 #include "ViewPenemy.h"
-#include "ViewGraphical.h"
 
-class Projectile: public QObject,public QGraphicsRectItem{
+
+class Projectile: public QObject,public QGraphicsPixmapItem{
     Q_OBJECT
 public:
     Projectile();
     Projectile(int x);
     Projectile(int x, int y);
     Projectile(int x, int y, int z);
-    ViewPenemy * viewPEnemy_defeated;
+    //ViewPenemy * viewPEnemy_defeated;
 
 
 public slots:

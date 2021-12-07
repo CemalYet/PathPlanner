@@ -11,7 +11,7 @@
 #include <queue>
 #include <vector>
 #include <memory>
-
+#include <QDebug>
 #include <QGraphicsView>
 #include <QGraphicsRectItem>
 #include <QImage>
@@ -19,7 +19,14 @@
 #include <QFont>
 #include <QGraphicsScene>
 #include <QApplication>
-#include "myRect.h"
+#include "ViewPenemy.h"
+#include "Projectile.h"
+#include "TileModel.h"
+#include <QList>
+#include <QPixmap>
+#include <QVector>
+#include <QPointF>
+#include <QPolygonF>
 
 using namespace std;
 
@@ -74,6 +81,8 @@ MainWindow::MainWindow(QWidget *parent)
             }
 
 
+
+
         auto penemies_gamemodel=gameModel->getPEnemies();
         std::cout<<"Penemies at location"<<std::endl;
         for(auto &e:penemies_gamemodel){
@@ -92,30 +101,11 @@ MainWindow::MainWindow(QWidget *parent)
 
             //Test Penemies
             auto actual_penemies= gameModel->getPEnemies();
-            std::cout<<"Penemies at"<<endl;
-            for(auto &e:actual_penemies){
-                cout<<'['<<e->getPEnemy()->getXPos()<<','<<e->getPEnemy()->getYPos()<<']'<<endl;
-            }
+
 
         //Test Xenemies and set their positions
+            auto actual_xenemies= gameModel->getPEnemies();
 
-//            std::cout<<"Xenemies at"<<endl;
-//            int xPos=0; int yPos=0;
-//            XenemyModel setXenemies;
-//            auto actual_xenemies= gameModel->getPEnemies();
-
-//            for(auto &x_enemy:actual_xenemies){
-//                cout<<'['<<(x_enemy->getPEnemy()->getXPos())/2 <<','<<x_enemy->getPEnemy()->getYPos() + rand() % 2+1<<']'<<endl;
-//                xPos = x_enemy->getPEnemy()->getXPos() + rand();
-//                if(xPos > 30){
-//                    xPos = xPos - rand() % 25 + 1;
-//                }
-//                yPos = x_enemy->getPEnemy()->getYPos() + rand();
-//                if (yPos > 30){
-//                    yPos = yPos - rand() % 25 + 1;
-//                }
-//                setXenemies.setXEnemy(xPos, yPos);
-//                }
 
 /*
 
@@ -156,10 +146,177 @@ MainWindow::MainWindow(QWidget *parent)
                 cout<<'['<<h->getHealthPack()->getXPos()<<','<<h->getHealthPack()->getYPos()<<']'<<endl;
             }*/
 
+            //-------------------------------------------------------------------------------------
+            scene = new QGraphicsScene();
+            //scene->setSceneRect(0,0,2350,2350);
+            ui->graphicsView->setBackgroundBrush(QBrush(QImage(":/images/worldmap4")));
+
+            //viewGraphical->setScene(scene);
+            ui->graphicsView->setScene(scene);
+            ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+            ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+            //ui->graphicsView->setFixedSize(1500,1500);
+//-----------------------------------------------------------------------------------------------
+//----------------------  Protagonist   ---------------------------------------------------------
+//-----------------------------------------------------------------------------------------------
+
+//update the model
+
+            auto protagonist=world->getProtagonist();
+            auto protagonist_model=make_shared<protagonistModel>();
+            protagonist_model->setProtagonist(protagonist);
+            auto protagonist_gamemodel = protagonist_model->getProtagonist();
+            gameModel->setProtagonist(protagonist_model);
+            auto actual_protagonist=gameModel->getProtagonist();
+
+            std::cout<< "protagonist at ["<<actual_protagonist->getProtagonist()->getXPos()<<", "<< actual_protagonist->getProtagonist()->getYPos()<<"]"<<std::endl;
+            actual_protagonist->getProtagonist()->setHealth(98.0);
+
+//update the view
+            viewProtagonist = new ViewProtagonist();
+            //viewProtagonist->setRect(0,0,90,90);
+            viewProtagonist->setPixmap(QPixmap(":/images/scorpion_32px.png"));
+            viewProtagonist->setFlag(QGraphicsItem::ItemIsFocusable);
+            viewProtagonist->setFocus();
+            scene->addItem(viewProtagonist);
+//------------------------------------------------------------------------------------------------------
+//            viewHealth = new ViewHealth();
+//            scene->addItem(viewHealth);
+//            viewHealth->setPos(viewHealth->x()+90,viewHealth->y()+25);
+
+
+            viewPenemy = new ViewPenemy();
+            viewPenemy->setPixmap(QPixmap(":/images/Raiden.png"));
+            for(auto &e:actual_penemies){
+                cout<<'['<<e->getPEnemy()->getXPos()<<','<<e->getPEnemy()->getYPos()<<']'<<endl;
+                viewPenemy->setPos(e->getPEnemy()->getXPos() + 100, e->getPEnemy()->getYPos() + 100);
+            }
+            scene->addItem(viewPenemy);
+
+//-------------------------------------------------------------------------------------------------------
+            viewXenemy = new ViewXenemy();
+            viewXenemy->setPixmap(QPixmap(":/images/sindel.png"));
+            int xPos=0; int yPos=0;
+            for(auto &x_enemy:actual_xenemies){
+                cout<<'['<<(x_enemy->getPEnemy()->getXPos())/2 <<','<<x_enemy->getPEnemy()->getYPos() + rand() % 2+1<<']'<<endl;
+                xPos = x_enemy->getPEnemy()->getXPos() + rand() % 1500;
+                if(xPos > 30){
+                    xPos = xPos - rand() % 25 + 1;
+                }
+                yPos = x_enemy->getPEnemy()->getYPos() + rand() % 2000;
+                if (yPos > 30){
+                    yPos = yPos - rand() % 25 + 1;
+                }
+                viewXenemy->setPos(xPos, yPos);
+                std::cout<<"Xenemies at"<<endl;
+                std::cout<<xPos<<","<<yPos<<endl;
+             }
+            scene->addItem(viewXenemy);
+
+//-------------------------------------------------------------
+            xenemy = new XenemyModel();
+            for(auto &x_enemy:actual_xenemies){
+                cout<<'['<<(x_enemy->getPEnemy()->getXPos())/2 <<','<<x_enemy->getPEnemy()->getYPos() + rand() % 2+1<<']'<<endl;
+                xPos = x_enemy->getPEnemy()->getXPos() + rand() % 1500;
+                if(xPos > 30){
+                    xPos = xPos - rand() % 25 + 1;
+                }
+                yPos = x_enemy->getPEnemy()->getYPos() + rand() % 2000;
+                if (yPos > 30){
+                    yPos = yPos - rand() % 25 + 1;
+                }
+                viewXenemy->setPos(xPos, yPos);
+                std::cout<<"Xenemies at"<<endl;
+                std::cout<<xPos<<","<<yPos<<endl;
+             }
+            xenemy->setPos(xPos, yPos);
+            scene->addItem(xenemy);
+
+
+
+            //show();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::zoomOut()
+{
+    ui->graphicsView->scale(0.9,0.9);
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    auto protagonistCurrentXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
+    auto protagonistCurrentYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
+
+    if(event->key() == Qt::Key_K){
+        auto tileAtLeftPos=gameModel->getTileAtAPos(protagonistCurrentXPos-1,protagonistCurrentYPos, 2);
+            //if (pos().x() > 0)  {  //make sure that protagonist doesn't pass the frame while moving left
+            if(!(tileAtLeftPos->isObstacle())) {
+            gameModel->getProtagonist()->moveLeft();
+            viewProtagonist->moveLeft(protagonistCurrentXPos, protagonistCurrentYPos);
+            }
+        }
+        else if (event->key() == Qt::Key_M){
+        auto tileAtRightPos=gameModel->getTileAtAPos(protagonistCurrentXPos+1,protagonistCurrentYPos, 1);
+            if(!(tileAtRightPos->isObstacle())) {
+                //qDebug() << "Trying to move to the right and it's not blocked!";
+                //update the model
+                gameModel->getProtagonist()->moveRight();
+                //update the view
+                viewProtagonist->moveRight(protagonistCurrentXPos, protagonistCurrentYPos);
+            }
+        }
+        else if (event->key() == Qt::Key_O){
+            auto tileAtUpPos=gameModel->getTileAtAPos(protagonistCurrentXPos,protagonistCurrentYPos-1, 3);
+            //if (pos().y() > 0){
+            if(!(tileAtUpPos->isObstacle())){
+                //gameModel->getProtagonist()->moveUp();
+                viewProtagonist->moveUp(protagonistCurrentXPos, protagonistCurrentYPos);
+            }
+        }
+        else if (event->key() == Qt::Key_L){
+            auto tileAtDownPos=gameModel->getTileAtAPos(protagonistCurrentXPos,protagonistCurrentYPos+1, 4);
+            //if (pos().y() + 100 < 600){
+            if(!(tileAtDownPos->isObstacle())) {
+                gameModel->getProtagonist()->moveDown();
+                viewProtagonist->moveDown(protagonistCurrentXPos, protagonistCurrentYPos);
+            }
+        }
+//        else if (event->key() == Qt::Key_D){
+//                // create a bullet
+//                Projectile * projectile = new Projectile();
+//                projectile->setPos(x(),y());
+//                scene->addItem(projectile);
+//            }
+//        else if (event->key() == Qt::Key_Z){
+//                // create a bullet
+//                Projectile * projectile = new Projectile(5);
+//                projectile->setPos(x(),y());
+//                scene->addItem(projectile);
+//            }
+//        else if (event->key() == Qt::Key_S){
+//                // create a bullet
+//                Projectile * projectile = new Projectile(5,6);
+//                projectile->setPos(x(),y());
+//                scene->addItem(projectile);
+//            }
+//        else if (event->key() == Qt::Key_Q){
+//                // create a bullet
+//                Projectile * projectile = new Projectile(5,6,6);
+//                projectile->setPos(x(),y());
+//                scene->addItem(projectile);
+//            }
+}
+
+//void MainWindow::keyPressEvent(QKeyEvent *event)
+//{
+//    qDebug() << "I am here";
+//}
+
+
+
 

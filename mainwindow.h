@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "gameModel.h"
+#include "world.h"
 #include<string>
 #include <iostream>
 #include <vector>
@@ -12,6 +13,14 @@
 #include <QGraphicsView>
 #include "ViewProtagonist.h"
 #include "ViewHealth.h"
+#include "ViewPenemy.h"
+#include "ViewXenemy.h"
+#include <QKeyEvent>
+#include "XenemyModel.h"
+#include <QGraphicsPolygonItem>
+
+
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,6 +34,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+    void zoomOut();
+
 private:
     Ui::MainWindow *ui;
     std::unique_ptr<GameModel> gameModel;
@@ -32,5 +44,11 @@ private:
     QGraphicsScene * scene;
     ViewProtagonist * viewProtagonist;
     ViewHealth * viewHealth;
+    ViewPenemy * viewPenemy;
+    ViewXenemy * viewXenemy;
+    XenemyModel * xenemy;
+
+    void keyPressEvent(QKeyEvent * event) override;
+    //void addTile(std::unique_ptr<Tile> tiles,std::vector<std::unique_ptr<Tile>> &data) ;
 };
 #endif // MAINWINDOW_H

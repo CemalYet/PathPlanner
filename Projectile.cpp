@@ -1,23 +1,27 @@
 #include "Projectile.h"
 #include <QTimer>
 #include <QList>
+#include <QPixmap>
 #include <QGraphicsScene>
 
 Projectile::Projectile(){
     // drew the rect
-    setRect(0,0,15,15);
+    //setRect(0,0,15,15);
+    setPixmap(QPixmap(":/images/sindel_scream.png"));
 
     // connect
-    QTimer * timer = new QTimer();
-    connect(timer,SIGNAL(timeout()),this,SLOT(move_right()));
+    QTimer * move_timer = new QTimer();
+    connect(move_timer,SIGNAL(timeout()),this,SLOT(move_right()));
 
-    timer->start(50);
+    move_timer->start(50);
 }
 
 Projectile::Projectile(int x)
 {
     // drew the rect
-    setRect(0,0,15,15);
+    //setRect(0,0,15,15);
+    setPixmap(QPixmap(":/images/projectile.png"));
+    setRotation(rotation() - 90);
 
     // connect
     QTimer * timer = new QTimer();
@@ -29,7 +33,9 @@ Projectile::Projectile(int x)
 Projectile::Projectile(int x, int y)
 {
     // drew the rect
-    setRect(0,0,15,15);
+    //setRect(0,0,15,15);
+    setPixmap(QPixmap(":/images/sindel_scream.png"));
+    setRotation(rotation() + 90);
 
     // connect
     QTimer * timer = new QTimer();
@@ -41,7 +47,9 @@ Projectile::Projectile(int x, int y)
 Projectile::Projectile(int x, int y, int z)
 {
     // drew the rect
-    setRect(0,0,15,15);
+    //setRect(0,0,15,15);
+    setPixmap(QPixmap(":/images/projectile.png"));
+    setRotation(rotation() + 180);
 
     // connect
     QTimer * timer = new QTimer();
@@ -59,12 +67,12 @@ void Projectile::move_right(){
                 //scene()->removeItem(colliding_items[i]);
 
                 //add another png to show the defeated enemy
-                viewPEnemy_defeated = new ViewPenemy();
-                viewPEnemy_defeated->setPixmap(QPixmap(":/images/dead.png"));
-                //std::cout<<"penemy x coordination is : "<< viewPEnemy->pEnemy->getPEnemy()->getXPos()<<std::endl;
-                //viewPEnemy->setPos(viewPEnemy->pEnemy->getPEnemy()->getXPos() , viewPEnemy->pEnemy->getPEnemy()->getYPos());
-                viewPEnemy_defeated->setPos(250, 300);
-                scene()->addItem(viewPEnemy_defeated);
+//                viewPEnemy_defeated = new ViewPenemy();
+//                viewPEnemy_defeated->setPixmap(QPixmap(":/images/dead.png"));
+//                //std::cout<<"penemy x coordination is : "<< viewPEnemy->pEnemy->getPEnemy()->getXPos()<<std::endl;
+//                //viewPEnemy->setPos(viewPEnemy->pEnemy->getPEnemy()->getXPos() , viewPEnemy->pEnemy->getPEnemy()->getYPos());
+//                viewPEnemy_defeated->setPos(250, 300);
+//                scene()->addItem(viewPEnemy_defeated);
                 scene()->removeItem(this);
                 // delete them both
                 delete colliding_items[i];
@@ -89,12 +97,12 @@ void Projectile::move_up(){
                 //scene()->removeItem(colliding_items[i]);
 
                 //add another png to show the defeated enemy
-                viewPEnemy_defeated = new ViewPenemy();
-                viewPEnemy_defeated->setPixmap(QPixmap(":/images/dead.png"));
-                //std::cout<<"penemy x coordination is : "<< viewPEnemy->pEnemy->getPEnemy()->getXPos()<<std::endl;
-                //viewPEnemy->setPos(viewPEnemy->pEnemy->getPEnemy()->getXPos() , viewPEnemy->pEnemy->getPEnemy()->getYPos());
-                viewPEnemy_defeated->setPos(250, 300);
-                scene()->addItem(viewPEnemy_defeated);
+//                viewPEnemy_defeated = new ViewPenemy();
+//                viewPEnemy_defeated->setPixmap(QPixmap(":/images/dead.png"));
+//                //std::cout<<"penemy x coordination is : "<< viewPEnemy->pEnemy->getPEnemy()->getXPos()<<std::endl;
+//                //viewPEnemy->setPos(viewPEnemy->pEnemy->getPEnemy()->getXPos() , viewPEnemy->pEnemy->getPEnemy()->getYPos());
+//                viewPEnemy_defeated->setPos(250, 300);
+//                scene()->addItem(viewPEnemy_defeated);
                 scene()->removeItem(this);
                 // delete them both
                 delete colliding_items[i];
@@ -119,12 +127,12 @@ void Projectile::move_down(){
                 //scene()->removeItem(colliding_items[i]);
 
                 //add another png to show the defeated enemy
-                viewPEnemy_defeated = new ViewPenemy();
-                viewPEnemy_defeated->setPixmap(QPixmap(":/images/dead.png"));
-                //std::cout<<"penemy x coordination is : "<< viewPEnemy->pEnemy->getPEnemy()->getXPos()<<std::endl;
-                //viewPEnemy->setPos(viewPEnemy->pEnemy->getPEnemy()->getXPos() , viewPEnemy->pEnemy->getPEnemy()->getYPos());
-                viewPEnemy_defeated->setPos(250, 300);
-                scene()->addItem(viewPEnemy_defeated);
+//                viewPEnemy_defeated = new ViewPenemy();
+//                viewPEnemy_defeated->setPixmap(QPixmap(":/images/dead.png"));
+//                //std::cout<<"penemy x coordination is : "<< viewPEnemy->pEnemy->getPEnemy()->getXPos()<<std::endl;
+//                //viewPEnemy->setPos(viewPEnemy->pEnemy->getPEnemy()->getXPos() , viewPEnemy->pEnemy->getPEnemy()->getYPos());
+//                viewPEnemy_defeated->setPos(250, 300);
+//                scene()->addItem(viewPEnemy_defeated);
                 scene()->removeItem(this);
                 // delete them both
                 delete colliding_items[i];
@@ -149,13 +157,13 @@ void Projectile::move_left(){
                 //scene()->removeItem(colliding_items[i]);
 
                 //add another png to show the defeated enemy
-                viewPEnemy_defeated = new ViewPenemy();
-                viewPEnemy_defeated->setPixmap(QPixmap(":/images/dead.png"));
-                //std::cout<<"penemy x coordination is : "<< viewPEnemy->pEnemy->getPEnemy()->getXPos()<<std::endl;
-                //viewPEnemy->setPos(viewPEnemy->pEnemy->getPEnemy()->getXPos() , viewPEnemy->pEnemy->getPEnemy()->getYPos());
-                viewPEnemy_defeated->setPos(250, 300);
-                scene()->addItem(viewPEnemy_defeated);
-                scene()->removeItem(this);
+//                viewPEnemy_defeated = new ViewPenemy();
+//                viewPEnemy_defeated->setPixmap(QPixmap(":/images/dead.png"));
+//                //std::cout<<"penemy x coordination is : "<< viewPEnemy->pEnemy->getPEnemy()->getXPos()<<std::endl;
+//                //viewPEnemy->setPos(viewPEnemy->pEnemy->getPEnemy()->getXPos() , viewPEnemy->pEnemy->getPEnemy()->getYPos());
+//                viewPEnemy_defeated->setPos(250, 300);
+//                scene()->addItem(viewPEnemy_defeated);
+//                scene()->removeItem(this);
                 // delete them both
                 delete colliding_items[i];
                 //delete this;

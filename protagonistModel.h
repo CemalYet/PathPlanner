@@ -7,8 +7,9 @@
 #include <QTimer>
 #include <memory>
 #include "world.h"
+#include <QGraphicsPixmapItem>
 
-class  protagonistModel
+class  protagonistModel: public QGraphicsPixmapItem
 {
 
 public:
