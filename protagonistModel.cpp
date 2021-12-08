@@ -18,12 +18,12 @@ void protagonistModel::moveLeft()
 
 void protagonistModel::moveUp()
 {
-    protagonist->setYPos(protagonist->getYPos()+0.5);
+    protagonist->setYPos(protagonist->getYPos()-1);
 }
 
 void protagonistModel::moveDown()
 {
-    protagonist->setYPos(protagonist->getYPos()-0.5);
+    protagonist->setYPos(protagonist->getYPos()+1);
 }
 
 void protagonistModel::goTo(int x, int y)

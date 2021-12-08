@@ -41,7 +41,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     auto world = make_shared<World>();
     world->createWorld(":/images/maze3.jpg",1,1);
-    gameModel = std::make_unique<GameModel>();
+    gameModel = std::make_shared<GameModel>();
+    gameModel->setCols(world->getCols());
+    gameModel->setRows(world->getRows());
 
     //auto pathPlanner=make_shared<PathPlanner>(world,0.2);
     //vector<pair<int,int>> dummy=pathPlanner->solution(4,4);
@@ -144,7 +146,9 @@ MainWindow::MainWindow(QWidget *parent)
 
             //-------------------------------------------------------------------------------------
             scene = new QGraphicsScene();
-            //scene->setSceneRect(0,0,2350,2350);
+            auto nrOfCols = gameModel->getCols();
+            auto nrOfRows = gameModel->getRows();
+            scene->setSceneRect(0,0,nrOfCols,nrOfRows);
             ui->graphicsView->setBackgroundBrush(QBrush(QImage(":/images/maze3")));
             //QImage world_boo = QImage(900, 900,monostate);
             //QImage myImage;
@@ -175,7 +179,7 @@ MainWindow::MainWindow(QWidget *parent)
 //update the view
             viewProtagonist = new ViewProtagonist();
             //viewProtagonist->setRect(0,0,90,90);
-            viewProtagonist->setPixmap(QPixmap(":/images/scorpion_32px.png"));
+            viewProtagonist->setPixmap(QPixmap(":/images/scorpion_4.png"));
             viewProtagonist->setFlag(QGraphicsItem::ItemIsFocusable);
             viewProtagonist->setFocus();
             scene->addItem(viewProtagonist);
@@ -266,7 +270,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     auto protagonistCurrentXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
     auto protagonistCurrentYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
+    qDebug() << "the x value in mainwindow: " << protagonistCurrentXPos << "the y value in mainwindow:" << protagonistCurrentYPos;
 
+//      int protagonistCurrentXPos = 0;
+//      int protagonistCurrentYPos = 0;
     if(event->key() == Qt::Key_K){
         auto tileAtLeftPos=gameModel->getTileAtAPos(protagonistCurrentXPos-1,protagonistCurrentYPos);
             //if (pos().x() > 0)  {  //make sure that protagonist doesn't pass the frame while moving left
@@ -289,7 +296,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             auto tileAtUpPos=gameModel->getTileAtAPos(protagonistCurrentXPos,protagonistCurrentYPos-1);
             //if (pos().y() > 0){
             if(!(tileAtUpPos->isObstacle())){
-                //gameModel->getProtagonist()->moveUp();
+                gameModel->getProtagonist()->moveUp();
                 viewProtagonist->moveUp(protagonistCurrentXPos, protagonistCurrentYPos);
             }
         }
@@ -334,4 +341,16 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 
 
+
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    ui->graphicsView->scale(1.1,1.1);
+}
+
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    ui->graphicsView->scale(0.9,0.9);
+}
 

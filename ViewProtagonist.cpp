@@ -48,7 +48,7 @@ void ViewProtagonist::moveRight(const int protagonistXPos, const int protagonist
             }
         }
     // move protagonist to the right
-    setPos(x()+5,y());
+    setPos(x()+1,y());
 }
 
 void ViewProtagonist::moveLeft(const int protagonistXPos, const int protagonistYPos)
@@ -85,7 +85,7 @@ void ViewProtagonist::moveLeft(const int protagonistXPos, const int protagonistY
             //auto poison_area = scene()->addRect(-100,-100,50,50);
         }
     }
-    setPos(x()-5,y());
+    setPos(x()-1,y());
 }
 
 void ViewProtagonist::moveUp(const int protagonistXPos, const int protagonistYPos)
@@ -115,7 +115,7 @@ void ViewProtagonist::moveUp(const int protagonistXPos, const int protagonistYPo
             return;
         }
     }
-    setPos(x(),y()-5);
+    setPos(x(),y()-1);
 }
 
 void ViewProtagonist::moveDown(const int protagonistXPos, const int protagonistYPos)
@@ -145,7 +145,8 @@ void ViewProtagonist::moveDown(const int protagonistXPos, const int protagonistY
             return;
         }
     }
-    setPos(x(),y()+5);
+    setPos(x(),y()+1);
+    //qDebug() << "the x value in ViewProtagonist: " << x() << "the y value in ViewProtagonist:" << y();
 }
 
 

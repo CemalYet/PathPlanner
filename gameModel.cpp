@@ -94,20 +94,10 @@ std::vector<std::shared_ptr<PenemyModel> > GameModel::getPEnemies() const
 
 std::shared_ptr<TileModel> GameModel::getTileAtAPos(const int &xpos, const int &ypos)
 {
-//    if (direction == 1){
-        qDebug() <<(tiles.at(xpos+0.5*ypos))->getTile()->getXPos() << (tiles.at(xpos+0.5*ypos))->getTile()->getValue();
-        qDebug() <<"the number of cols is " << getCols() << "the number of rows is " << getRows();
-        return tiles.at(xpos+0.5*ypos);  //it should be 'cols' instead of '0.5' but i used it just to avoid the crashing
-//    }
-//    else if (direction == 2){
-//        return tiles.at(xpos-1*ypos);  //left
-//    }
-//    else if (direction == 3){
-//        return tiles.at(xpos*ypos-1);  //up
-//    }
-//    else if (direction == 4){
-//        return tiles.at(xpos*ypos+1);  //down
-//    }
+    qDebug() <<(tiles.at(xpos+cols*ypos))->getTile()->getXPos() <<(tiles.at(xpos+cols*ypos))->getTile()->getYPos() << (tiles.at(xpos+cols*ypos))->getTile()->getValue();
+    qDebug() <<"the number of cols is " << getCols() << "the number of rows is " << getRows();
+    return tiles.at(xpos+cols*ypos);  //it should be 'cols' instead of '0.5' but i used it just to avoid the crashing
+    //return getTiles()[10];
 }
 
 

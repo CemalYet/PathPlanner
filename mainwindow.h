@@ -38,9 +38,14 @@ public:
 public slots:
     void zoomOut();
 
+private slots:
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_3_clicked();
+
 private:
     Ui::MainWindow *ui;
-    std::unique_ptr<GameModel> gameModel;
+    std::shared_ptr<GameModel> gameModel;
     //--------------------------------------
     QGraphicsScene * scene;
     ViewProtagonist * viewProtagonist;
