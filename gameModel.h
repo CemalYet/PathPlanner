@@ -37,7 +37,7 @@ public:
     void setProtagonist(std::shared_ptr<protagonistModel> &value);
     std::vector<std::shared_ptr<TileModel> > getTiles() const;
     void setTiles(std::vector<std::unique_ptr<Tile> > &value);
-    std::shared_ptr<TileModel> getTileAtAPos(const int &xpos, const int &ypos, int direction);
+    std::shared_ptr<TileModel> getTileAtAPos(const int &xpos, const int &ypos);
     std::vector<std::shared_ptr<HealthPackModel>>getHealthPacks()const;
     void setHealthPacks(std::vector<std::unique_ptr<Tile> > &value);
     std::vector<std::shared_ptr<EnemyModel> > getEnemies()const;

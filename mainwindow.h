@@ -17,6 +17,7 @@
 #include "ViewXenemy.h"
 #include <QKeyEvent>
 #include "XenemyModel.h"
+#include "ViewHealthPack.h"
 #include <QGraphicsPolygonItem>
 
 
@@ -47,6 +48,8 @@ private:
     ViewPenemy * viewPenemy;
     ViewXenemy * viewXenemy;
     XenemyModel * xenemy;
+    ViewHealthPack * healtPack;
+
 
     void keyPressEvent(QKeyEvent * event) override;
     //void addTile(std::unique_ptr<Tile> tiles,std::vector<std::unique_ptr<Tile>> &data) ;

@@ -8,6 +8,7 @@
 #include <memory>
 #include <bits/shared_ptr.h>
 #include "world.h"
+#include <QDebug>
 
 
 class  TileModel

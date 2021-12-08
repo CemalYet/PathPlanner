@@ -8,8 +8,9 @@
 #include <memory>
 #include "enemyModel.h"
 #include "HealthPackModel.h"
+#include <QGraphicsPixmapItem>
 
-class  ViewHealthPack
+class  ViewHealthPack : public QGraphicsPixmapItem
 {
 public:
     std::shared_ptr<HealthPackModel> healthPack;

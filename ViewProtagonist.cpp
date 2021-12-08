@@ -48,7 +48,7 @@ void ViewProtagonist::moveRight(const int protagonistXPos, const int protagonist
             }
         }
     // move protagonist to the right
-    setPos(x()+1,y());
+    setPos(x()+5,y());
 }
 
 void ViewProtagonist::moveLeft(const int protagonistXPos, const int protagonistYPos)
@@ -72,13 +72,20 @@ void ViewProtagonist::moveLeft(const int protagonistXPos, const int protagonistY
             delete colliding_items[i];
             //delete this;
 
+
             //draw the poison after defeating an enemy
+//            ViewProtagonist * poisoned_protagonist = new ViewProtagonist();
+//            poisoned_protagonist->protagonist;
+//            protagonist->setXPos(protagonistXPos);
+//            protagonist->setYPos(protagonistYPos);
+//            poisoned_protagonist->setPixmap(QPixmap(":/images/Raiden.png"));
+//            poisoned_protagonist->setPos(protagonistXPos, protagonistYPos);
+//            scene()->addItem(poisoned_protagonist);
 
             //auto poison_area = scene()->addRect(-100,-100,50,50);
-            return;
         }
     }
-    setPos(x()-1,y());
+    setPos(x()-5,y());
 }
 
 void ViewProtagonist::moveUp(const int protagonistXPos, const int protagonistYPos)

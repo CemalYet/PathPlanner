@@ -11,5 +11,6 @@
         <file>images/sindel.png</file>
         <file>images/projectile.png</file>
         <file>images/sindel_scream.png</file>
+        <file>images/healthpack.png</file>
     </qresource>
 </RCC>

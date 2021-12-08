@@ -153,22 +153,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>pushButton_2</sender>
-   <signal>clicked()</signal>
-   <receiver>graphicsView</receiver>
-   <slot>invalidateScene()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>557</x>
-     <y>522</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>517</x>
-     <y>476</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
+ <slots>
+  <slot>zoomout()</slot>
+ </slots>
 </ui>
