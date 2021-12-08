@@ -9,11 +9,11 @@
 class Node
 {
 public:
-    Node(int xPos, int yPos, float finalCost, float givenCost, const std::shared_ptr<Node> &parent);
+//    Node(int xPos, int yPos, const std::shared_ptr<Node> &parent);
+    Node(int xPos, int yPos, float givenCost, const std::shared_ptr<Node> &parent);
+//    Node(int xPos, int yPos, float finalCost, float givenCost, const std::shared_ptr<Node> &parent);
 
     //constructor
-
-
 
     //getters
     int getXPos() const{
@@ -22,9 +22,9 @@ public:
     int getYPos() const{
         return yPos;
     };
-    float getFinalCost() const{
-        return finalCost;
-    };
+//    float getFinalCost() const{
+//        return finalCost;
+//    };
     const std::shared_ptr<Node> &getParent() const{
         return parent;
     };
@@ -33,28 +33,47 @@ public:
     };
 
     //setters
-    void setXPos(int newXPos);
-    void setYPos(int newYPos);
-    void setFinalCost(float newFinalCost);
-    void setParent(const std::shared_ptr<Node> &newParent);
-    void setGivenCost(float newGivenCost);
+    void setXPos(int newXPos)
+    {
+        xPos = newXPos;
+    };
+    void setYPos(int newYPos)
+    {
+        yPos = newYPos;
+    }
+
+    ;
+//    void setFinalCost(float newFinalCost)
+//    {
+//        finalCost = newFinalCost;
+//    };
+    void setParent(const std::shared_ptr<Node> &newParent)
+    {
+        parent = newParent;
+    };
+//    void setGivenCost(float newGivenCost){
+//        givenCost = newGivenCost;
+//    };
+
+
 
 private:
     int xPos;
     int yPos;
-    float finalCost;
+    //float finalCost;
     float givenCost;
     std::shared_ptr<Node> parent;
-};
-
-class OrderByFinalCost
-{
-    public:
-    bool operator()(const std::shared_ptr<Node> &s1, const std::shared_ptr<Node> &s2){
-        return s1->getFinalCost() > s2->getFinalCost();
-    }
 
 };
+
+//class OrderByFinalCost
+//{
+//    public:
+//    bool operator()(const std::shared_ptr<Node> &s1, const std::shared_ptr<Node> &s2){
+//        return s1->getFinalCost() > s2->getFinalCost();
+//    }
+
+//};
 
 
 #endif // NODE_H

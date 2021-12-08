@@ -10,6 +10,8 @@ CONFIG += c++11
 
 SOURCES += \
     arrowtextcommand.cpp \
+    gototextcommand.cpp \
+    helptextcommand.cpp \
     main.cpp \
     mainwindow.cpp \
     node.cpp \
@@ -37,6 +39,8 @@ SOURCES += \
 
 HEADERS += \
     arrowtextcommand.h \
+    gototextcommand.h \
+    helptextcommand.h \
     mainwindow.h \
     node.h \
     pathplanner.h \

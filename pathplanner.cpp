@@ -1,61 +1,38 @@
 #include "pathplanner.h"
 
-PathPlanner::PathPlanner(shared_ptr<World> &w,float slider):slider(slider)
+
+
+
+/*PathPlanner::PathPlanner(unique_ptr<GameModel> &w,float slider):slider(slider)
 {
-    auto tiles = w->getTiles();
-    addAll(tiles,gameBoard);
-    auto healthPackets=w->getHealthPacks();
-    addAll(healthPackets,this->healtPackets);
+    gameBoard = w->getTiles();
+    protogonist = w->getProtagonist();
+    col=w->getCols();
+    row=w->getRows();
+    healtPackets=w->getHealthPacks();
+    enemies=w->getEnemies();
+}*/
 
-    //add enemy when you got models
-
-    this->protogonist=w->getProtagonist();
-    this->column=w->getCols();
-    this->row=w->getRows();
-}
-
-void PathPlanner::addAll( vector<unique_ptr<Tile>> &tiles,vector<unique_ptr<Tile>> &data){
-    for(unsigned int i=0;i<tiles.size();i++){
-        addTile(move(tiles[i]),data);
-    }
-
-}
-
- vector<unique_ptr<Tile> > PathPlanner::getGameBoard()
+PathPlanner::PathPlanner(shared_ptr<GameModel> &w,float slider):slider(slider)
 {
-    return move(gameBoard);
-}
-
-void PathPlanner::addTile(unique_ptr<Tile> tile,vector<unique_ptr<Tile>> &data) {
-    data.push_back(move(tile));
-}
-
-vector<pair<int,int>> PathPlanner::solution(int goalX,int goalY){
-    closedList.clear();
-    int startX=protogonist->getXPos();
-    int startY=protogonist->getYPos();
-
-    vector<pair<int,int>> dummy;
-    float heuristicCost=findDistance(goalX,goalY,startX,startY);
-    auto rootNode = make_shared<Node>(startX,startY,heuristicCost,0,nullptr);
-    this->openList.push(rootNode);
-    while (!this->openList.empty()) {
-        auto currentNode = openList.top();
-        openList.pop();
-        if(currentNode->getXPos()==goalX && currentNode->getYPos()==goalY){
-            dummy=fillPath(currentNode);
-            break;
-        }
-        //check succesor
-        checkSuccessor(currentNode,goalX,goalY);
-        this->closedList.push_back(currentNode);
-    }
-    return dummy;
+    gameBoard = w->getTiles();
+    protogonist = w->getProtagonist();
+    col=w->getCols();
+    row=w->getRows();
+    healtPackets=w->getHealthPacks();
+    enemies=w->getEnemies();
 }
 
 
-float PathPlanner::findDistance(int x1,int y1,int x2,int y2) const{
-    return slider*(float)(abs(x1-x2) + abs(y1-y2));
+
+
+float PathPlanner::findDistance(int x1,int y1,int x2,int y2) {
+    //return slider*(float)(abs(x1-x2)+abs(y1-y2));
+    return slider*sqrt(pow(x2 - x1, 2) +
+    pow(y2 - y1, 2) * 1.0);
+//    float dx = abs(x1-x2);
+//    float dy = abs(y1-y2);
+//    return slider * ((dx + dy) + (sqrt(2) - 2) * min(dx, dy));
 }
 
 vector<pair<int,int>> PathPlanner::fillPath(shared_ptr<Node> &node){
@@ -64,53 +41,95 @@ vector<pair<int,int>> PathPlanner::fillPath(shared_ptr<Node> &node){
     while (tempNode->getParent()) {
         dummy.push_back(make_pair(tempNode->getXPos(),tempNode->getYPos()));
         tempNode=tempNode->getParent();
+
     }
-    reverse(dummy.begin(),dummy.end());
     return dummy;
 }
 
-void PathPlanner::checkSuccessor(shared_ptr<Node> currentNode,int goalX,int goalY){
-    int x=currentNode->getXPos();
-    int y=currentNode->getYPos();
-    int posX []={x-1, x+1, x-1, x  , x+1, x-1, x  , x+1};
-    int posY []={y  , y  , y-1, y-1, y-1, y+1, y+1, y+1};
-    for(int i=0;i<8;i++){
-        if(posX [i] >= 0 && posX [i] <column && posY [i] >= 0 && posY [i]<row){
-           float value=gameBoard[column*posY[i]+posX[i]]->getValue();
-            //move yaptigim iicin value null oluyor
-            //float value=addTile(move(tiles[w->getCols()*posY[i]+posX[i]]));
-            float givenCostOfSuccessor=currentNode->getGivenCost()+value;
-            float heuristicOfSuccessor=findDistance(goalX,goalY,posX[i],posY[i]);
-            if(value==std::numeric_limits<float>::infinity()){
-                continue;
-            }
-            auto sucesssorNode = make_shared<Node>(posX[i],posY[i],heuristicOfSuccessor+givenCostOfSuccessor,givenCostOfSuccessor,currentNode);
-            if(!isCreated(posX[i],posY[i],givenCostOfSuccessor)){
-                continue;
-            }
-            this->openList.push(sucesssorNode);
+
+
+
+
+//int xPos, int yPos, float finalCost, float givenCost, const std::shared_ptr<Node> &parent, bool isClosed
+
+vector<pair<int,int>> PathPlanner::solution1(int goalX,int goalY){
+
+    int posX []={-1,  1, -1, 0,  1, -1, 0, 1};
+    int posY []={ 0 , 0 ,-1,-1, -1,  1, 1, 1};
+
+    auto start = std::chrono::system_clock::now();
+
+
+    int startX=protogonist->getProtagonist()->getXPos();
+    int startY=protogonist->getProtagonist()->getYPos();
+
+    vector<pair<int,int>> dummy;
+
+    float heuristicCost=findDistance(goalX,goalY,startX,startY);
+
+    auto rootNode = make_shared<Node>(startX,startY,0,nullptr);
+    std::cout<<"1"<<std::endl;//test
+
+    openQueue.push(make_pair(heuristicCost,rootNode));
+    //lookUp[startY*col+startX]=make_pair(false,0);
+    lookUp[startY][startX]=make_pair(false,0);
+
+    std::cout<<"2"<<std::endl;//test
+    while (!openQueue.empty()) {
+        auto currentNode=openQueue.top().second;
+        openQueue.pop();
+        int x=currentNode->getXPos();
+        int y=currentNode->getYPos();
+        // lookUp[y*col+x].first=true;
+        lookUp[y][x].first=true;
+        float currentNodeGivenCost = currentNode->getGivenCost();
+        //lookUp[y*col+x]=make_pair(true,currentNode->getGivenCost());
+
+    std::cout<<"3"<<std::endl;//test
+        if(x==goalX && y==goalY) {
+            dummy=fillPath(currentNode);
+            break;
         }
 
-    }
-}
+        for( int i=0;i<8;i++) {
+            int sucX=x+posX[i];
+            int sucY=y+posY[i];
 
-bool PathPlanner::isCreated(int x,int y,float givenCost){
-    for(unsigned int index=0;index<this->closedList.size();index++){
-        if(this->closedList[index]->getXPos()==x && this->closedList[index]->getYPos()==y){
-            if(this->closedList[index]->getGivenCost()>givenCost){
-                this->closedList.erase (this->closedList.begin()+index);
-                return true;
-            }else{
-                return  false;
+            if(sucX >= 0 && sucX <col && sucY >= 0 && sucY<row){
+
+                float value=gameBoard[col*sucY+sucX]->getTile()->getValue();
+                auto lookUpIndex =lookUp[sucY][sucX];
+
+                if(value != std::numeric_limits<float>::infinity() and !(lookUpIndex.first==true)){
+
+                    float givenCostOfSuccessor=currentNodeGivenCost+value+0.001;
+                    float heuristicOfSuccessor=findDistance(goalX,goalY,sucX,sucY);
+                    float finalCost=givenCostOfSuccessor+heuristicOfSuccessor;
+                    if(!(lookUpIndex.first==false and lookUpIndex.second!=0.0) or (lookUpIndex.first==false and givenCostOfSuccessor <
+                                                                                   lookUpIndex.second and lookUpIndex.second!=0.0)){
+                        auto successorNode = make_shared<Node>(sucX,sucY,givenCostOfSuccessor,currentNode);
+                        openQueue.emplace(make_pair(finalCost,successorNode));
+                        lookUp[sucY][sucX].second=givenCostOfSuccessor;
+                        lookUp[sucY][sucX].first=false;
+
+
+                    }
+
+
+                }
+
             }
+
         }
+
+
+
+
     }
-    return true;
+
+    auto end = std::chrono::system_clock::now();
+
+    std::chrono::duration<double> elapsed_seconds = end-start;
+    cout<< "elapsed time: " << elapsed_seconds.count() << "s\n";
+    return dummy;
 }
-
-
-
-
-
-
-

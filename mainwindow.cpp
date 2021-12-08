@@ -12,7 +12,8 @@
 #include "TileModel.h"
 #include "gameModel.h"
 #include "arrowtextcommand.h"
-#include <queue>
+#include "gototextcommand.h"
+#include "helptextcommand.h"
 #include <vector>
 #include <memory>
 #include <sstream>
@@ -27,17 +28,17 @@ MainWindow::MainWindow(QWidget *parent)
 
     auto world = make_shared<World>();
     world->createWorld(":/images/worldmap.jpg",5,5);
-    gameModel = std::make_unique<GameModel>();
+    gameModel = std::make_shared<GameModel>();
 
 
-   /* auto pathPlanner=make_shared<PathPlanner>(world,0.2);
-    vector<pair<int,int>> dummy=pathPlanner->solution(4,4);
-    auto tiles=pathPlanner->getGameBoard();
+   // auto pathPlanner=make_shared<PathPlanner>(world,0.2);
+    //vector<pair<int,int>> dummy=pathPlanner->solution1(4,4);
+    //auto tiles=pathPlanner->getGameBoard();
 
 
-    cout<<"PATH === "<<dummy.size()<<endl;
+    //cout<<"PATH === "<<dummy.size()<<endl;
 
-    for (auto &d :dummy ) {
+   /* for (auto &d :dummy ) {
         for(int i=0;i<world->getCols();i++){
                 cout<<"|";
                 for(int y=0;y<world->getRows();y++){
@@ -54,9 +55,10 @@ MainWindow::MainWindow(QWidget *parent)
     }*/
 
 
+
             auto world_tiles=world->getTiles();
-            gameModel->setTiles(world_tiles);
-/*           auto gamemodel_tiles=gameModel->getTiles();
+            gameModel->setTiles(world_tiles);//comment
+          /* auto gamemodel_tiles=gameModel->getTiles();
             int xpos;
             int ypos;
             int index;
@@ -64,10 +66,10 @@ MainWindow::MainWindow(QWidget *parent)
             for(auto &e:gamemodel_tiles){
                 xpos=e->getTile()->getXPos();
                 ypos=e->getTile()->getYPos();
-                cout<<'['<<xpos<<','<< ypos<<"]"<<endl;
-                //cout<<'['<<xpos<<','<< ypos<<"] "<<e->isObstacle()<<endl;
+               // cout<<'['<<xpos<<','<< ypos<<"]"<<endl;
+                cout<<'['<<xpos<<','<< ypos<<"] "<<e->getTile()->getValue()<<endl;
 
-           }*/
+           }//comment*/
 
             auto row=world->getRows();
             auto col=world->getCols();
@@ -166,6 +168,7 @@ MainWindow::MainWindow(QWidget *parent)
 /*auto tile=gameModel->getTileAtAPos(4,1);
 std::cout<<tile->getXPos() <<","<<tile->getYPos();*/
 
+
 }
 
 MainWindow::~MainWindow()
@@ -177,10 +180,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_radioButton_Text_clicked()
 {
-
+    std::cout<<"row"<<gameModel->getRows()<<std::endl;
     gameTextView =std::make_shared<ViewText>(gameModel->getRows(),gameModel->getCols());
     scene = gameTextView->getScene();
-    scene->setSceneRect(0,0,800,600);//added
+   // scene->setSceneRect(0,0,1920,1080);//added
+    scene->setSceneRect(0,0,maximumHeight(),maximumWidth());//added
     ui->graphicsView->setScene(scene);
 
 
@@ -194,11 +198,12 @@ void MainWindow::on_radioButton_Text_clicked()
     }
 
     textViewItem=scene->addText(gameTextView->buildView());
-
+    createTextCommandToClassMap();
 }
 
 void MainWindow::processTextCommand(QString userCommand)
 {
+
     QStringList CommandList = userCommand.split(" ");
     std::string command=CommandList[0].toStdString();
     std::list<std::string> joinedString = {};
@@ -207,52 +212,35 @@ void MainWindow::processTextCommand(QString userCommand)
         joinedString.push_back(commandtail);
     }
 
-   /* if(textCommandToClassMap[command]){
+   if(textCommandToClassMap[command]){
        textCommandToClassMap[command]->execute(command,joinedString);
-     }*/
+       //std::cout<<"joined string"<<std::stoi(joinedString.back())+1<<std::endl;
+
+     }
 }
 
-/*void MainWindow::createTextCommandToClassMap()
+void MainWindow::createTextCommandToClassMap()
 {
-    auto commandObject =  std::make_shared<ArrowTextCommand>();
-    textCommandToClassMap["left"]=commandObject;
+    //std::shared_ptr<GameModel> gm=std::move(gameModel);
+    //auto commandObject =  std::make_shared<ArrowTextCommand>(gm,gameTextView);
+    auto commandObject =  std::make_shared<ArrowTextCommand>(gameModel,gameTextView);
     textCommandToClassMap["right"]=commandObject;
+    textCommandToClassMap["left"]=commandObject;
     textCommandToClassMap["up"]=commandObject;
     textCommandToClassMap["down"]=commandObject;
+    textCommandToClassMap["goto"]=std::make_shared<GoToTextCommand>(gameModel,gameTextView);
+    textCommandToClassMap["help"]=std::make_shared<HelpTextCommand>(gameModel,gameTextView,ui->helpResponse);
 
-
-}*/
+}
 
 
 void MainWindow::on_executeButton_clicked()
 {
+    ui->helpResponse->clear();
     QString inputCommand=ui->userInput->toPlainText();
-    auto protagonistCurrentXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
-    auto protagonistCurrentYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
-
-    auto tileAtRightPos=gameModel->getTileAtAPos(protagonistCurrentXPos+1,protagonistCurrentYPos);
-
-    if(!(tileAtRightPos->isObstacle())){
-
-        gameModel->clearProtagonistFromMap();
-       // gameTextView->printTileViewVectors();//test
-        gameTextView->clearProtagonistTileView(protagonistCurrentXPos,protagonistCurrentYPos);
-
-        gameModel->getProtagonist()->moveRight();
-        gameModel->updateProtagonistPositionInMap();
-
-        auto protagonistNewXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
-        auto protagonistNewYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
-        gameTextView->updateProgonistTileView(protagonistNewXPos,protagonistNewYPos);
-        std::cout<<"after changing protagonist"<<std::endl;//test
-        //gameTextView->printTileViewVectors();//test
-
-        //gameModel->printMap();//test
-
-        }
-
+    processTextCommand(inputCommand.toLower());
     scene->removeItem(textViewItem);
     textViewItem=scene->addText(gameTextView->buildView());
-   // processTextCommand(inputCommand.toLower());
+
 }
 

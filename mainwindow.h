@@ -6,6 +6,8 @@
 #include "ViewText.h"
 #include<QGraphicsScene>
 #include<QGraphicsView>
+#include "textcommands.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,6 +21,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void processTextCommand(QString userCommand);
+    void createTextCommandToClassMap();
 
 private slots:
     void on_radioButton_Text_clicked();  
@@ -27,9 +30,11 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QGraphicsScene* scene;
-    std::unique_ptr<GameModel> gameModel;
+   // std::unique_ptr<GameModel> gameModel;
+    std::shared_ptr<GameModel> gameModel;
     std::shared_ptr<ViewText>gameTextView;
     QGraphicsItem* textViewItem;
+    std::map<std::string,std::shared_ptr<TextCommands>>textCommandToClassMap;
 
 };
 #endif // MAINWINDOW_H

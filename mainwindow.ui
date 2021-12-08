@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1238</width>
+    <height>664</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>70</x>
       <y>60</y>
-      <width>681</width>
-      <height>421</height>
+      <width>1141</width>
+      <height>491</height>
      </rect>
     </property>
    </widget>
@@ -79,8 +79,8 @@
    <widget class="QTextEdit" name="userInput">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>490</y>
+      <x>480</x>
+      <y>570</y>
       <width>81</width>
       <height>31</height>
      </rect>
@@ -96,8 +96,8 @@ p, li { white-space: pre-wrap; }
    <widget class="QPushButton" name="executeButton">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>490</y>
+      <x>790</x>
+      <y>590</y>
       <width>80</width>
       <height>23</height>
      </rect>
@@ -132,13 +132,23 @@ p, li { white-space: pre-wrap; }
      <string>Text view</string>
     </property>
    </widget>
+   <widget class="QPlainTextEdit" name="helpResponse">
+    <property name="geometry">
+     <rect>
+      <x>900</x>
+      <y>560</y>
+      <width>241</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1238</width>
      <height>22</height>
     </rect>
    </property>

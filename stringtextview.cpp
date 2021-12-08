@@ -40,7 +40,9 @@ QString StringTextView::drawTextTile()
     for (int i = 0; i < 3; ++i){
         if(i == 1)
         {
-            auto type=QString::fromStdString(getStringForEnum(tileType));
+             //type=QString("<span style=" color:#ff00;">%1</span").arg(">>>>");
+             //QString type("<FONT COLOR=red>%1</FONT>");
+             auto type=QString::fromStdString(getStringForEnum(tileType));
              midwidthText= midwidthText%type;
         }
         else

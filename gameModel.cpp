@@ -63,14 +63,28 @@ std::vector<std::shared_ptr<TileModel> > GameModel::getTiles() const
 }
 
 
-void GameModel::setTiles(std::vector<std::unique_ptr<Tile> > &value)
+/*void GameModel::setTiles(std::vector<std::unique_ptr<Tile> > &value)
 {
     for(auto &tile:value){
         auto tile_model= std::make_shared<TileModel>();
              tile_model->setTile(std::move(tile));
           tiles.push_back(tile_model);
         }
+}*/
+void GameModel::setTiles(std::vector<std::unique_ptr<Tile> > &value)
+{
+    for(auto &tile:value){
+        auto tile_model= std::make_shared<TileModel>();
+        if(tile->getValue() != std::numeric_limits<float>::infinity()){
+            //std::cout<<1/tile->getValue()<<std::endl;
+            tile->setValue(abs(1-(tile->getValue())));
+    }
+          tile_model->setTile(std::move(tile));
+          tiles.push_back(tile_model);
+        }
 }
+
+
 
 std::vector<std::shared_ptr<HealthPackModel> > GameModel::getHealthPacks() const
 {
@@ -131,6 +145,9 @@ TileType GameModel:: getTileType(int xposTile,int YposTile){
 
 std::shared_ptr<TileModel> GameModel::getTileAtAPos(const int &xpos, const int &ypos)
 {
+    std::cout<<"xpos: "<<tiles.at(xpos+cols*ypos)->getTile()->getXPos()
+             <<"ypos: "<<tiles.at(xpos+cols*ypos)->getTile()->getYPos()
+            <<"has obstacle"<<tiles.at(xpos+cols*ypos)->getTile()->getValue()<<std::endl;
     return tiles.at(xpos+cols*ypos);
 }
 
