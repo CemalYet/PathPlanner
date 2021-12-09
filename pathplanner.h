@@ -19,7 +19,9 @@ public:
     float findDistance(int x1,int y1,int x2,int y2) ;
     vector<pair<int,int>> fillPath(shared_ptr<Node> &node);
     vector<unique_ptr<Tile> > getGameBoard() ;
-    vector<pair<int,int>> solution1(int goalX,int goalY);
+    pair<float,vector<pair<int,int>>> solution1(int goalX,int goalY);
+    bool autoPlay();
+    float nearestTile(int x1,int x2,int y1,int y2);
 
 private:
     vector<shared_ptr<TileModel>> gameBoard;

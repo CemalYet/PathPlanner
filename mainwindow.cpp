@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
 /// (0,45) -> (999, 938)
 
        auto world = make_shared<World>();
-       world->createWorld(":/images/worldmap4.jpg",1,1);
+       world->createWorld(":/images/worldmap.jpg",10,100);
        gameModel = std::make_unique<GameModel>();
 
        //set tiles
@@ -35,6 +35,10 @@ MainWindow::MainWindow(QWidget *parent)
        auto enemy=world->getEnemies();
        gameModel->setEnemies(enemy);
 
+       //set health pack
+       auto healthpack=world->getHealthPacks();
+       gameModel->setHealthPacks(healthpack);
+
        //set protagonist
        auto protagonist=world->getProtagonist();
        auto protagonist_model=make_shared<protagonistModel>();
@@ -42,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent)
        auto protagonist_gamemodel = protagonist_model->getProtagonist();
        gameModel->setProtagonist(protagonist_model);
        gameModel->getProtagonist()->getProtagonist()->setXPos(0);
-       gameModel->getProtagonist()->getProtagonist()->setYPos(45);
+       gameModel->getProtagonist()->getProtagonist()->setYPos(0);
 
        //set cols rows
 //        cout<<world->getCols()<<endl;
@@ -52,13 +56,18 @@ MainWindow::MainWindow(QWidget *parent)
 
 
       auto pathPlanner=make_shared<PathPlanner>(gameModel,5);
-      vector<pair<int,int>> dummy=pathPlanner->solution1(999,938);
+      if(pathPlanner->autoPlay()){
+          cout<<"you win "<<endl;
+      }else{
+          cout<<"game over"<<endl;
+      }
+//      vector<pair<int,int>> dummy=pathPlanner->solution1(999,938);
 
 
-      cout<<"PATH === "<<dummy.size()<<endl;
-        for (auto d :dummy ) {
-            cout<<"X: " <<d.first<<" Y: "<< d.second<<endl;
-        }
+//      cout<<"PATH === "<<dummy.size()<<endl;
+//        for (auto d :dummy ) {
+//            cout<<"X: " <<d.first<<" Y: "<< d.second<<endl;
+//        }
 
 
 //    auto world_tiles=world->getTiles();
@@ -159,9 +168,9 @@ MainWindow::MainWindow(QWidget *parent)
             gameModel->setHealthPacks(health);
             auto actual_healthpack=gameModel->getHealthPacks();
             for(auto &h:actual_healthpack){
-                cout<<'['<<h->getHealthPack()->getXPos()<<','<<h->getHealthPack()->getYPos()<<']'<<endl;
-            }*/
-
+                cout<<'['<<h->getHealthPack()->getXPos()<<','<<h->getHealthPack()->getValue()<<']'<<endl;
+            }
+*/
 
 //    for (auto &d :dummy ) {
 //        for(int i=0;i<world->getCols();i++){
