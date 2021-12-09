@@ -16,7 +16,6 @@ class PathPlanner
 {
 public:
     PathPlanner(unique_ptr<GameModel> &w,float slider);
-    vector<pair<int,int>> solution(int goalX,int goalY);
     float findDistance(int x1,int y1,int x2,int y2) ;
     vector<pair<int,int>> fillPath(shared_ptr<Node> &node);
     vector<unique_ptr<Tile> > getGameBoard() ;
@@ -30,10 +29,11 @@ private:
 
     priority_queue<pair<float,shared_ptr<Node>>,vector<pair<float,shared_ptr<Node>>>, std::greater<pair<float,shared_ptr<Node>>> > openQueue;
     //unordered_map <unsigned int,pair<bool,float>> lookUp;
-    pair<bool, float> lookUp[2380][2400];
+    //pair<bool, float> lookUp[2380][2400];
     int col;
     int row;
     float slider;
+    float stepCost{0.001};
 
 
 
