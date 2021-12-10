@@ -197,7 +197,7 @@ bool PathPlanner::autoPlay()
             //add to solution path
 
 
-        }else if( pH < enemyValue and pE > path.first){
+        }else if( pH <= enemyValue and pE > path.first){
             float minHealthDistance=std::numeric_limits<float>::infinity();
             shared_ptr<HealthPackModel> nearestHealthPack;
 
@@ -218,10 +218,11 @@ bool PathPlanner::autoPlay()
                 }
 
             }
-            if(path.second.size()>0 and pE > path.first){
+            if(path.second.size()>0 and pE > path.first and !(nearestHealthPack->getIsPacked())){
                  cout<<"Health pack values is "<<nearestHealthPack->getHealthPack()->getValue()<<endl;
                 protogonist->increaseHealth(nearestHealthPack->getHealthPack()->getValue());
                 protogonist->goTo(nearestHealthPack->getHealthPack()->getXPos(),nearestHealthPack->getHealthPack()->getYPos());
+                nearestHealthPack->setIsPacked(true);
                 //add model to isPacked flag;
                 //add path to solution
             }else{

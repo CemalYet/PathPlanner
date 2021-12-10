@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
 /// (0,45) -> (999, 938)
 
        auto world = make_shared<World>();
-       world->createWorld(":/images/worldmap.jpg",10,100);
+       world->createWorld(":/images/worldmap.jpg",10,20);
        gameModel = std::make_unique<GameModel>();
 
        //set tiles
