@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     auto world = make_shared<World>();
-    world->createWorld(":/images/worldmap.jpg",5,5);
+    world->createWorld(":/images/worldmap.jpg",10,5);
     gameModel = std::make_shared<GameModel>();
 
 
@@ -82,13 +82,13 @@ MainWindow::MainWindow(QWidget *parent)
 
 
        auto enemy=world->getEnemies();
-        gameModel->setEnemies(enemy);
-       /* auto enemies_gamemodel=gameModel->getEnemies();
+        gameModel->setEnemies(enemy);//comment
+        /*auto enemies_gamemodel=gameModel->getEnemies();
         std::cout<<"enemies at location"<<std::endl;
         for(auto &e:enemies_gamemodel){
               cout<<'['<<e->getEnemy()->getXPos()<<','<<e->getEnemy()->getYPos()<<']'<<endl;
               std::vector<std::shared_ptr<Tile>> healthPacks;
-            }*/
+            }//comment*/
 
 
         auto penemies_gamemodel=gameModel->getPEnemies();
@@ -167,6 +167,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 /*auto tile=gameModel->getTileAtAPos(4,1);
 std::cout<<tile->getXPos() <<","<<tile->getYPos();*/
+            gameModel->getProtagonist()->getProtagonist()->setEnergy(world->getProtagonist()->getEnergy());
+            ui->energy->setValue(gameModel->getProtagonist()->getProtagonist()->getEnergy());
+
+            gameModel->getProtagonist()->getProtagonist()->setEnergy(world->getProtagonist()->getHealth());
+            ui->health->setValue(gameModel->getProtagonist()->getProtagonist()->getHealth());
 
 
 }
@@ -180,11 +185,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_radioButton_Text_clicked()
 {
-    std::cout<<"row"<<gameModel->getRows()<<std::endl;
+    //std::cout<<"row"<<gameModel->getRows()<<std::endl;
     gameTextView =std::make_shared<ViewText>(gameModel->getRows(),gameModel->getCols());
     scene = gameTextView->getScene();
-   // scene->setSceneRect(0,0,1920,1080);//added
-    scene->setSceneRect(0,0,maximumHeight(),maximumWidth());//added
+   // scene->setSceneRect(0,0,100,100);//added
+    scene->setSceneRect(0,0,1920,1080);
     ui->graphicsView->setScene(scene);
 
 
@@ -197,7 +202,11 @@ void MainWindow::on_radioButton_Text_clicked()
         gameTextView->setTextTileView(XPosTile,YPosTile,valueTile,tileType);
     }
 
-    textViewItem=scene->addText(gameTextView->buildView());
+    //textViewItem=scene->addText(gameTextView->buildView());
+    auto protagonistXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
+    auto protagonistYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
+    auto tv=gameTextView->buildPartialView(protagonistXPos,protagonistYPos);
+    textViewItem=scene->addText(tv);
     createTextCommandToClassMap();
 }
 
@@ -230,7 +239,7 @@ void MainWindow::createTextCommandToClassMap()
     textCommandToClassMap["down"]=commandObject;
     textCommandToClassMap["goto"]=std::make_shared<GoToTextCommand>(gameModel,gameTextView);
     textCommandToClassMap["help"]=std::make_shared<HelpTextCommand>(gameModel,gameTextView,ui->helpResponse);
-
+    QObject::connect(commandObject.get(),SIGNAL(gameover(const QString &message)),this,SLOT(gameOverSlot(const QString &message)));
 }
 
 
@@ -240,7 +249,39 @@ void MainWindow::on_executeButton_clicked()
     QString inputCommand=ui->userInput->toPlainText();
     processTextCommand(inputCommand.toLower());
     scene->removeItem(textViewItem);
-    textViewItem=scene->addText(gameTextView->buildView());
+    //textViewItem=scene->addText(gameTextView->buildView());
+    auto protagonistXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
+    auto protagonistYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
+
+    textViewItem=scene->addText(gameTextView->buildPartialView(protagonistXPos,protagonistYPos));
+    updateEnergy(gameModel->getProtagonist()->getProtagonist()->getEnergy());
+    updateHealth(gameModel->getProtagonist()->getProtagonist()->getHealth());
+
 
 }
+
+
+
+void MainWindow::updateEnergy(float value){
+    std::cout<<"energy"<<gameModel->getProtagonist()->getProtagonist()->getEnergy()<<std::endl;
+    ui->energy->setValue(value);
+
+}
+
+void MainWindow::updateHealth(float value)
+{
+     std::cout<<"health"<<gameModel->getProtagonist()->getProtagonist()->getHealth()<<std::endl;
+     ui->health->setValue(value);
+}
+
+void MainWindow::gameOverSlot(const QString &message)
+{
+    ui->textBrowser->setText(message);
+}
+
+
+
+
+
+
 

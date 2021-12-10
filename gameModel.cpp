@@ -28,6 +28,8 @@ void GameModel::printMap()
 }
 
 
+
+
 GameModel::GameModel()
 {
 
@@ -56,6 +58,7 @@ void GameModel::updateProtagonistPositionInMap()
     //std::cout<<"protogonist at "<< protagonistXPos << protagonistYPos << std::endl;
     tileTypeMap[protagonistXPos+sep+protagonistYPos]=TileType::Protagonist;
 }
+
 
 std::vector<std::shared_ptr<TileModel> > GameModel::getTiles() const
 {
@@ -100,6 +103,7 @@ void GameModel::setHealthPacks( std::vector<std::unique_ptr<Tile> > &value)
        auto healthPackXPos=std::to_string(healthpack_model->getHealthPack()->getXPos());
        auto healthPackYPos=std::to_string(healthpack_model->getHealthPack()->getYPos());
        tileTypeMap[healthPackXPos+sep+healthPackYPos]=TileType::HealthPack;
+       healthTileMap[healthPackXPos+sep+healthPackYPos]=healthpack_model->getHealthPack();
     }
 }
 std::vector<std::shared_ptr<EnemyModel>> GameModel::getEnemies() const
@@ -118,6 +122,7 @@ void GameModel::setEnemies(std::vector<std::unique_ptr<Enemy> > &value)
                 auto penemyXPos=std::to_string(pEnemy_model->getPEnemy()->getXPos());
                 auto penemyYPos=std::to_string(pEnemy_model->getPEnemy()->getYPos());
                 tileTypeMap[penemyXPos+sep+penemyYPos]=TileType::PEnemy;
+                penemyTileMap[penemyXPos+sep+penemyYPos]=pEnemy_model->getPEnemy();
 
 
             } else {
@@ -127,6 +132,7 @@ void GameModel::setEnemies(std::vector<std::unique_ptr<Enemy> > &value)
                 auto enemyXPos=std::to_string(enemy_model->getEnemy()->getXPos());
                 auto enemyYPos=std::to_string(enemy_model->getEnemy()->getYPos());
                 tileTypeMap[enemyXPos+sep+enemyYPos]=TileType::Enemy;
+                enemyTileMap[enemyXPos+sep+enemyYPos]=enemy_model->getEnemy();
 
             }
          }
@@ -145,10 +151,17 @@ TileType GameModel:: getTileType(int xposTile,int YposTile){
 
 std::shared_ptr<TileModel> GameModel::getTileAtAPos(const int &xpos, const int &ypos)
 {
-    std::cout<<"xpos: "<<tiles.at(xpos+cols*ypos)->getTile()->getXPos()
+    /*std::cout<<"xpos: "<<tiles.at(xpos+cols*ypos)->getTile()->getXPos()
              <<"ypos: "<<tiles.at(xpos+cols*ypos)->getTile()->getYPos()
-            <<"has obstacle"<<tiles.at(xpos+cols*ypos)->getTile()->getValue()<<std::endl;
+            <<"has obstacle"<<tiles.at(xpos+cols*ypos)->getTile()->getValue()<<std::endl;*/
     return tiles.at(xpos+cols*ypos);
+}
+
+std::shared_ptr<Enemy> GameModel::getEnemyTileFromEnemyTileMap(const int &xpos, const int &ypos)
+{
+    std::map<std::string,std::shared_ptr<Enemy>>::iterator it;
+    it= enemyTileMap.find(std::to_string(xpos)+sep+std::to_string(ypos));
+    return it->second;
 }
 
 std::vector<std::shared_ptr<PenemyModel> > GameModel::getPEnemies() const

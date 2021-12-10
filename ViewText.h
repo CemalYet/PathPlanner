@@ -27,7 +27,7 @@ private:
     int cols;
     std::string tiletype;
     std::vector<std::shared_ptr<StringTextView>>tileViewVectors;
-    void appendBoundaryLine(QString &tileBuilded);
+    void appendBoundaryLine(QString &tileBuilded,const int &number);
 public:
 
    // std::shared_ptr<ViewText> textView;
@@ -44,6 +44,7 @@ public:
    // ViewTileText getTextView() const;
     QGraphicsScene *getScene() const;
     QString buildView();
+    QString buildPartialView(const int &xPos, const int &yPos);
     void updateProgonistTileView(const int &xPos,const int &yPos);
     void clearProtagonistTileView(const int &xPos,const int &yPos);
     void printTileViewVectors();//for testing purpose, delete after once the game is working

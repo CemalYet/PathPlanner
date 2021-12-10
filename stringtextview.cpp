@@ -1,5 +1,7 @@
 #include "stringtextview.h"
 //#include <sstream>
+#include "QColor"
+#include "QTextEdit"
 
 StringTextView::StringTextView(int &Xpos, int &Ypos, float &value, TileType type):
     stringXpos{Xpos},stringYpos{Ypos},stringvalue{value},tileType{type}
@@ -40,10 +42,9 @@ QString StringTextView::drawTextTile()
     for (int i = 0; i < 3; ++i){
         if(i == 1)
         {
-             //type=QString("<span style=" color:#ff00;">%1</span").arg(">>>>");
-             //QString type("<FONT COLOR=red>%1</FONT>");
-             auto type=QString::fromStdString(getStringForEnum(tileType));
-             midwidthText= midwidthText%type;
+
+            auto type=QString::fromStdString(getStringForEnum(tileType));
+            midwidthText= midwidthText%type;
         }
         else
         {

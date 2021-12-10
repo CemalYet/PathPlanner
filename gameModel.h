@@ -24,6 +24,10 @@ private:
     std::vector<std::shared_ptr<PenemyModel>> pEnemies;
     std::vector<std::shared_ptr<XenemyModel>> xEnemies;
     std::map<std::string,TileType> tileTypeMap;
+    std::map<std::string,std::shared_ptr<Enemy>> enemyTileMap;
+    std::map<std::string,std::shared_ptr<Enemy>> penemyTileMap;
+    std::map<std::string,std::shared_ptr<Tile>> healthTileMap;
+
     int rows;
     int cols;
     std::string sep =":";
@@ -45,6 +49,7 @@ public:
     std::vector<std::shared_ptr<XenemyModel> > getXEnemies()const;
     TileType getTileType(int xposTile,int YposTile);
     std::shared_ptr<TileModel>getTileAtAPos(const int &xpos,const int &ypos);
+    std::shared_ptr<Enemy>getEnemyTileFromEnemyTileMap(const int &xpos,const int &ypos);
     void clearProtagonistFromMap();
     void updateProtagonistPositionInMap();
     int getRows() const;

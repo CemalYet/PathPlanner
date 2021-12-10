@@ -4,9 +4,9 @@
 #include <QPlainTextEdit>
 
 
-class HelpTextCommand:public TextCommands
+class HelpTextCommand: public QObject,public TextCommands
 {
-
+Q_OBJECT
 public:
     HelpTextCommand(std::shared_ptr<GameModel> gameMdl,std::shared_ptr<ViewText>textVw, QPlainTextEdit *text);
     //HelpTextCommand(std::unique_ptr<GameModel> gameMdl,std::shared_ptr<ViewText>textVw, QPlainTextEdit *text);

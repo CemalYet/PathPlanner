@@ -27,6 +27,12 @@ private slots:
     void on_radioButton_Text_clicked();  
     void on_executeButton_clicked();
 
+
+public slots:
+    void updateEnergy(float value);
+    void updateHealth(float value);
+    void gameOverSlot(const QString &message);
+
 private:
     Ui::MainWindow *ui;
     QGraphicsScene* scene;

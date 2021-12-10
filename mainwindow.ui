@@ -19,7 +19,7 @@
      <rect>
       <x>70</x>
       <y>60</y>
-      <width>1141</width>
+      <width>671</width>
       <height>491</height>
      </rect>
     </property>
@@ -32,6 +32,9 @@
       <width>118</width>
       <height>23</height>
      </rect>
+    </property>
+    <property name="maximum">
+     <number>100</number>
     </property>
     <property name="value">
      <number>24</number>
@@ -72,14 +75,20 @@
       <height>23</height>
      </rect>
     </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
     <property name="value">
      <number>24</number>
+    </property>
+    <property name="format">
+     <string>%p%</string>
     </property>
    </widget>
    <widget class="QTextEdit" name="userInput">
     <property name="geometry">
      <rect>
-      <x>480</x>
+      <x>80</x>
       <y>570</y>
       <width>81</width>
       <height>31</height>
@@ -96,8 +105,8 @@ p, li { white-space: pre-wrap; }
    <widget class="QPushButton" name="executeButton">
     <property name="geometry">
      <rect>
-      <x>790</x>
-      <y>590</y>
+      <x>210</x>
+      <y>580</y>
       <width>80</width>
       <height>23</height>
      </rect>
@@ -135,10 +144,20 @@ p, li { white-space: pre-wrap; }
    <widget class="QPlainTextEdit" name="helpResponse">
     <property name="geometry">
      <rect>
-      <x>900</x>
+      <x>320</x>
       <y>560</y>
       <width>241</width>
       <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="textBrowser">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>480</y>
+      <width>256</width>
+      <height>41</height>
      </rect>
     </property>
    </widget>
