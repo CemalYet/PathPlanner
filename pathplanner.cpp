@@ -137,36 +137,55 @@ pair<float,vector<pair<int,int>>> PathPlanner::solution1(int goalX,int goalY){
 bool PathPlanner::autoPlay()
 {
     unsigned int counter=0;
+    bool iskilled=true;
+    shared_ptr<EnemyModel> nearestEnemy;
     while(counter < enemies.size()){
         int pH=protogonist->getProtagonist()->getHealth();
         int pE=protogonist->getProtagonist()->getEnergy();
         float minDistance=std::numeric_limits<float>::infinity();
         pair<float,vector<pair<int,int>>> path;
-        shared_ptr<EnemyModel> nearestEnemy;
-        for(auto &e : enemies){
-            int eX=e->getEnemy()->getXPos();
-            int eY=e->getEnemy()->getYPos();
+        cout<<"Protogonist X:"<<protogonist->getProtagonist()->getXPos()<<"Y: "<<protogonist->getProtagonist()->getYPos()<<endl;
 
-            if(!(e->getEnemy()->getDefeated())){
-                auto enemySolution=solution1(eX,eY);
-                int nearestEnemyDistance=enemySolution.second.size();
 
-                if(nearestEnemyDistance < minDistance){
-                    minDistance=nearestEnemyDistance;
-                    nearestEnemy=e;
-                    path=enemySolution;
+        //if protogonist killed the enemy
+        if (iskilled)
+        {
+            for(auto &e : enemies){
+                int eX=e->getEnemy()->getXPos();
+                int eY=e->getEnemy()->getYPos();
+
+                if(!(e->getEnemy()->getDefeated())){
+                    auto enemySolution=solution1(eX,eY);
+                    int nearestEnemyDistance=enemySolution.second.size();
+
+                    if(nearestEnemyDistance < minDistance){
+                        minDistance=nearestEnemyDistance;
+                        nearestEnemy=e;
+                        path=enemySolution;
+                        iskilled=false;
+
+                    }
                 }
-            }
 
+            }
         }
+        //go to the prev enemy
+        else {
+             auto e=nearestEnemy->getEnemy();
+             path=solution1(e->getXPos(),e->getYPos());
+        }
+
         if(nearestEnemy==nullptr){
             return false;
         }
         float enemyValue=nearestEnemy->getEnemy()->getValue();
         cout<<"enenemy values is "<<enemyValue<<endl;
+        cout<<"Enemy X: "<<nearestEnemy->getEnemy()->getXPos()<<" Y:"<<nearestEnemy->getEnemy()->getYPos()<<endl;
         cout<<"pratogonist Energy is "<<pE<<endl;
         cout<<"tile Energy is "<<path.first<<endl;
         cout<<"protagonist health is "<<pH<<endl;
+
+
         if(pH > enemyValue and pE > path.first){
             protogonist->decreaseEnergy(path.first);
             protogonist->decreaseHealth(enemyValue);
@@ -174,7 +193,7 @@ bool PathPlanner::autoPlay()
             protogonist->increaseEnergy();
             nearestEnemy->getEnemy()->setDefeated(1);
             counter++;
-
+            iskilled=true;
             //add to solution path
 
 
@@ -197,6 +216,7 @@ bool PathPlanner::autoPlay()
                     path=healthSolution;
 
                 }
+
             }
             if(path.second.size()>0 and pE > path.first){
                  cout<<"Health pack values is "<<nearestHealthPack->getHealthPack()->getValue()<<endl;
@@ -209,6 +229,7 @@ bool PathPlanner::autoPlay()
             }
 
         }else{
+            cout<<"cemo game over"<<endl;
             return false;
         }
 
@@ -222,9 +243,5 @@ bool PathPlanner::autoPlay()
     return true;
 }
 
-float PathPlanner::nearestTile(int x1,int x2,int y1,int y2)
-{
-    return sqrt(pow(x2 - x1, 2) +
-                pow(y2 - y1, 2));
-}
+
 

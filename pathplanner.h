@@ -21,7 +21,7 @@ public:
     vector<unique_ptr<Tile> > getGameBoard() ;
     pair<float,vector<pair<int,int>>> solution1(int goalX,int goalY);
     bool autoPlay();
-    float nearestTile(int x1,int x2,int y1,int y2);
+
 
 private:
     vector<shared_ptr<TileModel>> gameBoard;
