@@ -73,9 +73,4 @@ void XenemyModel::setXEnemy( int x, int y){
     newXEnemy->setYPos(y);
 }
 
-std::vector<std::shared_ptr<XenemyModel> > XenemyModel::getXEnemies() const
-{
-
-    return std::move(xEnemies);
-}
 

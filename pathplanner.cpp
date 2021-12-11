@@ -10,21 +10,22 @@ PathPlanner::PathPlanner(unique_ptr<GameModel> &w,float slider):slider(slider)
     col=w->getCols();
     row=w->getRows();
     healtPackets=w->getHealthPacks();
-    enemies=w->getEnemies();
+    enemies=w->getEnemyTileMap();
 }
 
 
 
 
 float PathPlanner::findDistance(int x1,int y1,int x2,int y2) {
-    //    return slider*(float)(abs(x1-x2)+abs(y1-y2));
-    //    return slider*sqrt(pow(x2 - x1, 2) +
-    //    pow(y2 - y1, 2));
+    //return slider*(float)(abs(x1-x2)+abs(y1-y2));
+    //return slider*sqrt(pow(x2 - x1, 2) +
+    //pow(y2 - y1, 2));
     float dx = abs(x1-x2);
     float dy = abs(y1-y2);
     return slider * ((dx + dy) + (1.414 - 2) * min(dx, dy));
 }
 
+//solution path
 vector<pair<int,int>> PathPlanner::fillPath(shared_ptr<Node> &node){
     vector<pair<int,int>> dummy;
     auto tempNode=node;
@@ -36,36 +37,32 @@ vector<pair<int,int>> PathPlanner::fillPath(shared_ptr<Node> &node){
     return dummy;
 }
 
-
-
-
-
-//int xPos, int yPos, float finalCost, float givenCost, const std::shared_ptr<Node> &parent, bool isClosed
-
+//returns first total cost of path and second solution path vector
 pair<float,vector<pair<int,int>>> PathPlanner::solution1(int goalX,int goalY){
-
-    //pair<bool,float> lookUp[goalX][goalY];
+    //initialize lookUp vector
     vector<pair<bool,float>> d (col,make_pair(false,0.0));
     vector<vector<pair<bool,float>>> lookUp(row,d);
+
+    //set 8 tiles A* needs to check
     int posX []={-1,  1, -1, 0,  1, -1, 0, 1};
     int posY []={ 0 , 0 ,-1,-1, -1,  1, 1, 1};
 
     //auto start = std::chrono::system_clock::now();
 
-
+    //Get protagonist position
     int startX=protogonist->getProtagonist()->getXPos();
     int startY=protogonist->getProtagonist()->getYPos();
 
+    //initialize solution vector
     vector<pair<int,int>> dummy;
-    float totalGivenCost;
 
+    float totalGivenCost;
     float heuristicCost=findDistance(goalX,goalY,startX,startY);
 
     auto rootNode = make_shared<Node>(startX,startY,0,nullptr);
-
     openQueue.emplace(make_pair(heuristicCost,rootNode));
-    //lookUp[startY*col+startX]=make_pair(false,0);
     lookUp[startY][startX]=make_pair(false,0);
+    //lookUp[startY*col+startX]=make_pair(false,0);
 
 
     while (!openQueue.empty()) {
@@ -73,10 +70,10 @@ pair<float,vector<pair<int,int>>> PathPlanner::solution1(int goalX,int goalY){
         openQueue.pop();
         int x=currentNode->getXPos();
         int y=currentNode->getYPos();
-        //lookUp[y*col+x].first=true;
         lookUp[y][x].first=true;
         float currentNodeGivenCost = currentNode->getGivenCost();
         //lookUp[y*col+x]=make_pair(true,currentNode->getGivenCost());
+        //lookUp[y*col+x].first=true;
 
 
         if(x==goalX && y==goalY) {
@@ -89,7 +86,7 @@ pair<float,vector<pair<int,int>>> PathPlanner::solution1(int goalX,int goalY){
             int sucX=x+posX[i];
             int sucY=y+posY[i];
 
-            if(sucX >= 0 && sucX <col && sucY >= 0 && sucY<row){
+            if(sucX >= 0 && sucX <col && sucY >= 0 && sucY < row){
 
                 float value=gameBoard[col*sucY+sucX]->getTile()->getValue();
                 //auto lookUpIndex =lookUp[col*sucY+sucX];
@@ -122,9 +119,6 @@ pair<float,vector<pair<int,int>>> PathPlanner::solution1(int goalX,int goalY){
 
         }
 
-
-
-
     }
 
    // auto end = std::chrono::system_clock::now();
@@ -134,33 +128,34 @@ pair<float,vector<pair<int,int>>> PathPlanner::solution1(int goalX,int goalY){
     return make_pair(totalGivenCost,dummy);
 }
 
-bool PathPlanner::autoPlay()
+pair<bool,vector<vector<pair<int,int>>>> PathPlanner::autoPlay()
 {
+    vector<vector<pair<int,int>>> similator;
     unsigned int counter=0;
     bool iskilled=true;
-    shared_ptr<EnemyModel> nearestEnemy;
+    shared_ptr<Enemy> nearestEnemy;
     while(counter < enemies.size()){
         int pH=protogonist->getProtagonist()->getHealth();
         int pE=protogonist->getProtagonist()->getEnergy();
         float minDistance=std::numeric_limits<float>::infinity();
         pair<float,vector<pair<int,int>>> path;
-        cout<<"Protogonist X:"<<protogonist->getProtagonist()->getXPos()<<"Y: "<<protogonist->getProtagonist()->getYPos()<<endl;
+//        cout<<"Protogonist X:"<<protogonist->getProtagonist()->getXPos()<<"Y: "<<protogonist->getProtagonist()->getYPos()<<endl;
 
 
         //if protogonist killed the enemy
         if (iskilled)
         {
             for(auto &e : enemies){
-                int eX=e->getEnemy()->getXPos();
-                int eY=e->getEnemy()->getYPos();
+                int eX=e.second->getXPos();
+                int eY=e.second->getYPos();
 
-                if(!(e->getEnemy()->getDefeated())){
+                if(!(e.second->getDefeated())){
                     auto enemySolution=solution1(eX,eY);
                     int nearestEnemyDistance=enemySolution.second.size();
 
                     if(nearestEnemyDistance < minDistance){
                         minDistance=nearestEnemyDistance;
-                        nearestEnemy=e;
+                        nearestEnemy=e.second;
                         path=enemySolution;
                         iskilled=false;
 
@@ -171,27 +166,29 @@ bool PathPlanner::autoPlay()
         }
         //go to the prev enemy
         else {
-             auto e=nearestEnemy->getEnemy();
+             auto e=nearestEnemy;
              path=solution1(e->getXPos(),e->getYPos());
         }
 
         if(nearestEnemy==nullptr){
-            return false;
+            return make_pair(false,similator);
         }
-        float enemyValue=nearestEnemy->getEnemy()->getValue();
-        cout<<"enenemy values is "<<enemyValue<<endl;
-        cout<<"Enemy X: "<<nearestEnemy->getEnemy()->getXPos()<<" Y:"<<nearestEnemy->getEnemy()->getYPos()<<endl;
-        cout<<"pratogonist Energy is "<<pE<<endl;
-        cout<<"tile Energy is "<<path.first<<endl;
-        cout<<"protagonist health is "<<pH<<endl;
+        float enemyValue=nearestEnemy->getValue();
+//        cout<<"enenemy values is "<<enemyValue<<endl;
+//        cout<<"Enemy X: "<<nearestEnemy->getXPos()<<" Y:"<<nearestEnemy->getYPos()<<endl;
+//        cout<<"pratogonist Energy is "<<pE<<endl;
+//        cout<<"tile Energy is "<<path.first<<endl;
+//        cout<<"protagonist health is "<<pH<<endl;
 
 
         if(pH > enemyValue and pE > path.first){
             protogonist->decreaseEnergy(path.first);
             protogonist->decreaseHealth(enemyValue);
-            protogonist->goTo(nearestEnemy->getEnemy()->getXPos(),nearestEnemy->getEnemy()->getYPos());
+            protogonist->goTo(nearestEnemy->getXPos(),nearestEnemy->getYPos());
             protogonist->increaseEnergy();
-            nearestEnemy->getEnemy()->setDefeated(1);
+            nearestEnemy->setDefeated(1);
+            gameBoard[col*nearestEnemy->getYPos()+nearestEnemy->getXPos()]->setInfinity();
+            similator.push_back(path.second);
             counter++;
             iskilled=true;
             //add to solution path
@@ -219,30 +216,27 @@ bool PathPlanner::autoPlay()
 
             }
             if(path.second.size()>0 and pE > path.first and !(nearestHealthPack->getIsPacked())){
-                 cout<<"Health pack values is "<<nearestHealthPack->getHealthPack()->getValue()<<endl;
+//              cout<<"Health pack values is "<<nearestHealthPack->getHealthPack()->getValue()<<endl;
                 protogonist->increaseHealth(nearestHealthPack->getHealthPack()->getValue());
                 protogonist->goTo(nearestHealthPack->getHealthPack()->getXPos(),nearestHealthPack->getHealthPack()->getYPos());
                 nearestHealthPack->setIsPacked(true);
-                //add model to isPacked flag;
+                similator.push_back(path.second);
                 //add path to solution
             }else{
-                return false;
+                return  make_pair(false,similator);
             }
 
         }else{
-            cout<<"cemo game over"<<endl;
-            return false;
+            return make_pair(false,similator);
         }
 
     }
 
-    if(solution1(col-1,row-1).second.size()==0){
-        cout<<"ramo game over"<<endl;
-    }
-    cout<<"Energy ==>"<<protogonist->getProtagonist()->getEnergy()<<endl;
-    cout<<"Health ==>"<<protogonist->getProtagonist()->getHealth()<<endl;
-    return true;
+//    if(solution1(col-1,row-1).second.size()==0){
+//        cout<<"ramo game over"<<endl;
+//    }
+//    cout<<"Energy ==>"<<protogonist->getProtagonist()->getEnergy()<<endl;
+//    cout<<"Health ==>"<<protogonist->getProtagonist()->getHealth()<<endl;
+   return make_pair(true,similator);
 }
-
-
 

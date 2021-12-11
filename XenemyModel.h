@@ -8,13 +8,9 @@
 #include <memory>
 #include <queue>
 #include <vector>
-#include "enemyModel.h"
-#include "PenemyModel.h"
 #include "world.h"
-#include "gameModel.h"
 #include "world_global.h"
-#include "PenemyModel.h"
-#include "enemyModel.h"
+
 
 
 class XEnemy;
@@ -26,11 +22,11 @@ public:
     //void setXEnemy(const std::shared_ptr<XEnemy> &newXEnemy);
     //void setXEnemy(const std::shared_ptr<XEnemy> &newXEnemy, std::unique_ptr<GameModel> &gameModel);
     void setXEnemy( int x, int y);
-    std::vector<std::shared_ptr<XenemyModel> > getXEnemies()const;
+    //std::vector<std::shared_ptr<XenemyModel> > getXEnemies()const;
 
 private:
     std::shared_ptr<XEnemy> xenemy;
-    std::vector<std::shared_ptr<XenemyModel>> xEnemies;
+    //std::vector<std::shared_ptr<XenemyModel>> xEnemies;
     int xPosition;
     int yPosition;
 };

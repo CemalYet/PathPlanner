@@ -20,14 +20,15 @@ public:
     vector<pair<int,int>> fillPath(shared_ptr<Node> &node);
     vector<unique_ptr<Tile> > getGameBoard() ;
     pair<float,vector<pair<int,int>>> solution1(int goalX,int goalY);
-    bool autoPlay();
+    pair<bool,vector<vector<pair<int,int>>>> autoPlay();
 
 
 private:
     vector<shared_ptr<TileModel>> gameBoard;
     shared_ptr<protagonistModel> protogonist;
-    vector<shared_ptr<EnemyModel>> enemies;
+    std::map<std::string,std::shared_ptr<Enemy>> enemies;
     vector<shared_ptr<HealthPackModel>> healtPackets;
+     //enemyTileMap;
 
     priority_queue<pair<float,shared_ptr<Node>>,vector<pair<float,shared_ptr<Node>>>, std::greater<pair<float,shared_ptr<Node>>> > openQueue;
     //unordered_map <unsigned int,pair<bool,float>> lookUp;

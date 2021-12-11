@@ -11,7 +11,8 @@
 #include "HealthPackModel.h"
 #include "world.h"
 #include "PenemyModel.h"
-
+#include "XenemyModel.h"
+#include "tileType.h"
 class GameModel
 {
 private:
@@ -21,8 +22,17 @@ private:
     std::vector<std::shared_ptr<HealthPackModel>>healthPacks;
     std::vector<std::shared_ptr<EnemyModel>> enemies;
     std::vector<std::shared_ptr<PenemyModel>> pEnemies;
-    int cols;
+    std::vector<std::shared_ptr<XenemyModel>> xEnemies;
+    std::map<std::string,TileType> tileTypeMap;
+    std::map<std::string,std::shared_ptr<Enemy>> enemyTileMap;
+    std::map<std::string,std::shared_ptr<Enemy>> penemyTileMap;
+    std::map<std::string,std::shared_ptr<Tile>> healthTileMap;
+    //std::vector<std::shared_ptr<EnemyModel>> allTypeEnemies;
+
     int rows;
+    int cols;
+    std::string sep =":";
+    //const char sep=':';
 
 public:
      GameModel();
@@ -37,26 +47,21 @@ public:
     std::vector<std::shared_ptr<EnemyModel> > getEnemies()const;
     void setEnemies(std::vector<std::unique_ptr<Enemy> > &value);
     std::vector<std::shared_ptr<PenemyModel> > getPEnemies()const;
+    std::vector<std::shared_ptr<XenemyModel> > getXEnemies()const;
+    TileType getTileType(int xposTile,int YposTile);
+    std::shared_ptr<TileModel>getTileAtAPos(const int &xpos,const int &ypos);
+    std::shared_ptr<Enemy>getEnemyTileFromEnemyTileMap(const int &xpos,const int &ypos);
+    void setTileBlockedIntileTypeMap(const int &xpos,const int &ypos);
+    void clearProtagonistFromMap();
+    void updateProtagonistPositionInMap();
+    int getRows() const;
+    int getCols() const;
+    void setRows(int newRows);
+    void setCols(int newCols);
+    void printMap();//for testing purpose, delete after once the game is working
 
-    int getCols() const
-    {
-        return cols;
-    }
-
-    int getRows() const
-    {
-        return rows;
-    }
-
-    void setCols(int newCols)
-    {
-        cols = newCols;
-    }
-
-    void setRows(int newRows)
-    {
-        rows = newRows;
-    }
+    //pathplanner needs it
+    const std::map<std::string, std::shared_ptr<Enemy> > &getEnemyTileMap() const;
 };
 
 

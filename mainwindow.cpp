@@ -24,12 +24,17 @@ MainWindow::MainWindow(QWidget *parent)
 /// (0,45) -> (999, 938)
 
        auto world = make_shared<World>();
-       world->createWorld(":/images/worldmap.jpg",10,20);
+       world->createWorld(":/images/worldmap.jpg",10,25);
        gameModel = std::make_unique<GameModel>();
 
        //set tiles
        auto world_tiles=world->getTiles();
        gameModel->setTiles(world_tiles);
+
+//       //set All Type enemies
+//       auto allEnemy=world->getEnemies();
+//       gameModel->setAllTypeEnemies(allEnemy);
+
 
        //set enemies
        auto enemy=world->getEnemies();
@@ -48,24 +53,34 @@ MainWindow::MainWindow(QWidget *parent)
        gameModel->getProtagonist()->getProtagonist()->setXPos(0);
        gameModel->getProtagonist()->getProtagonist()->setYPos(0);
 
-       //set cols rows
-//        cout<<world->getCols()<<endl;
-//        cout<<world->getRows()<<endl;
+
        gameModel->setCols(world->getCols());
        gameModel->setRows(world->getRows());
 
 
-      auto pathPlanner=make_shared<PathPlanner>(gameModel,5);
-      if(pathPlanner->autoPlay()){
+//         cout<<"enemy number "<<gameModel->getEnemies().size()<<endl;
+//         cout<<"P enemy number "<<gameModel->getPEnemies().size()<<endl;
+
+
+      auto pathPlanner=make_shared<PathPlanner>(gameModel,1);
+      auto autoplayPath=pathPlanner->autoPlay();
+
+
+      if(autoplayPath.first){
           cout<<"you win "<<endl;
+          cout<<autoplayPath.second.size()<<endl;
       }else{
           cout<<"game over"<<endl;
+          cout<<autoplayPath.second.size()<<endl;
       }
-//      vector<pair<int,int>> dummy=pathPlanner->solution1(999,938);
+      //cout<<"PATH === "<<autoplayPath.second.size()<<endl;
 
 
-//      cout<<"PATH === "<<dummy.size()<<endl;
-//        for (auto d :dummy ) {
+//     pair<float,vector<pair<int,int>>> dummy=pathPlanner->solution1(1200,1205);
+
+
+//      cout<<"PATH === "<<dummy.second.size()<<endl;
+//        for (auto d :dummy.second ) {
 //            cout<<"X: " <<d.first<<" Y: "<< d.second<<endl;
 //        }
 

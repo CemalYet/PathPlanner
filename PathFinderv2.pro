@@ -28,7 +28,8 @@ SOURCES += \
     controllerViewSwitch.cpp \
     enemyModel.cpp \
     gameModel.cpp \
-    protagonistModel.cpp
+    protagonistModel.cpp \
+    tileType.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -49,7 +50,8 @@ HEADERS += \
     controllerViewSwitch.h \
     enemyModel.h \
     gameModel.h \
-    protagonistModel.h
+    protagonistModel.h \
+    tileType.h
 
 FORMS += \
     mainwindow.ui
