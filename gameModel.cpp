@@ -164,6 +164,13 @@ std::shared_ptr<Enemy> GameModel::getEnemyTileFromEnemyTileMap(const int &xpos, 
     return it->second;
 }
 
+std::shared_ptr<Tile> GameModel::getEnemyHealthPackFromHealthTileMap(const int &xpos, const int &ypos)
+{
+    std::map<std::string,std::shared_ptr<Tile>>::iterator it;
+    it= healthTileMap.find(std::to_string(xpos)+sep+std::to_string(ypos));
+    return it->second;
+}
+
 void GameModel::setTileBlockedIntileTypeMap(const int &xpos, const int &ypos)
 {
      tileTypeMap[std::to_string(xpos)+sep+std::to_string(ypos)]=TileType::Blocked;

@@ -83,12 +83,13 @@ MainWindow::MainWindow(QWidget *parent)
 
        auto enemy=world->getEnemies();
         gameModel->setEnemies(enemy);//comment
-        /*auto enemies_gamemodel=gameModel->getEnemies();
+      /*  auto enemies_gamemodel=gameModel->getEnemies();
         std::cout<<"enemies at location"<<std::endl;
         for(auto &e:enemies_gamemodel){
-              cout<<'['<<e->getEnemy()->getXPos()<<','<<e->getEnemy()->getYPos()<<']'<<endl;
+              cout<<'['<<e->getEnemy()->getXPos()<<','<<e->getEnemy()->getYPos()<<','<<e->getEnemy()->getValue()
+                 <<']'<<endl;
               std::vector<std::shared_ptr<Tile>> healthPacks;
-            }//comment*/
+            }*/
 
 
         auto penemies_gamemodel=gameModel->getPEnemies();

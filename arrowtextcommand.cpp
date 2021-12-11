@@ -11,19 +11,21 @@ void ArrowTextCommand::checkIfNextTileType(const int &xpos, const int &ypos)//di
 {
     auto tileT=gameModel->getTileType(xpos,ypos);
     float tileValue=gameModel->getTileAtAPos(xpos,ypos)->getTile()->getValue();
+    auto healthtile=gameModel->getEnemyHealthPackFromHealthTileMap(xpos,ypos);
+    auto enemyT=gameModel->getEnemyTileFromEnemyTileMap(xpos,ypos);
+
     float healthOfProtagonist=gameModel->getProtagonist()->getProtagonist()->getHealth();
     float energyOfProtagonist=gameModel->getProtagonist()->getProtagonist()->getEnergy();
     switch(tileT) {
         case TileType::Enemy :
-              if(healthOfProtagonist >= tileValue){
+              if(healthOfProtagonist >= enemyT->getValue()){ //health greater than enemy value
                    std::shared_ptr<Tile> tileWhereEnemyLocated=gameModel->getTileAtAPos(xpos,ypos)->getTile();
-                       auto enemyT=gameModel->getEnemyTileFromEnemyTileMap(xpos,ypos);
                        enemyT->setDefeated(true);
                        std::cout<<"defeated enemy at"<<xpos<<","<<ypos<<std::endl;
                        enemyT->setValue(std::numeric_limits<double>::infinity());//make enemy defeated
                        tileWhereEnemyLocated->setValue(std::numeric_limits<double>::infinity());//make tile impassable
                        gameModel->setTileBlockedIntileTypeMap(xpos,ypos);   //set tile as blocked                                                  //make it as blocked in view
-                gameModel->getProtagonist()->decreaseHealth(tileValue);
+                gameModel->getProtagonist()->decreaseHealth(enemyT->getValue());
                 gameModel->getProtagonist()->getProtagonist()->setEnergy(100.0);//max energy restored
                }
                else{
@@ -33,7 +35,7 @@ void ArrowTextCommand::checkIfNextTileType(const int &xpos, const int &ypos)//di
                }
            break;
         case TileType::HealthPack :
-          gameModel->getProtagonist()->increaseHealth(tileValue);
+          gameModel->getProtagonist()->increaseHealth(healthtile->getValue());
           break;
         case TileType::NormalTile :
             // decrease energy part
@@ -51,12 +53,6 @@ void ArrowTextCommand::checkIfNextTileType(const int &xpos, const int &ypos)//di
 
 }
 
-
-/*ArrowTextCommand::ArrowTextCommand(std::unique_ptr<GameModel> gameMdl, std::shared_ptr<ViewText> textVw)
-    :TextCommands{std::move(gameMdl),textVw}
-{
-
-}*/
 
 void ArrowTextCommand::execute(const std::string &command, std::list<std::string> commandExtras)
 {

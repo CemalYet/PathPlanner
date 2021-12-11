@@ -50,6 +50,7 @@ public:
     TileType getTileType(int xposTile,int YposTile);
     std::shared_ptr<TileModel>getTileAtAPos(const int &xpos,const int &ypos);
     std::shared_ptr<Enemy>getEnemyTileFromEnemyTileMap(const int &xpos,const int &ypos);
+    std::shared_ptr<Tile>getEnemyHealthPackFromHealthTileMap(const int &xpos,const int &ypos);
     void setTileBlockedIntileTypeMap(const int &xpos,const int &ypos);
     void clearProtagonistFromMap();
     void updateProtagonistPositionInMap();
