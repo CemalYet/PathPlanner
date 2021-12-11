@@ -10,3 +10,9 @@ bool TileModel::isObstacle()
 
 }
 
+void TileModel::setInfinity()
+{
+    tile->setValue(std::numeric_limits<float>::infinity());
+
+}
+
