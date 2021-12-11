@@ -9,6 +9,7 @@ std::string getStringForEnum(TileType enum_val)
             case TileType::Enemy: return "E";
             case TileType::XEnemy: return "X";
             case TileType::HealthPack: return "H";
+            case TileType::Blocked : return "B";
             case TileType::NormalTile:
             default:return "0";
         }

@@ -122,7 +122,7 @@ void GameModel::setEnemies(std::vector<std::unique_ptr<Enemy> > &value)
                 auto penemyXPos=std::to_string(pEnemy_model->getPEnemy()->getXPos());
                 auto penemyYPos=std::to_string(pEnemy_model->getPEnemy()->getYPos());
                 tileTypeMap[penemyXPos+sep+penemyYPos]=TileType::PEnemy;
-                penemyTileMap[penemyXPos+sep+penemyYPos]=pEnemy_model->getPEnemy();
+                enemyTileMap[penemyXPos+sep+penemyYPos]=pEnemy_model->getPEnemy();
 
 
             } else {
@@ -162,6 +162,11 @@ std::shared_ptr<Enemy> GameModel::getEnemyTileFromEnemyTileMap(const int &xpos, 
     std::map<std::string,std::shared_ptr<Enemy>>::iterator it;
     it= enemyTileMap.find(std::to_string(xpos)+sep+std::to_string(ypos));
     return it->second;
+}
+
+void GameModel::setTileBlockedIntileTypeMap(const int &xpos, const int &ypos)
+{
+     tileTypeMap[std::to_string(xpos)+sep+std::to_string(ypos)]=TileType::Blocked;
 }
 
 std::vector<std::shared_ptr<PenemyModel> > GameModel::getPEnemies() const

@@ -22,13 +22,13 @@ void ArrowTextCommand::checkIfNextTileType(const int &xpos, const int &ypos)//di
                        std::cout<<"defeated enemy at"<<xpos<<","<<ypos<<std::endl;
                        enemyT->setValue(std::numeric_limits<double>::infinity());//make enemy defeated
                        tileWhereEnemyLocated->setValue(std::numeric_limits<double>::infinity());//make tile impassable
-                  // }
+                       gameModel->setTileBlockedIntileTypeMap(xpos,ypos);   //set tile as blocked                                                  //make it as blocked in view
                 gameModel->getProtagonist()->decreaseHealth(tileValue);
                 gameModel->getProtagonist()->getProtagonist()->setEnergy(100.0);//max energy restored
                }
                else{
-                   std::cout<<"game over"<<std::endl;//game over
-                   QString message="gameOver";
+
+                   QString message="gameOver";//game over
                    emit gameover(message);
                }
            break;

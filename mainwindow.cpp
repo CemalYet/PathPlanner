@@ -276,6 +276,7 @@ void MainWindow::updateHealth(float value)
 
 void MainWindow::gameOverSlot(const QString &message)
 {
+    ui->textBrowser->setStyleSheet("background-color: red;");
     ui->textBrowser->setText(message);
 }
 
