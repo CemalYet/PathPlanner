@@ -260,12 +260,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::zoomOut()
-{
-    ui->graphicsView->scale(0.9,0.9);
-    qDebug() << "zooming...";
-}
-
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     auto protagonistCurrentXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
@@ -352,5 +346,18 @@ void MainWindow::on_pushButton_2_clicked()
 void MainWindow::on_pushButton_3_clicked()
 {
     ui->graphicsView->scale(0.9,0.9);
+}
+
+
+void MainWindow::on_health_valueChanged(int value)
+{
+    QHBoxLayout *layout = new QHBoxLayout();
+
+    auto viewHealth = new QProgressBar();
+    viewHealth->setMinimum(0);
+    viewHealth->setMaximum(100);
+    layout->addWidget(viewHealth);
+    setLayout(layout);
+
 }
 

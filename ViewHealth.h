@@ -2,17 +2,25 @@
 #define VIEWHEALTH_H
 
 #include <QGraphicsTextItem>
+#include <QWidget>
 
-class ViewHealth: public QGraphicsTextItem{
+class QProgressBar;
+
+class ViewHealth : public QWidget
+{
 
 public:
-    ViewHealth(QGraphicsItem * parent=0);
+    ViewHealth(QWidget * parent=0);
 
     void increase();
     int getHealth();
 
 private:
     int Health;
+    QProgressBar *progressBar;
+
+public slots:
+    void updateProgress();
 
 };
 

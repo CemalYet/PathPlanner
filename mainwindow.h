@@ -19,6 +19,8 @@
 #include "XenemyModel.h"
 #include "ViewHealthPack.h"
 #include <QGraphicsPolygonItem>
+#include <QProgressBar>
+#include <QLayout>
 
 
 
@@ -35,13 +37,12 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-public slots:
-    void zoomOut();
-
 private slots:
     void on_pushButton_2_clicked();
 
     void on_pushButton_3_clicked();
+
+    void on_health_valueChanged(int value);
 
 private:
     Ui::MainWindow *ui;
