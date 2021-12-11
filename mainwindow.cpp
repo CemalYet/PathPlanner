@@ -239,7 +239,7 @@ void MainWindow::createTextCommandToClassMap()
     textCommandToClassMap["down"]=commandObject;
     textCommandToClassMap["goto"]=std::make_shared<GoToTextCommand>(gameModel,gameTextView);
     textCommandToClassMap["help"]=std::make_shared<HelpTextCommand>(gameModel,gameTextView,ui->helpResponse);
-    QObject::connect(commandObject.get(),SIGNAL(gameover(const QString &message)),this,SLOT(gameOverSlot(const QString &message)));
+    QObject::connect(commandObject.get(),SIGNAL(gameover(const QString)),this,SLOT(gameOverSlot(const QString)));
 }
 
 
