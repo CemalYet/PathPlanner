@@ -76,7 +76,7 @@ MainWindow::MainWindow(QWidget *parent)
       //cout<<"PATH === "<<autoplayPath.second.size()<<endl;
 
 
-//     pair<float,vector<pair<int,int>>> dummy=pathPlanner->solution1(1200,1205);
+     pair<float,vector<pair<int,int>>> dummy=pathPlanner->solution1(1200,1205);
 
 
 //      cout<<"PATH === "<<dummy.second.size()<<endl;

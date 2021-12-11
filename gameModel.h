@@ -12,11 +12,9 @@
 #include "world.h"
 #include "PenemyModel.h"
 #include "XenemyModel.h"
-<<<<<<< HEAD
 
-=======
 #include "tileType.h"
->>>>>>> pathFinder
+
 class GameModel
 {
 private:
@@ -27,8 +25,6 @@ private:
     std::vector<std::shared_ptr<EnemyModel>> enemies;
     std::vector<std::shared_ptr<PenemyModel>> pEnemies;
     std::vector<std::shared_ptr<XenemyModel>> xEnemies;
-<<<<<<< HEAD
-=======
     std::map<std::string,TileType> tileTypeMap;
     std::map<std::string,std::shared_ptr<Enemy>> enemyTileMap;
     std::map<std::string,std::shared_ptr<Enemy>> penemyTileMap;
@@ -39,7 +35,7 @@ private:
     int cols;
     std::string sep =":";
     //const char sep=':';
->>>>>>> pathFinder
+
 
 public:
      GameModel();
@@ -55,8 +51,7 @@ public:
     void setEnemies(std::vector<std::unique_ptr<Enemy> > &value);
     std::vector<std::shared_ptr<PenemyModel> > getPEnemies()const;
     std::vector<std::shared_ptr<XenemyModel> > getXEnemies()const;
-<<<<<<< HEAD
-=======
+
     TileType getTileType(int xposTile,int YposTile);
     std::shared_ptr<TileModel>getTileAtAPos(const int &xpos,const int &ypos);
     std::shared_ptr<Enemy>getEnemyTileFromEnemyTileMap(const int &xpos,const int &ypos);
@@ -71,7 +66,7 @@ public:
 
     //pathplanner needs it
     const std::map<std::string, std::shared_ptr<Enemy> > &getEnemyTileMap() const;
->>>>>>> pathFinder
+
 };
 
 
