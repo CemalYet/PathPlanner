@@ -11,6 +11,7 @@
 #include "HealthPackModel.h"
 #include "PenemyModel.h"
 //#include "ViewProtagonist.h"
+#include "XenemyModel.h"
 #include <QGraphicsRectItem>
 
 
@@ -26,6 +27,7 @@ private:
     std::vector<std::shared_ptr<HealthPackModel>>healthPacks;
     std::vector<std::shared_ptr<EnemyModel>> enemies;
     std::vector<std::shared_ptr<PenemyModel>> pEnemies;
+    std::vector<std::shared_ptr<XenemyModel>> xEnemies;
 
 public:
     GameModel();
@@ -43,6 +45,7 @@ public:
     std::vector<std::shared_ptr<EnemyModel> > getEnemies()const;
     void setEnemies(std::vector<std::unique_ptr<Enemy> > &value);
     std::vector<std::shared_ptr<PenemyModel> > getPEnemies()const;
+    std::vector<std::shared_ptr<XenemyModel> > getXEnemies()const;
 };
 
 

@@ -9,8 +9,9 @@
 #include "PenemyModel.h"
 #include <QGraphicsPixmapItem>
 #include <QGraphicsRectItem>
-#include "gameModel.h"
+//#include "gameModel.h"
 //#include "ViewProtagonist.h"
+#include "XenemyModel.h"
 
 class  ViewPenemy : public QGraphicsPixmapItem
 {

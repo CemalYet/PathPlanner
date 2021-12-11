@@ -67,8 +67,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 //        cout<<d.first<<d.second<<endl;
 //    }
-
-
             auto world_tiles=world->getTiles();
             gameModel->setTiles(world_tiles);
             auto gamemodel_tiles=gameModel->getTiles();
@@ -225,7 +223,7 @@ MainWindow::MainWindow(QWidget *parent)
                 if(xPos > 30){
                     xPos = xPos - rand() % 25 + 1;
                 }
-                yPos = x_enemy->getPEnemy()->getYPos() + rand() % 2000;
+                yPos = x_enemy->getPEnemy()->getYPos() + rand() % 1500;
                 if (yPos > 30){
                     yPos = yPos - rand() % 25 + 1;
                 }
@@ -249,7 +247,7 @@ MainWindow::MainWindow(QWidget *parent)
             healtPack->setPixmap(QPixmap(":/images/healthpack.png"));
             for(auto &h:actual_healthpack){
                 //cout<<'['<<h->getHealthPack()->getXPos()<<','<<h->getHealthPack()->getYPos()<<']'<<endl;
-                healtPack->setPos(h->getHealthPack()->getXPos() + 50, h->getHealthPack()->getYPos() + 50);
+                healtPack->setPos(h->getHealthPack()->getXPos(), h->getHealthPack()->getYPos());
             }
             scene->addItem(healtPack);
 
@@ -266,8 +264,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     auto protagonistCurrentYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
     qDebug() << "the x value in mainwindow: " << protagonistCurrentXPos << "the y value in mainwindow:" << protagonistCurrentYPos;
 
-//      int protagonistCurrentXPos = 0;
-//      int protagonistCurrentYPos = 0;
     if(event->key() == Qt::Key_K){
         auto tileAtLeftPos=gameModel->getTileAtAPos(protagonistCurrentXPos-1,protagonistCurrentYPos);
             //if (pos().x() > 0)  {  //make sure that protagonist doesn't pass the frame while moving left
@@ -328,13 +324,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 //            }
 }
 
-//void MainWindow::keyPressEvent(QKeyEvent *event)
-//{
-//    qDebug() << "I am here";
-//}
-
-
-
 
 
 void MainWindow::on_pushButton_2_clicked()
@@ -349,13 +338,13 @@ void MainWindow::on_pushButton_3_clicked()
 }
 
 
-void MainWindow::on_health_valueChanged(int value)
+void MainWindow::on_health_valueChanged(float value)
 {
     QHBoxLayout *layout = new QHBoxLayout();
 
-    auto viewHealth = new QProgressBar();
-    viewHealth->setMinimum(0);
-    viewHealth->setMaximum(100);
+    std::cout<<"health"<<gameModel->getProtagonist()->getProtagonist()->getHealth()<<std::endl;
+    ui->health->setValue(value);
+
     layout->addWidget(viewHealth);
     setLayout(layout);
 

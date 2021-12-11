@@ -11,7 +11,7 @@
 #include "enemyModel.h"
 #include "PenemyModel.h"
 #include "world.h"
-#include "gameModel.h"
+//#include "gameModel.h"
 #include "world_global.h"
 #include "PenemyModel.h"
 #include <QGraphicsPixmapItem>
@@ -20,7 +20,8 @@
 #include <QPointF>
 #include <QObject>
 #include "Projectile.h"
-#include "ViewProtagonist.h"
+//#include "ViewProtagonist.h"
+#include "protagonistModel.h"
 
 
 class XenemyModel : public QObject, public PenemyModel, public QGraphicsPixmapItem
@@ -29,8 +30,8 @@ class XenemyModel : public QObject, public PenemyModel, public QGraphicsPixmapIt
 public:
     XenemyModel(QGraphicsItem * parent=0);   //create xenemy logic
     double distanceTO(QGraphicsItem * item);
-    const std::shared_ptr<PEnemy> &getPEnemy() const{return xenemy;};
-    void setPEnemy(const std::shared_ptr<PEnemy> &newXEnemy){xenemy = newXEnemy;};
+    const std::shared_ptr<PEnemy> &getXEnemy() const{return xenemy;};
+    void setXEnemy(const std::shared_ptr<PEnemy> &newXEnemy){xenemy = newXEnemy;};
     void fire();
 
 public slots:

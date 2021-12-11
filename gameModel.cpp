@@ -100,4 +100,9 @@ std::shared_ptr<TileModel> GameModel::getTileAtAPos(const int &xpos, const int &
     //return getTiles()[10];
 }
 
+std::vector<std::shared_ptr<XenemyModel> > getXEnemies()
+{
+    //return xEnemies;
+}
+
 

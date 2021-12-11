@@ -46,6 +46,10 @@ void ViewProtagonist::moveRight(const int protagonistXPos, const int protagonist
                 //auto poison_area = scene()->addRect(-100,-100,50,50);
                 return;
             }
+            if (typeid(*(colliding_items[i])) == typeid(ViewHealthPack)){
+                scene()->removeItem(colliding_items[i]);
+                //protagonist->
+            }
         }
     // move protagonist to the right
     setPos(x()+1,y());

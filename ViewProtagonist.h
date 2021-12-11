@@ -17,7 +17,10 @@
 #include "ViewPenemy.h"
 //#include "ViewXenemy.h"
 #include "gameModel.h"
-//#include "XenemyModel.h"
+#include "XenemyModel.h"
+#include "ViewHealthPack.h"
+
+
 
 
 

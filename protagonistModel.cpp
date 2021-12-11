@@ -39,6 +39,7 @@ void protagonistModel::decreaseHealth(float value)
         protagonist->setHealth(0.0);
     }
 
+
 }
 
 void protagonistModel::decreaseEnergy(float value)
@@ -48,6 +49,7 @@ void protagonistModel::decreaseEnergy(float value)
         protagonist->setEnergy(0.0);
     }
 
+
 }
 
 void protagonistModel::increaseHealth(float value)
@@ -56,6 +58,7 @@ void protagonistModel::increaseHealth(float value)
     }else{
         protagonist->setHealth(100);
     }
+
 
 }
 
