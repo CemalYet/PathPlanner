@@ -14,57 +14,6 @@ ViewText::ViewText(int rowsize, int colsize):rows{rowsize},cols{colsize}
     scene = new QGraphicsScene();
 }
 
-void ViewText::initWorld()
-{
-
-}
-
-void ViewText::gameResult()
-{
-
-}
-
-void ViewText::updateOverallView()
-{
-
-}
-
-void ViewText::startNewGame()
-{
-
-}
-
-void ViewText::startAutoPlay()
-{
-
-}
-
-void ViewText::moveLeft()
-{
-
-}
-
-void ViewText::moveRight()
-{
-
-}
-
-void ViewText::moveUp()
-{
-
-}
-
-void ViewText::moveDown()
-{
-
-}
-
-void ViewText::isEnemyDefeated()
-{
-
-}
-
-
 void ViewText::setTextTileView(int Xpos, int Ypos, float value, TileType type)
 {
 
@@ -108,7 +57,7 @@ QString ViewText::buildPartialView(const int &xPos, const int &yPos)
     int startCol=xPos>numberdisplay?xPos-numberdisplay:0;
     int endCol=xPos+numberdisplay<cols?xPos+numberdisplay:cols;
 
-    std::cout<<"["<<startCol<<","<<startRow<<"]"<<",["<<endCol<<","<<endRow<<"]"<<std::endl;
+   // std::cout<<"["<<startCol<<","<<startRow<<"]"<<",["<<endCol<<","<<endRow<<"]"<<std::endl;
 
     for(int i=startRow;i<endRow;i++){
         appendBoundaryLine(tileBuilded,endCol-startCol);
@@ -131,33 +80,38 @@ QString ViewText::buildPartialView(const int &xPos, const int &yPos)
 
 void ViewText::updateProgonistTileView(const int &xPos, const int &yPos)
 {
-
     auto newProtagonistView=tileViewVectors.at(xPos+yPos*cols);
-
-    //newProtagonistView->setTileType(TileType::Protagonist);
-   // if(newProtagonistView->getTileType() ==(TileType::NormalTile) ){//added
-
-    switch(newProtagonistView->getTileType()){
-    case TileType::NormalTile :
+    if(newProtagonistView->getTileType()==TileType::NormalTile){
         newProtagonistView->setTileType(TileType::Protagonist);
-    break;
-    case TileType::Enemy :
-        std::cout<<"enemy ahead"<<std::endl;
-    break;
-    case TileType::PEnemy :
-        std::cout<<"penemy ahead"<<std::endl;
-
-    case TileType::XEnemy :
-        std::cout <<"xenemy ahead"<<std::endl;
-    case TileType::HealthPack:
-        std::cout <<"grab health pack"<<std::endl;
-
-     }
+    }
 }
+
+void ViewText::updateDeadEnemyView(const int &xPos, const int &yPos)
+{
+    auto blockedEnemyView=tileViewVectors.at(xPos+yPos*cols);
+    blockedEnemyView->setTileType(TileType::Blocked);
+}
+
+void ViewText::updateTakenHealthPackView(const int &xPos, const int &yPos)
+{
+    auto takenHealthView=tileViewVectors.at(xPos+yPos*cols);
+    takenHealthView->setTileType(TileType::TakenHealthpack);
+}
+
+
 void ViewText::clearProtagonistTileView(const int &xPos, const int &yPos)
 {
     auto currentProtagonistView=tileViewVectors.at(xPos+yPos*cols);
-    currentProtagonistView->setTileType(TileType::NormalTile);
+    if(currentProtagonistView->getTileType()==TileType::Protagonist){
+        //std::cout<<"protagonist clear"<<xPos<<","<<yPos<<std::endl;
+        currentProtagonistView->setTileType(TileType::NormalTile);
+    }
+   /* else if(isEnemy(currentProtagonistView->getTileType()) ){
+        //Progonist has attacked the enemy tile
+        currentProtagonistView->setTileType(TileType::Blocked);
+    }*/
+
+
 }
 
 void ViewText::printTileViewVectors()
@@ -174,8 +128,5 @@ void ViewText::appendBoundaryLine(QString &tileBuilded,const int &number){
     }
 }
 
-void ViewText::selectNearestTile()
-{
 
-}
 

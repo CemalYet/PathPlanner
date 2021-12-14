@@ -13,7 +13,10 @@ public:
    // GoToTextCommand(std::unique_ptr<GameModel> gameMdl, std::shared_ptr<ViewText> textVw);
     void execute(const std::string &command,std::list<std::string> commandExtras)override;
 private:
-shared_ptr<PathPlanner>path;
+    void delay();
+signals:
+    void updateMainWindowView(QString buildview);
+
 };
 
 #endif // GOTOTEXTCOMMAND_H

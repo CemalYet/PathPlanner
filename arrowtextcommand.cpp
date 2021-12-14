@@ -11,7 +11,7 @@ void ArrowTextCommand::checkIfNextTileType(const int &xpos, const int &ypos)//di
 {
     auto tileT=gameModel->getTileType(xpos,ypos);
     float tileValue=gameModel->getTileAtAPos(xpos,ypos)->getTile()->getValue();
-    auto healthtile=gameModel->getEnemyHealthPackFromHealthTileMap(xpos,ypos);
+    auto healthtile=gameModel->getHealthPackFromHealthTileMap(xpos,ypos);
     auto enemyT=gameModel->getEnemyTileFromEnemyTileMap(xpos,ypos);
 
     float healthOfProtagonist=gameModel->getProtagonist()->getProtagonist()->getHealth();
@@ -21,30 +21,33 @@ void ArrowTextCommand::checkIfNextTileType(const int &xpos, const int &ypos)//di
               if(healthOfProtagonist >= enemyT->getValue()){ //health greater than enemy value
                    std::shared_ptr<Tile> tileWhereEnemyLocated=gameModel->getTileAtAPos(xpos,ypos)->getTile();
                        enemyT->setDefeated(true);
-                       std::cout<<"defeated enemy at"<<xpos<<","<<ypos<<std::endl;
+                       //std::cout<<"defeated enemy at"<<xpos<<","<<ypos<<std::endl;
                        enemyT->setValue(std::numeric_limits<double>::infinity());//make enemy defeated
                        tileWhereEnemyLocated->setValue(std::numeric_limits<double>::infinity());//make tile impassable
-                       gameModel->setTileBlockedIntileTypeMap(xpos,ypos);   //set tile as blocked                                                  //make it as blocked in view
+                       textView->updateDeadEnemyView(xpos,ypos); //set tile as blocked in view                                                //make it as blocked in view
                 gameModel->getProtagonist()->decreaseHealth(enemyT->getValue());
-                gameModel->getProtagonist()->getProtagonist()->setEnergy(100.0);//max energy restored
+                gameModel->getProtagonist()->increaseEnergy();//max energy restored
                }
                else{
 
-                   QString message="gameOver";//game over
+                   QString message="Game Over";//game over
                    emit gameover(message);
                }
            break;
         case TileType::HealthPack :
-          gameModel->getProtagonist()->increaseHealth(healthtile->getValue());
+          gameModel->getProtagonist()->increaseHealth(healthtile->getValue());//increase energy
+                                                                        //update it's status as packed
+          healthtile->setValue(0);                                     //update its healthvalue as 0
+          textView->updateTakenHealthPackView(xpos,ypos);              //update view as health pack taken view                                                   //update view as healthPackTaken
+
           break;
         case TileType::NormalTile :
             // decrease energy part
             if(energyOfProtagonist >=tileValue){
             gameModel->getProtagonist()->decreaseEnergy(tileValue);//if enough energy
             }
-            else{
-                std::cout<<"game over"<<std::endl;//game over
-                QString message="gameOver";
+            else{       
+                QString message="Game Over";    //game over
                 emit gameover(message);
             }
 
@@ -88,7 +91,6 @@ void ArrowTextCommand::execute(const std::string &command, std::list<std::string
           gameModel->updateProtagonistPositionInMap();
           auto protagonistNewXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
           auto protagonistNewYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
-          std::cout<<protagonistNewXPos<<","<<protagonistNewYPos<<std::endl;
           textView->updateProgonistTileView(protagonistNewXPos,protagonistNewYPos);
     }
 }

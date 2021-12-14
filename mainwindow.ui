@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1238</width>
-    <height>664</height>
+    <height>793</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>70</x>
       <y>60</y>
-      <width>671</width>
-      <height>491</height>
+      <width>1121</width>
+      <height>591</height>
      </rect>
     </property>
    </widget>
@@ -88,8 +88,8 @@
    <widget class="QTextEdit" name="userInput">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>570</y>
+      <x>270</x>
+      <y>680</y>
       <width>81</width>
       <height>31</height>
      </rect>
@@ -105,8 +105,8 @@ p, li { white-space: pre-wrap; }
    <widget class="QPushButton" name="executeButton">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>580</y>
+      <x>390</x>
+      <y>690</y>
       <width>80</width>
       <height>23</height>
      </rect>
@@ -144,8 +144,8 @@ p, li { white-space: pre-wrap; }
    <widget class="QPlainTextEdit" name="helpResponse">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>560</y>
+      <x>500</x>
+      <y>670</y>
       <width>241</width>
       <height>61</height>
      </rect>
@@ -154,8 +154,8 @@ p, li { white-space: pre-wrap; }
    <widget class="QTextBrowser" name="textBrowser">
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>460</y>
+      <x>830</x>
+      <y>540</y>
       <width>331</width>
       <height>61</height>
      </rect>
@@ -181,6 +181,66 @@ p, li { white-space: pre-wrap; }
     <property name="overwriteMode">
      <bool>true</bool>
     </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>10</y>
+      <width>131</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Worldmap</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <selectedon>:/images/worldmap.jpg</selectedon>
+      </iconset>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Worldmap4</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <selectedon>:/images/worldmap4.jpg</selectedon>
+      </iconset>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>maze1</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <selectedon>:/images/maze1.jpg</selectedon>
+      </iconset>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>maze2</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <selectedon>:/images/maze2.jpg</selectedon>
+      </iconset>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>maze3</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <selectedon>:/images/maze3.jpg</selectedon>
+      </iconset>
+     </property>
+    </item>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

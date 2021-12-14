@@ -27,8 +27,10 @@ void GameModel::printMap()
     }
 }
 
-
-
+const std::map<std::string, std::shared_ptr<Enemy> > &GameModel::getEnemyTileMap() const
+{
+     return enemyTileMap;
+}
 
 GameModel::GameModel()
 {
@@ -66,14 +68,6 @@ std::vector<std::shared_ptr<TileModel> > GameModel::getTiles() const
 }
 
 
-/*void GameModel::setTiles(std::vector<std::unique_ptr<Tile> > &value)
-{
-    for(auto &tile:value){
-        auto tile_model= std::make_shared<TileModel>();
-             tile_model->setTile(std::move(tile));
-          tiles.push_back(tile_model);
-        }
-}*/
 void GameModel::setTiles(std::vector<std::unique_ptr<Tile> > &value)
 {
     for(auto &tile:value){
@@ -151,9 +145,6 @@ TileType GameModel:: getTileType(int xposTile,int YposTile){
 
 std::shared_ptr<TileModel> GameModel::getTileAtAPos(const int &xpos, const int &ypos)
 {
-    /*std::cout<<"xpos: "<<tiles.at(xpos+cols*ypos)->getTile()->getXPos()
-             <<"ypos: "<<tiles.at(xpos+cols*ypos)->getTile()->getYPos()
-            <<"has obstacle"<<tiles.at(xpos+cols*ypos)->getTile()->getValue()<<std::endl;*/
     return tiles.at(xpos+cols*ypos);
 }
 
@@ -164,17 +155,17 @@ std::shared_ptr<Enemy> GameModel::getEnemyTileFromEnemyTileMap(const int &xpos, 
     return it->second;
 }
 
-std::shared_ptr<Tile> GameModel::getEnemyHealthPackFromHealthTileMap(const int &xpos, const int &ypos)
+std::shared_ptr<Tile> GameModel::getHealthPackFromHealthTileMap(const int &xpos, const int &ypos)
 {
     std::map<std::string,std::shared_ptr<Tile>>::iterator it;
     it= healthTileMap.find(std::to_string(xpos)+sep+std::to_string(ypos));
     return it->second;
 }
 
-void GameModel::setTileBlockedIntileTypeMap(const int &xpos, const int &ypos)
+/*void GameModel::setTileBlockedIntileTypeMap(const int &xpos, const int &ypos)
 {
      tileTypeMap[std::to_string(xpos)+sep+std::to_string(ypos)]=TileType::Blocked;
-}
+}*/
 
 std::vector<std::shared_ptr<PenemyModel> > GameModel::getPEnemies() const
 {

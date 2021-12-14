@@ -26,17 +26,20 @@ public:
 private slots:
     void on_radioButton_Text_clicked();  
     void on_executeButton_clicked();
-
+    void selectWorld(int index);
+    void on_comboBox_activated(int index);
 
 public slots:
     void updateEnergy(float value);
     void updateHealth(float value);
     void gameOverSlot(const QString &message);
+    void updateMainWindowViewSlot(QString buildview);
+    //void selectWorld(int number);
 
 private:
     Ui::MainWindow *ui;
     QGraphicsScene* scene;
-   // std::unique_ptr<GameModel> gameModel;
+    std::shared_ptr<World> world;
     std::shared_ptr<GameModel> gameModel;
     std::shared_ptr<ViewText>gameTextView;
     QGraphicsItem* textViewItem;

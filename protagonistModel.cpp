@@ -59,5 +59,11 @@ void protagonistModel::increaseHealth(float value)
 
 }
 
+void protagonistModel::increaseEnergy()
+{
+        protagonist->setEnergy(maxEH);
+
+}
+
 
 
