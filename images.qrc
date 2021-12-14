@@ -12,5 +12,7 @@
         <file>images/sindel_scream.png</file>
         <file>images/healthpack.png</file>
         <file>images/scorpion_4.png</file>
+        <file>images/poisoned_player.png</file>
+        <file>images/healthy_player.png</file>
     </qresource>
 </RCC>

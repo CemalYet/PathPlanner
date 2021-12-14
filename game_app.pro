@@ -31,6 +31,7 @@ SOURCES += \
     gameModel.cpp \
     main.cpp \
     mainwindow.cpp \
+    node.cpp \
     pathplanner.cpp \
     protagonistModel.cpp
 

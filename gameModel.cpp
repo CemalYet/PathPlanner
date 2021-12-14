@@ -78,6 +78,10 @@ void GameModel::setEnemies(std::vector<std::unique_ptr<Enemy> > &value)
                 pEnemy_model->setPEnemy(std::move(penemy));
                 pEnemies.push_back(pEnemy_model);
 
+//                auto xEnemy_model=std::make_shared<XenemyModel>();
+//                xEnemy_model->setXEnemy(std::move(penemy));
+//                xEnemies.push_back(xEnemy_model);
+
 
             } else {
                 auto enemy_model=std::make_shared<EnemyModel>();

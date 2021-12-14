@@ -16,14 +16,15 @@
 
 class  ViewGraphical: public QGraphicsView
 {
+private:
+    QGraphicsScene * scene;
+    int rows;
+    int cols;
+    ViewProtagonist * viewProtagonist;
+    ViewPenemy * viewPenemy;
+
 public:
-    ViewGraphical(QWidget * parent=0);  //constructor
-
-//    QGraphicsScene * scene;
-//    ViewProtagonist * viewProtagonist;
-//    ViewHealth * viewHealth;
-//    ViewPenemy * viewPEnemy;
-
+    ViewGraphical(int rowsize, int colsize);  //constructor
 
     //std::shared_ptr<ViewText> textView;
     std::shared_ptr<ViewGraphical> graphicsView;
@@ -33,6 +34,7 @@ public:
     void initWorld();
     void gameResult();
     void updateOverallView();
+    QGraphicsScene *getScene() const;
 
 public slots:
     void startNewGame();

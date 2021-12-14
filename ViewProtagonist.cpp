@@ -19,7 +19,7 @@ void ViewProtagonist::addAll(std::vector<std::unique_ptr<Tile> > &tiles, std::ve
 
 }
 
-void ViewProtagonist::moveRight(const int protagonistXPos, const int protagonistYPos)
+void ViewProtagonist::moveRight(const int protagonistXPos, const int protagonistYPos, std::shared_ptr<GameModel> g_model)
 {
 
 //    qDebug() << "I'm updating viewProtagonist to the right";
@@ -35,7 +35,7 @@ void ViewProtagonist::moveRight(const int protagonistXPos, const int protagonist
                 viewPEnemy_defeated = new ViewPenemy();
                 viewPEnemy_defeated->setPixmap(QPixmap(":/images/dead.png"));
                 //std::cout<<"penemy x coordination is : "<< viewPEnemy->pEnemy->getPEnemy()->getXPos()<<std::endl;
-                viewPEnemy_defeated->setPos(protagonistXPos + 30, protagonistYPos);
+                viewPEnemy_defeated->setPos(protagonistXPos, 0);
                 scene()->addItem(viewPEnemy_defeated);
                 // delete them both
                 delete colliding_items[i];
@@ -43,19 +43,44 @@ void ViewProtagonist::moveRight(const int protagonistXPos, const int protagonist
 
                 //draw the poison after defeating an enemy
 
+                //dvrease health when hitting an enemy
+                g_model->getProtagonist()->decreaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
                 //auto poison_area = scene()->addRect(-100,-100,50,50);
                 return;
             }
+
+            if (typeid(*(colliding_items[i])) == typeid(XenemyModel)){    //check if it's a PEnemy, i should add for xenemy and enemy as well
+                // remove them both
+                scene()->removeItem(colliding_items[i]);
+
+                //add another png to show the defeated enemy
+                viewXEnemy_defeated = new ViewXenemy();
+                viewXEnemy_defeated->setPixmap(QPixmap(":/images/dead.png"));
+                //std::cout<<"penemy x coordination is : "<< viewPEnemy->pEnemy->getPEnemy()->getXPos()<<std::endl;
+                viewXEnemy_defeated->setPos(protagonistXPos, 0);
+                scene()->addItem(viewXEnemy_defeated);
+                // delete them both
+                delete colliding_items[i];
+                //delete this;
+
+                //draw the poison after defeating an enemy
+
+                //dvrease health when hitting an enemy
+                g_model->getProtagonist()->decreaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
+                //auto poison_area = scene()->addRect(-100,-100,50,50);
+                return;
+            }
+
             if (typeid(*(colliding_items[i])) == typeid(ViewHealthPack)){
                 scene()->removeItem(colliding_items[i]);
-                //protagonist->
+                g_model->getProtagonist()->increaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
             }
         }
     // move protagonist to the right
     setPos(x()+1,y());
 }
 
-void ViewProtagonist::moveLeft(const int protagonistXPos, const int protagonistYPos)
+void ViewProtagonist::moveLeft(const int protagonistXPos, const int protagonistYPos, std::shared_ptr<GameModel> g_model)
 {
 //    qDebug() << "I'm updating viewProtagonist to the right";
 //    qDebug() << "------------------------------------------------";
@@ -70,13 +95,14 @@ void ViewProtagonist::moveLeft(const int protagonistXPos, const int protagonistY
             viewPEnemy_defeated = new ViewPenemy();
             viewPEnemy_defeated->setPixmap(QPixmap(":/images/dead.png"));
             //std::cout<<"penemy x coordination is : "<< viewPEnemy->pEnemy->getPEnemy()->getXPos()<<std::endl;
-            viewPEnemy_defeated->setPos(protagonistXPos - 30, protagonistYPos);
+            viewPEnemy_defeated->setPos(protagonistXPos, 0);
             scene()->addItem(viewPEnemy_defeated);
             // delete them both
             delete colliding_items[i];
             //delete this;
 
-
+            //decrease health
+            g_model->getProtagonist()->decreaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
             //draw the poison after defeating an enemy
 //            ViewProtagonist * poisoned_protagonist = new ViewProtagonist();
 //            poisoned_protagonist->protagonist;
@@ -88,11 +114,37 @@ void ViewProtagonist::moveLeft(const int protagonistXPos, const int protagonistY
 
             //auto poison_area = scene()->addRect(-100,-100,50,50);
         }
+
+        if (typeid(*(colliding_items[i])) == typeid(XenemyModel)){    //check if it's a PEnemy, i should add for xenemy and enemy as well
+            // remove them both
+            scene()->removeItem(colliding_items[i]);
+
+            //add another png to show the defeated enemy
+            viewXEnemy_defeated = new ViewXenemy();
+            viewXEnemy_defeated->setPixmap(QPixmap(":/images/dead.png"));
+            //std::cout<<"penemy x coordination is : "<< viewPEnemy->pEnemy->getPEnemy()->getXPos()<<std::endl;
+            viewXEnemy_defeated->setPos(protagonistXPos, 0);
+            scene()->addItem(viewXEnemy_defeated);
+            // delete them both
+            delete colliding_items[i];
+            //delete this;
+
+            //draw the poison after defeating an enemy
+
+            //dvrease health when hitting an enemy
+            g_model->getProtagonist()->decreaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
+            //auto poison_area = scene()->addRect(-100,-100,50,50);
+            return;
+        }
+        if (typeid(*(colliding_items[i])) == typeid(ViewHealthPack)){
+            scene()->removeItem(colliding_items[i]);
+            g_model->getProtagonist()->increaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
+        }
     }
     setPos(x()-1,y());
 }
 
-void ViewProtagonist::moveUp(const int protagonistXPos, const int protagonistYPos)
+void ViewProtagonist::moveUp(const int protagonistXPos, const int protagonistYPos, std::shared_ptr<GameModel> g_model)
 {
 //    qDebug() << "I'm updating viewProtagonist to the up";
 //    qDebug() << "------------------------------------------------";
@@ -107,22 +159,51 @@ void ViewProtagonist::moveUp(const int protagonistXPos, const int protagonistYPo
             viewPEnemy_defeated = new ViewPenemy();
             viewPEnemy_defeated->setPixmap(QPixmap(":/images/dead.png"));
             //std::cout<<"penemy x coordination is : "<< viewPEnemy->pEnemy->getPEnemy()->getXPos()<<std::endl;
-            viewPEnemy_defeated->setPos(protagonistXPos - 30, protagonistYPos);
+            viewPEnemy_defeated->setPos(protagonistXPos, 0);
             scene()->addItem(viewPEnemy_defeated);
             // delete them both
             delete colliding_items[i];
             //delete this;
+
+            //decrease health
+            g_model->getProtagonist()->decreaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
 
             //draw the poison after defeating an enemy
 
             //auto poison_area = scene()->addRect(-100,-100,50,50);
             return;
         }
+
+        if (typeid(*(colliding_items[i])) == typeid(XenemyModel)){    //check if it's a PEnemy, i should add for xenemy and enemy as well
+            // remove them both
+            scene()->removeItem(colliding_items[i]);
+
+            //add another png to show the defeated enemy
+            viewXEnemy_defeated = new ViewXenemy();
+            viewXEnemy_defeated->setPixmap(QPixmap(":/images/dead.png"));
+            //std::cout<<"penemy x coordination is : "<< viewPEnemy->pEnemy->getPEnemy()->getXPos()<<std::endl;
+            viewXEnemy_defeated->setPos(protagonistXPos, 0);
+            scene()->addItem(viewXEnemy_defeated);
+            // delete them both
+            delete colliding_items[i];
+            //delete this;
+
+            //draw the poison after defeating an enemy
+
+            //dvrease health when hitting an enemy
+            g_model->getProtagonist()->decreaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
+            //auto poison_area = scene()->addRect(-100,-100,50,50);
+            return;
+        }
+        if (typeid(*(colliding_items[i])) == typeid(ViewHealthPack)){
+            scene()->removeItem(colliding_items[i]);
+            g_model->getProtagonist()->increaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
+        }
     }
     setPos(x(),y()-1);
 }
 
-void ViewProtagonist::moveDown(const int protagonistXPos, const int protagonistYPos)
+void ViewProtagonist::moveDown(const int protagonistXPos, const int protagonistYPos, std::shared_ptr<GameModel> g_model)
 {
 //    qDebug() << "I'm updating viewProtagonist to the down";
 //    qDebug() << "------------------------------------------------";
@@ -137,16 +218,44 @@ void ViewProtagonist::moveDown(const int protagonistXPos, const int protagonistY
             viewPEnemy_defeated = new ViewPenemy();
             viewPEnemy_defeated->setPixmap(QPixmap(":/images/dead.png"));
             //std::cout<<"penemy x coordination is : "<< viewPEnemy->pEnemy->getPEnemy()->getXPos()<<std::endl;
-            viewPEnemy_defeated->setPos(protagonistXPos - 30, protagonistYPos);
+            viewPEnemy_defeated->setPos(protagonistXPos, 0);
             scene()->addItem(viewPEnemy_defeated);
+            // delete them both
+            delete colliding_items[i];
+            //delete this;
+
+            //decrease health
+            g_model->getProtagonist()->decreaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
+
+            //draw the poison after defeating an enemy
+
+            //auto poison_area = scene()->addRect(-100,-100,50,50);
+            return;
+        }
+        if (typeid(*(colliding_items[i])) == typeid(XenemyModel)){    //check if it's a PEnemy, i should add for xenemy and enemy as well
+            // remove them both
+            scene()->removeItem(colliding_items[i]);
+
+            //add another png to show the defeated enemy
+            viewXEnemy_defeated = new ViewXenemy();
+            viewXEnemy_defeated->setPixmap(QPixmap(":/images/dead.png"));
+            //std::cout<<"penemy x coordination is : "<< viewPEnemy->pEnemy->getPEnemy()->getXPos()<<std::endl;
+            viewXEnemy_defeated->setPos(protagonistXPos, 0);
+            scene()->addItem(viewXEnemy_defeated);
             // delete them both
             delete colliding_items[i];
             //delete this;
 
             //draw the poison after defeating an enemy
 
+            //dvrease health when hitting an enemy
+            g_model->getProtagonist()->decreaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
             //auto poison_area = scene()->addRect(-100,-100,50,50);
             return;
+        }
+        if (typeid(*(colliding_items[i])) == typeid(ViewHealthPack)){
+            scene()->removeItem(colliding_items[i]);
+            g_model->getProtagonist()->increaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
         }
     }
     setPos(x(),y()+1);

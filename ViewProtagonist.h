@@ -15,7 +15,7 @@
 #include "world_global.h"
 #include "TileModel.h"
 #include "ViewPenemy.h"
-//#include "ViewXenemy.h"
+#include "ViewXenemy.h"
 #include "gameModel.h"
 #include "XenemyModel.h"
 #include "ViewHealthPack.h"
@@ -29,6 +29,7 @@ class  ViewProtagonist :public QGraphicsPixmapItem
 public:
     ViewProtagonist(QGraphicsItem * parent=0);
     ViewPenemy * viewPEnemy_defeated;
+    ViewXenemy * viewXEnemy_defeated;
 
     //void keyPressEvent(QKeyEvent * event) override;
     void selectNearestEnemy();
@@ -36,10 +37,10 @@ public:
     std::shared_ptr<Protagonist> getProtagonist_view() const{return protagonist;};
     void setProtagonist(std::unique_ptr<Protagonist> &value){protagonist = std::move(value);};
 
-    void moveRight(const int protagonistXPos, const int protagonistYPos);
-    void moveLeft(const int protagonistXPos, const int protagonistYPos);
-    void moveUp(const int protagonistXPos, const int protagonistYPos);
-    void moveDown(const int protagonistXPos, const int protagonistYPos);
+    void moveRight(const int protagonistXPos, const int protagonistYPos, std::shared_ptr<GameModel> g_model);
+    void moveLeft(const int protagonistXPos, const int protagonistYPos, std::shared_ptr<GameModel> g_model);
+    void moveUp(const int protagonistXPos, const int protagonistYPos, std::shared_ptr<GameModel> g_model);
+    void moveDown(const int protagonistXPos, const int protagonistYPos, std::shared_ptr<GameModel> g_model);
 
 private:
     std::shared_ptr<Tile> tile;
