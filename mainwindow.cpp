@@ -48,6 +48,10 @@ MainWindow::MainWindow(QWidget *parent)
    auto enemy=world->getEnemies();
    gameModel->setEnemies(enemy);
 
+   for(auto &e:gameModel->getEnemies()){
+   std::cout<<"enemy"<< e->getEnemy()->getXPos()<<","<<e->getEnemy()->getYPos()<<std::endl;
+   }
+
    //set health pack
    auto healthpack=world->getHealthPacks();
    gameModel->setHealthPacks(healthpack);
@@ -70,6 +74,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     gameModel->getProtagonist()->getProtagonist()->setEnergy(world->getProtagonist()->getHealth());
     ui->health->setValue(gameModel->getProtagonist()->getProtagonist()->getHealth());
+
+    //get scene
+    gameTextView =std::make_shared<ViewText>(gameModel->getRows(),gameModel->getCols());
+    scene = gameTextView->getScene();
 }
 
 MainWindow::~MainWindow()
@@ -77,17 +85,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
-
 void MainWindow::on_radioButton_Text_clicked()
 {
 
-    gameTextView =std::make_shared<ViewText>(gameModel->getRows(),gameModel->getCols());
-    scene = gameTextView->getScene();
-    //scene->setSceneRect(0,0,1920,1080);
     ui->graphicsView->setScene(scene);
-
-
     for (auto &tile: gameModel->getTiles()){
 
         auto XPosTile=tile->getTile()->getXPos();
@@ -148,12 +149,8 @@ void MainWindow::on_executeButton_clicked()
     QString inputCommand=ui->userInput->toPlainText();
     processTextCommand(inputCommand.toLower());
     scene->removeItem(textViewItem);
-
-
     auto protagonistXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
     auto protagonistYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
-
-
     textViewItem=scene->addText(gameTextView->buildPartialView(protagonistXPos,protagonistYPos));
     updateEnergy(gameModel->getProtagonist()->getProtagonist()->getEnergy());
     updateHealth(gameModel->getProtagonist()->getProtagonist()->getHealth());
@@ -222,6 +219,8 @@ void MainWindow::updateMainWindowViewSlot(QString buildview)
     }
 }*/
 
-
-
+void MainWindow::on_radioButton_clicked()
+{
+    scene->clear();
+}
 

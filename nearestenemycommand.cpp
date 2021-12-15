@@ -33,7 +33,7 @@ void NearestEnemyCommand::execute(const std::string &command, std::list<std::str
         }
     }
 
-
+std::cout<<"path"<<pathToNearestEnemy.size()<<std::endl;
 
 std::reverse(pathToNearestEnemy.begin(),pathToNearestEnemy.end());
 

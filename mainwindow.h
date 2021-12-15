@@ -28,6 +28,8 @@ private slots:
     void on_executeButton_clicked();
    // void on_comboBox_activated(int index);
 
+    void on_radioButton_clicked();
+
 public slots:
     void updateEnergy(float value);
     void updateHealth(float value);
