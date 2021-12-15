@@ -15,6 +15,7 @@
 #include "gototextcommand.h"
 #include "helptextcommand.h"
 #include "nearestenemycommand.h"
+#include "nearesthealthpackcommand.h"
 #include <qdebug.h>
 #include <vector>
 #include <memory>
@@ -47,10 +48,6 @@ MainWindow::MainWindow(QWidget *parent)
    //set enemies
    auto enemy=world->getEnemies();
    gameModel->setEnemies(enemy);
-
-   for(auto &e:gameModel->getEnemies()){
-   std::cout<<"enemy"<< e->getEnemy()->getXPos()<<","<<e->getEnemy()->getYPos()<<std::endl;
-   }
 
    //set health pack
    auto healthpack=world->getHealthPacks();
@@ -132,14 +129,26 @@ void MainWindow::createTextCommandToClassMap()
 
     auto gotoObject=std::make_shared<GoToTextCommand>(gameModel,gameTextView);
     textCommandToClassMap["goto"]=gotoObject;
+
     textCommandToClassMap["help"]=std::make_shared<HelpTextCommand>(gameModel,gameTextView,ui->helpResponse);
+
     auto nearestEnemyCommandObject=std::make_shared<NearestEnemyCommand>(gameModel,gameTextView);
     textCommandToClassMap["enemy"]=nearestEnemyCommandObject;
+
+    auto nearestHealthCommandObject=std::make_shared<NearestHealthPackCommand>(gameModel,gameTextView);
+    textCommandToClassMap["health"]=nearestHealthCommandObject;
+
+    QObject::connect(nearestHealthCommandObject.get(),SIGNAL(gameover(const QString)),this,SLOT(gameOverSlot(const QString)));
+    QObject::connect(nearestHealthCommandObject.get(),SIGNAL(updateMainWindowView(QString)),this,SLOT(updateMainWindowViewSlot(QString)));
+
     QObject::connect(nearestEnemyCommandObject.get(),SIGNAL(gameover(const QString)),this,SLOT(gameOverSlot(const QString)));
+    QObject::connect(nearestEnemyCommandObject.get(),SIGNAL(updateMainWindowView(QString)),this,SLOT(updateMainWindowViewSlot(QString)));
+
     QObject::connect(commandObject.get(),SIGNAL(gameover(const QString)),this,SLOT(gameOverSlot(const QString)));
+
     QObject::connect(gotoObject.get(),SIGNAL(gameover(const QString)),this,SLOT(gameOverSlot(const QString)));
     QObject::connect(gotoObject.get(),SIGNAL(updateMainWindowView(QString)),this,SLOT(updateMainWindowViewSlot(QString)));
-    QObject::connect(gotoObject.get(),SIGNAL(updateMainWindowView(QString)),this,SLOT(updateMainWindowViewSlot(QString)));
+
 }
 
 
@@ -223,4 +232,7 @@ void MainWindow::on_radioButton_clicked()
 {
     scene->clear();
 }
+
+
+
 

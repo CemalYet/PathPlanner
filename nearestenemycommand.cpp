@@ -14,7 +14,7 @@ void NearestEnemyCommand::execute(const std::string &command, std::list<std::str
     float minDistance=std::numeric_limits<float>::infinity();
     shared_ptr<Enemy>nearestEnemy;
     std::vector<pair<int,int>>pathToNearestEnemy;
-     shared_ptr<PathPlanner>pathplanner=make_shared<PathPlanner>(gameModel,1);
+    shared_ptr<PathPlanner>pathplanner=make_shared<PathPlanner>(gameModel,1);
     for(auto &e : enemies){
 
         int xpos=e.second->getXPos();
@@ -33,7 +33,7 @@ void NearestEnemyCommand::execute(const std::string &command, std::list<std::str
         }
     }
 
-std::cout<<"path"<<pathToNearestEnemy.size()<<std::endl;
+//std::cout<<"path"<<pathToNearestEnemy.size()<<std::endl;
 
 std::reverse(pathToNearestEnemy.begin(),pathToNearestEnemy.end());
 
@@ -54,6 +54,7 @@ for(auto &t:pathToNearestEnemy){
     textView->updateProgonistTileView(t.first,t.second); //update protogonist position to the changed position
 
     auto updatedView=textView->buildPartialView(t.first,t.second);
+    std::cout<<t.first<<","<<t.second<<std::endl;
     emit updateMainWindowView(updatedView);
     auto protogonistEnergy=gameModel->getProtagonist()->getProtagonist()->getEnergy();
     /*if(protogonistEnergy <=0){
@@ -63,14 +64,14 @@ for(auto &t:pathToNearestEnemy){
     delay();
     }
 
-auto enemyXpos=pathToNearestEnemy.end()->first;
-auto enemyYPos=pathToNearestEnemy.end()->second;
+auto enemyXpos=nearestEnemy->getXPos();
+auto enemyYPos=nearestEnemy->getYPos();
 std::cout<<enemyXpos<<","<<enemyYPos<<std::endl;
 auto tileWhereEnemyLocated=gameModel->getTileAtAPos(enemyXpos,enemyYPos)->getTile();
 auto enemyT=gameModel->getEnemyTileFromEnemyTileMap(enemyXpos,enemyYPos);
-//enemyT->setDefeated(true);
-//enemyT->setValue(std::numeric_limits<double>::infinity());//make enemy defeated
-/*tileWhereEnemyLocated->setValue(std::numeric_limits<double>::infinity());//make tile impassable
+enemyT->setDefeated(true);
+enemyT->setValue(std::numeric_limits<double>::infinity());//make enemy defeated
+tileWhereEnemyLocated->setValue(std::numeric_limits<double>::infinity());//make tile impassable
 textView->updateDeadEnemyView(enemyXpos,enemyYPos); //set tile as blocked in view                                                //make it as blocked in view
 gameModel->getProtagonist()->decreaseHealth(enemyT->getValue());
 gameModel->getProtagonist()->increaseEnergy();//max energy restored*/

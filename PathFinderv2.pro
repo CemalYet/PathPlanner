@@ -15,6 +15,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     nearestenemycommand.cpp \
+    nearesthealthpackcommand.cpp \
     node.cpp \
     pathplanner.cpp \
     HealthPackModel.cpp \
@@ -43,6 +44,7 @@ HEADERS += \
     helptextcommand.h \
     mainwindow.h \
     nearestenemycommand.h \
+    nearesthealthpackcommand.h \
     node.h \
     pathplanner.h \
     HealthPackModel.h \
