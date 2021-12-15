@@ -56,8 +56,10 @@ void XenemyModel::fire()
     int angle = ln.angle();
 
     projectile->setRotation(angle);
-    scene()->addItem(projectile);
+    //scene()->addItem(projectile);
 }
+
+
 
 void XenemyModel::aquire_target()
 {
@@ -87,4 +89,24 @@ void XenemyModel::aquire_target()
     }
     attack_dest = closest_pt;
     fire();
+}
+
+int XenemyModel::getXPosition() const
+{
+    return xPosition;
+}
+
+int XenemyModel::getYPosition() const
+{
+    return yPosition;
+}
+
+void XenemyModel::setXPosition(int newXPosition)
+{
+    xPosition = newXPosition;
+}
+
+void XenemyModel::setYPosition(int newYPosition)
+{
+    yPosition = newYPosition;
 }

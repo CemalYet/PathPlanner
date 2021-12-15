@@ -34,6 +34,12 @@ public:
     void setXEnemy(const std::shared_ptr<PEnemy> &newXEnemy){xenemy = newXEnemy;};
     void fire();
 
+    void setXPosition(int newXPosition);
+    void setYPosition(int newYPosition);
+
+    int getXPosition() const;
+    int getYPosition() const;
+
 public slots:
     void aquire_target();
 

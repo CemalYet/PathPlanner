@@ -78,20 +78,18 @@ void GameModel::setEnemies(std::vector<std::unique_ptr<Enemy> > &value)
 {
     for(auto &enemy:value){
             std::shared_ptr<PEnemy> penemy (qobject_cast<PEnemy*>(enemy.get()));
+
             if (  penemy != nullptr){ //if it is penemy
                 auto pEnemy_model=std::make_shared<PenemyModel>();
                 pEnemy_model->setPEnemy(std::move(penemy));
                 pEnemies.push_back(pEnemy_model);
-
-//                auto xEnemy_model=std::make_shared<XenemyModel>();
-//                xEnemy_model->setXEnemy(std::move(penemy));
-//                xEnemies.push_back(xEnemy_model);
 
 
             } else {
                 auto enemy_model=std::make_shared<EnemyModel>();
                 enemy_model->setEnemy(std::move(enemy));
                 enemies.push_back(enemy_model);
+
             }
          }
 }
@@ -101,6 +99,26 @@ std::vector<std::shared_ptr<PenemyModel> > GameModel::getPEnemies() const
     return pEnemies;
 }
 
+void GameModel::setXEnemies()
+{
+                int xPos=0; int yPos=0;
+                for(auto &x_enemy:pEnemies){
+                    auto xEnemy =std::make_shared<XenemyModel> ();
+                    //cout<<'['<<(x_enemy->getPEnemy()->getXPos())/2 <<','<<x_enemy->getPEnemy()->getYPos() + rand() % 2+1<<']'<<endl;
+                    xPos = x_enemy->getPEnemy()->getXPos() + rand() % 1000;
+                    if(xPos > 2200){
+                        xPos = xPos - rand() % 25 + 1;
+                    }
+                    yPos = x_enemy->getPEnemy()->getYPos() + rand() % 1000;
+                    if (yPos > 2200){
+                        yPos = yPos - rand() % 25 + 1;
+                    }
+                    xEnemy->setXPosition(xPos);
+                    xEnemy->setYPosition(yPos);
+                    xEnemies.push_back(xEnemy);
+                 }
+}
+
 std::shared_ptr<TileModel> GameModel::getTileAtAPos(const int &xpos, const int &ypos)
 {
     qDebug() <<(tiles.at(xpos+cols*ypos))->getTile()->getXPos() <<(tiles.at(xpos+cols*ypos))->getTile()->getYPos() << (tiles.at(xpos+cols*ypos))->getTile()->getValue();
@@ -108,10 +126,4 @@ std::shared_ptr<TileModel> GameModel::getTileAtAPos(const int &xpos, const int &
     return tiles.at(xpos+cols*ypos);  //it should be 'cols' instead of '0.5' but i used it just to avoid the crashing
     //return getTiles()[10];
 }
-
-std::vector<std::shared_ptr<XenemyModel> > getXEnemies()
-{
-    //return xEnemies;
-}
-
 

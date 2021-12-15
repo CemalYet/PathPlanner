@@ -45,7 +45,10 @@ public:
     std::vector<std::shared_ptr<EnemyModel> > getEnemies()const;
     void setEnemies(std::vector<std::unique_ptr<Enemy> > &value);
     std::vector<std::shared_ptr<PenemyModel> > getPEnemies()const;
-    std::vector<std::shared_ptr<XenemyModel> > getXEnemies()const;
+    std::vector<std::shared_ptr<XenemyModel> > getXEnemies()const {
+        return xEnemies;
+    };
+    void setXEnemies();
 };
 
 

@@ -50,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     auto world = make_shared<World>();
-    world->createWorld(":/images/maze3",1,1);
+    world->createWorld(":/images/maze3",20,1);
     gameModel = std::make_shared<GameModel>();
     gameModel->setCols(world->getCols());
     gameModel->setRows(world->getRows());
@@ -61,12 +61,36 @@ MainWindow::MainWindow(QWidget *parent)
     auto gamemodel_tiles=gameModel->getTiles();
 
     auto enemy=world->getEnemies();
+    cout<<"size of enemies directlr is"<< enemy.size() <<endl;
     gameModel->setEnemies(enemy);
 
-    auto enemies=world->getEnemies();
-    gameModel->setEnemies(enemies);
-
     auto penemies_gamemodel=gameModel->getPEnemies();
+
+    auto enemies_gamemodel = gameModel->getEnemies();
+
+    gameModel->setXEnemies();
+    auto xenemies = gameModel->getXEnemies();
+
+    std::cout<< "xenemies" <<std::endl;
+    for(auto &e:xenemies){
+        cout<<'['<<e->getXPosition()<<','<<e->getYPosition()<<']'<<endl;
+        //viewPenemy->setPos(e->getPEnemy()->getXPos() + 100, e->getPEnemy()->getYPos() + 100);  //line below for test to set the penemy closer
+    }
+    cout << "xenemy size" << xenemies.size()<< endl;
+
+    std::cout<< "Penemies" <<std::endl;
+    for(auto &e:penemies_gamemodel){
+        cout<<'['<<e->getPEnemy()->getXPos()<<','<<e->getPEnemy()->getYPos()<<']'<<endl;
+        //viewPenemy->setPos(e->getPEnemy()->getXPos() + 100, e->getPEnemy()->getYPos() + 100);  //line below for test to set the penemy closer
+    }
+    cout << "penemy size" << penemies_gamemodel.size()<< endl;
+
+    std::cout<< "enemies" <<std::endl;
+    for(auto &e:enemies_gamemodel){
+        cout<<'['<<e->getEnemy()->getXPos()<<','<<e->getEnemy()->getYPos()<<']'<<endl;
+        //viewPenemy->setPos(e->getPEnemy()->getXPos() + 100, e->getPEnemy()->getYPos() + 100);  //line below for test to set the penemy closer
+    }
+    cout << "enemy size" << enemies_gamemodel.size()<< endl;
 
 
     auto protagonist=world->getProtagonist();
@@ -99,7 +123,7 @@ MainWindow::MainWindow(QWidget *parent)
     viewPenemy = new ViewPenemy();
     viewPenemy->setPixmap(QPixmap(":/images/Raiden.png"));
     for(auto &e:penemies_gamemodel){
-        cout<<'['<<e->getPEnemy()->getXPos()<<','<<e->getPEnemy()->getYPos()<<']'<<endl;
+        //cout<<'['<<e->getPEnemy()->getXPos()<<','<<e->getPEnemy()->getYPos()<<']'<<endl;
         //viewPenemy->setPos(e->getPEnemy()->getXPos() + 100, e->getPEnemy()->getYPos() + 100);  //line below for test to set the penemy closer
         viewPenemy->setPos(50,50);
         scene->addItem(viewPenemy);
@@ -203,7 +227,7 @@ void MainWindow::on_radioButton_clicked()
 //                std::cout<<"Xenemies at"<<endl;
 //                std::cout<<xPos<<","<<yPos<<endl;
 //             }
-//            //xenemy->setPos(xPos, yPos);   //this line should be used but i'm using the one below just to check the functionality easier
+            //xenemy->setPos(xPos, yPos);   //this line should be used but i'm using the one below just to check the functionality easier
 //            xenemy->setPos(0, 100);
 //            scene->addItem(xenemy);
             //show();
