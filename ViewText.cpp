@@ -106,12 +106,6 @@ void ViewText::clearProtagonistTileView(const int &xPos, const int &yPos)
         //std::cout<<"protagonist clear"<<xPos<<","<<yPos<<std::endl;
         currentProtagonistView->setTileType(TileType::NormalTile);
     }
-   /* else if(isEnemy(currentProtagonistView->getTileType()) ){
-        //Progonist has attacked the enemy tile
-        currentProtagonistView->setTileType(TileType::Blocked);
-    }*/
-
-
 }
 
 void ViewText::printTileViewVectors()

@@ -7,11 +7,11 @@ TextCommands::TextCommands(std::shared_ptr<GameModel>gameMdl, std::shared_ptr<Vi
 
 }
 
-/*TextCommands::TextCommands(std::unique_ptr<GameModel>gameMdl, std::shared_ptr<ViewText> textVw)
-    :gameModel{std::move(gameMdl)},textView{textVw}
-
+void TextCommands::delay()
 {
-
-}*/
+    QTime dieTime= QTime::currentTime().addSecs(1);
+    while (QTime::currentTime() < dieTime)
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+}
 
 

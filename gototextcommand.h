@@ -13,9 +13,10 @@ public:
    // GoToTextCommand(std::unique_ptr<GameModel> gameMdl, std::shared_ptr<ViewText> textVw);
     void execute(const std::string &command,std::list<std::string> commandExtras)override;
 private:
-    void delay();
+    //void delay();
 signals:
     void updateMainWindowView(QString buildview);
+    void gameover(const QString &message);
 
 };
 

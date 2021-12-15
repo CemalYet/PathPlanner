@@ -14,6 +14,7 @@ SOURCES += \
     helptextcommand.cpp \
     main.cpp \
     mainwindow.cpp \
+    nearestenemycommand.cpp \
     node.cpp \
     pathplanner.cpp \
     HealthPackModel.cpp \
@@ -34,14 +35,14 @@ SOURCES += \
     protagonistModel.cpp \
     stringtextview.cpp \
     textcommands.cpp \
-    tileType.cpp \
-    viewTiletext.cpp
+    tileType.cpp
 
 HEADERS += \
     arrowtextcommand.h \
     gototextcommand.h \
     helptextcommand.h \
     mainwindow.h \
+    nearestenemycommand.h \
     node.h \
     pathplanner.h \
     HealthPackModel.h \
@@ -62,8 +63,7 @@ HEADERS += \
     protagonistModel.h \
     stringtextview.h \
     textcommands.h \
-    tileType.h \
-    viewTiletext.h
+    tileType.h
 
 FORMS += \
     mainwindow.ui

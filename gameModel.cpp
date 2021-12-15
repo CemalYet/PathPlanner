@@ -68,7 +68,7 @@ std::vector<std::shared_ptr<TileModel> > GameModel::getTiles() const
 }
 
 
-void GameModel::setTiles(std::vector<std::unique_ptr<Tile> > &value)
+/*void GameModel::setTiles(std::vector<std::unique_ptr<Tile> > &value)
 {
     for(auto &tile:value){
         auto tile_model= std::make_shared<TileModel>();
@@ -77,7 +77,28 @@ void GameModel::setTiles(std::vector<std::unique_ptr<Tile> > &value)
             tile->setValue(abs(1-(tile->getValue())));
     }
           tile_model->setTile(std::move(tile));
+          tiles.push_back(tile_model);      
+        }
+}*/
+//testing :if not working uncomment top code
+void GameModel::setTiles(std::vector<std::unique_ptr<Tile> > &value)
+{
+    for(auto &tile:value){
+        auto tile_model= std::make_shared<TileModel>();
+        if(tile->getValue() != std::numeric_limits<float>::infinity()){
+            //std::cout<<1/tile->getValue()<<std::endl;
+            tile->setValue(abs(1-(tile->getValue())));
+        }
+        else if(tile->getValue() == std::numeric_limits<float>::infinity()){
+            auto tileXPos=std::to_string(tile->getXPos());
+            auto tileYPos=std::to_string(tile->getYPos());
+            tileTypeMap[tileXPos+sep+tileYPos]=TileType::Blocked;
+            //std::cout<<"blockz"<<std::endl;
+        }
+          tile_model->setTile(std::move(tile));
           tiles.push_back(tile_model);
+
+
         }
 }
 

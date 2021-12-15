@@ -9,7 +9,6 @@
 #include "ViewGraphical.h"
 #include "controllerViewSwitch.h"
 #include "QGraphicsRectItem"
-#include "viewTiletext.h"
 #include "tileType.h"
 #include "stringtextview.h"
 

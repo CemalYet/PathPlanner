@@ -10,12 +10,7 @@ GoToTextCommand::GoToTextCommand(std::shared_ptr<GameModel> gameMdl, std::shared
 
 }
 
-void GoToTextCommand::delay()
-{
-    QTime dieTime= QTime::currentTime().addSecs(1);
-    while (QTime::currentTime() < dieTime)
-        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-}
+
 
 void GoToTextCommand::execute(const std::string &command, std::list<std::string> commandExtras)
 {
@@ -36,7 +31,7 @@ void GoToTextCommand::execute(const std::string &command, std::list<std::string>
         auto valueOfTile=getTile->getValue();
         auto getProtagonist=gameModel->getProtagonist()->getProtagonist();
 
-        if(tileT == TileType::Enemy){
+       /* if(tileT == TileType::Enemy){
             auto enemyT=gameModel->getEnemyTileFromEnemyTileMap(t.first,t.second);
 
             if(getProtagonist->getEnergy() >= enemyT->getValue()){//if protagonist have enough enrgy to attack enemy
@@ -66,15 +61,9 @@ void GoToTextCommand::execute(const std::string &command, std::list<std::string>
                 std::cout<<"enemy ahead and not enough energy to attack enemy"<<std::endl;
                 break;
             }
-        }
-        else if(tileT == TileType::HealthPack){
-            auto healthtile=gameModel->getHealthPackFromHealthTileMap(t.first,t.second);
-            gameModel->getProtagonist()->increaseHealth(healthtile->getValue());//increase energy
-                                                                          //update it's status as packed
-            healthtile->setValue(0);                                     //update its healthvalue as 0
-            textView->updateTakenHealthPackView(t.first,t.second);              //update view as health pack taken view
-        }
-        else if(tileT==TileType::NormalTile){
+        }*/
+
+        //if(tileT==TileType::NormalTile){
 
             //std::cout<<"path"<<t.first<<t.second<<std::endl;
             gameModel->clearProtagonistFromMap();//clear current protagonist from map
@@ -89,15 +78,22 @@ void GoToTextCommand::execute(const std::string &command, std::list<std::string>
 
             auto updatedView=textView->buildPartialView(t.first,t.second);
             emit updateMainWindowView(updatedView);
+            if(getProtagonist->getEnergy() <=0){
+                QString message="Game over";
+                emit gameover(message);
+            }
             delay();
 
-
-
-
-        }
+        //}
+          if(tileT == TileType::HealthPack){
+           auto healthtile=gameModel->getHealthPackFromHealthTileMap(t.first,t.second);
+           gameModel->getProtagonist()->increaseHealth(healthtile->getValue());//increase energy                                                                        //update it's status as packed
+           healthtile->setValue(0);                                     //update its healthvalue as 0
+           textView->updateTakenHealthPackView(t.first,t.second);              //update view as health pack taken view
+       }
     }
 
-
+std::cout<<"Size of the path"<<tilesInThePath.size()<<std::endl;
 }
 
 

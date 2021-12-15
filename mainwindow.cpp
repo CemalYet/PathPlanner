@@ -14,6 +14,7 @@
 #include "arrowtextcommand.h"
 #include "gototextcommand.h"
 #include "helptextcommand.h"
+#include "nearestenemycommand.h"
 #include <qdebug.h>
 #include <vector>
 #include <memory>
@@ -33,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     world = make_shared<World>();
-    world->createWorld(":/images/worldmap.jpg",10,5);
+    world->createWorld(":/images/worldmap.jpg",10,10);
     gameModel = std::make_shared<GameModel>();
 
 
@@ -56,6 +57,13 @@ MainWindow::MainWindow(QWidget *parent)
         auto enemy=world->getEnemies();
         gameModel->setEnemies(enemy);
         auto penemies_gamemodel=gameModel->getPEnemies();
+        /*for (auto &e: gameModel->getEnemies()){
+        cout<<"enemies"<<e->getEnemy()->getXPos()<<","<<e->getEnemy()->getYPos()<<endl;
+        }
+        for (auto &e: gameModel->getPEnemies()){
+        cout<<"penemies"<<e->getPEnemy()->getXPos()<<","<<e->getPEnemy()->getYPos()<<endl;
+        }*/
+
 
 //initialize healthpack in gamemodel
        auto hp=world->getHealthPacks();
@@ -65,10 +73,12 @@ MainWindow::MainWindow(QWidget *parent)
 
 //initialize protagonist in gamemodel
             auto protagonist=world->getProtagonist();
+
             auto protagonist_model=make_shared<protagonistModel>();
             protagonist_model->setProtagonist(protagonist);
             auto protagonist_gamemodel = protagonist_model->getProtagonist();
             gameModel->setProtagonist(protagonist_model);
+            //gameModel->getProtagonist()->getProtagonist()->setPos(0,22);
 
 
 
@@ -80,11 +90,13 @@ MainWindow::MainWindow(QWidget *parent)
             ui->health->setValue(gameModel->getProtagonist()->getProtagonist()->getHealth());
 
 //tile
-           /* for (auto &tile: gameModel->getTiles()){
+            /*for (auto &tile: gameModel->getTiles()){
 
                 auto XPosTile=tile->getTile()->getXPos();
                 auto YPosTile=tile->getTile()->getYPos();
-                std::cout<<XPosTile<<","<<YPosTile<<std::endl;
+                if(tile->isObstacle()){
+                std::cout<<XPosTile<<","<<YPosTile<<tile->getTile()->getValue() <<std::endl;
+                }
             }*/
 
 }
@@ -150,7 +162,12 @@ void MainWindow::createTextCommandToClassMap()
     auto gotoObject=std::make_shared<GoToTextCommand>(gameModel,gameTextView);
     textCommandToClassMap["goto"]=gotoObject;
     textCommandToClassMap["help"]=std::make_shared<HelpTextCommand>(gameModel,gameTextView,ui->helpResponse);
+    auto nearestEnemyCommandObject=std::make_shared<NearestEnemyCommand>(gameModel,gameTextView);
+    textCommandToClassMap["enemy"]=nearestEnemyCommandObject;
+    QObject::connect(nearestEnemyCommandObject.get(),SIGNAL(gameover(const QString)),this,SLOT(gameOverSlot(const QString)));
     QObject::connect(commandObject.get(),SIGNAL(gameover(const QString)),this,SLOT(gameOverSlot(const QString)));
+    QObject::connect(gotoObject.get(),SIGNAL(gameover(const QString)),this,SLOT(gameOverSlot(const QString)));
+    QObject::connect(gotoObject.get(),SIGNAL(updateMainWindowView(QString)),this,SLOT(updateMainWindowViewSlot(QString)));
     QObject::connect(gotoObject.get(),SIGNAL(updateMainWindowView(QString)),this,SLOT(updateMainWindowViewSlot(QString)));
 }
 
@@ -172,16 +189,14 @@ void MainWindow::on_executeButton_clicked()
     textViewItem=scene->addText(gameTextView->buildPartialView(protagonistXPos,protagonistYPos));
     updateEnergy(gameModel->getProtagonist()->getProtagonist()->getEnergy());
     updateHealth(gameModel->getProtagonist()->getProtagonist()->getHealth());
-
-
+    QString protagonistPos="Protagonist("%QString::number(protagonistXPos)%","%QString::number(protagonistYPos)%")";//added
+    ui->textBrowser->setText(protagonistPos);//added
 }
 
 
 
 void MainWindow::updateEnergy(float value){
-   // std::cout<<"energy"<<gameModel->getProtagonist()->getProtagonist()->getEnergy()<<std::endl;
     ui->energy->setValue(value);
-
 }
 
 void MainWindow::updateHealth(float value)
@@ -199,16 +214,22 @@ void MainWindow::gameOverSlot(const QString &message)
 
 void MainWindow::updateMainWindowViewSlot(QString buildview)
 {
-    //scene = gameTextView->getScene();
-   // scene->clear();
+
     scene->removeItem(textViewItem);
     textViewItem=scene->addText(buildview);
-   // std::cout<<"jo"<<std::endl;
+    //show protagonist position as well
+    auto protagonist=gameModel->getProtagonist()->getProtagonist();
+    QString xpos=QString::number(protagonist->getXPos());
+    QString ypos=QString::number(protagonist->getYPos());
+    QString protagonistPosition="Protagonist("%xpos%","%ypos%")";
+    ui->textBrowser->setText(protagonistPosition);
+    updateEnergy(protagonist->getEnergy());
+    updateHealth(protagonist->getHealth());
 }
 
 
 
-void MainWindow::on_comboBox_activated(int index)
+/*void MainWindow::on_comboBox_activated(int index)
 {
     //world = make_shared<World>();
     switch(index){
@@ -233,7 +254,7 @@ void MainWindow::on_comboBox_activated(int index)
         std::cout<<" case5"<<std::endl;
        break;
     }
-}
+}*/
 
 void MainWindow::selectWorld(int index){
     world = make_shared<World>();
