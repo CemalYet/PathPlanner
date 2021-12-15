@@ -8,55 +8,43 @@
 #include <memory>
 #include <queue>
 #include <vector>
+#include "enemyModel.h"
+#include "PenemyModel.h"
 #include "world.h"
+//#include "gameModel.h"
 #include "world_global.h"
+#include "PenemyModel.h"
+#include <QGraphicsPixmapItem>
+#include <QGraphicsPolygonItem>
+#include <QGraphicsItem>
+#include <QPointF>
+#include <QObject>
+//#include "Projectile.h"
+//#include "ViewProtagonist.h"
+#include "protagonistModel.h"
 
 
-
-class XEnemy;
-
-class XenemyModel
-{
-public:
-    const std::shared_ptr<XEnemy> &getXenemy() const{return xenemy;};
-    //void setXEnemy(const std::shared_ptr<XEnemy> &newXEnemy);
-    //void setXEnemy(const std::shared_ptr<XEnemy> &newXEnemy, std::unique_ptr<GameModel> &gameModel);
-    void setXEnemy( int x, int y);
-    //std::vector<std::shared_ptr<XenemyModel> > getXEnemies()const;
-
-private:
-    std::shared_ptr<XEnemy> xenemy;
-    //std::vector<std::shared_ptr<XenemyModel>> xEnemies;
-    int xPosition;
-    int yPosition;
-};
-
-//------------------------------------------------------------
-
-class XEnemy: public Enemy
+class XenemyModel : public QObject, public PenemyModel, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:
-    XEnemy(int xPosition, int yPosition, float strength);
-    ~XEnemy() override = default;
-    float getShapeType() const;
-    void setShapeType(float value);
-    float setEnergyBar(float value);
-    void setXenemy(std::vector<std::unique_ptr<Enemy> > &value);
-
+    XenemyModel(QGraphicsItem * parent=0);   //create xenemy logic
+    double distanceTO(QGraphicsItem * item);
+    const std::shared_ptr<PEnemy> &getXEnemy() const{return xenemy;};
+    void setXEnemy(const std::shared_ptr<PEnemy> &newXEnemy){xenemy = newXEnemy;};
+    void fire();
 
 public slots:
-    bool status();
-
-signals:
-    void shapeTypeUpdated(int value);
+    //void aquire_target();
 
 private:
-    enum shapeType {cute, Mad, furious, dead};
-    //std::shared_ptr<XEnemy> Xenemy;
-    float energyBar;
-    std::vector<std::shared_ptr<XEnemy>> Xenemy;
-
+    std::shared_ptr<PEnemy> xenemy;
+    //std::vector<std::shared_ptr<XenemyModel>> xEnemies;
+    int xPosition;
+    int yPosition;
+    QGraphicsPolygonItem * attackBoundry;
+    QPointF attack_dest;
+    bool hasTarget;
 };
 
 #endif // XENEMYMODEL_H

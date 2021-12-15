@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1238</width>
+    <height>793</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,30 +19,10 @@
      <rect>
       <x>70</x>
       <y>60</y>
-      <width>681</width>
-      <height>421</height>
+      <width>1121</width>
+      <height>591</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QComboBox" name="comboBox">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>20</y>
-      <width>111</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>Graphical view</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>text view</string>
-     </property>
-    </item>
    </widget>
    <widget class="QProgressBar" name="health">
     <property name="geometry">
@@ -52,6 +32,9 @@
       <width>118</width>
       <height>23</height>
      </rect>
+    </property>
+    <property name="maximum">
+     <number>100</number>
     </property>
     <property name="value">
      <number>24</number>
@@ -92,32 +75,38 @@
       <height>23</height>
      </rect>
     </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
     <property name="value">
      <number>24</number>
     </property>
+    <property name="format">
+     <string>%p%</string>
+    </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit">
+   <widget class="QTextEdit" name="userInput">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>490</y>
-      <width>81</width>
-      <height>31</height>
+      <x>70</x>
+      <y>670</y>
+      <width>231</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="html">
      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="executeButton">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>490</y>
+      <x>320</x>
+      <y>670</y>
       <width>80</width>
       <height>23</height>
      </rect>
@@ -126,14 +115,141 @@ p, li { white-space: pre-wrap; }
      <string>execute</string>
     </property>
    </widget>
+   <widget class="QRadioButton" name="radioButton">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>20</y>
+      <width>141</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Graphical view</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioButton_Text">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>20</y>
+      <width>112</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Text view</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="helpResponse">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>670</y>
+      <width>251</width>
+      <height>71</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="textBrowser">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>540</y>
+      <width>431</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Ubuntu Condensed</family>
+      <pointsize>37</pointsize>
+      <weight>75</weight>
+      <italic>false</italic>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
+    </property>
+    <property name="overwriteMode">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>10</y>
+      <width>131</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Worldmap</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <selectedon>:/images/worldmap.jpg</selectedon>
+      </iconset>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Worldmap4</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <selectedon>:/images/worldmap4.jpg</selectedon>
+      </iconset>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>maze1</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <selectedon>:/images/maze1.jpg</selectedon>
+      </iconset>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>maze2</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <selectedon>:/images/maze2.jpg</selectedon>
+      </iconset>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>maze3</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <selectedon>:/images/maze3.jpg</selectedon>
+      </iconset>
+     </property>
+    </item>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>20</height>
+     <width>1238</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>

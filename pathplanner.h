@@ -15,7 +15,8 @@ using namespace std;
 class PathPlanner
 {
 public:
-    PathPlanner(unique_ptr<GameModel> &w,float slider);
+
+    PathPlanner(shared_ptr<GameModel> &w,float slider); //changed to shared pointer
     float findDistance(int x1,int y1,int x2,int y2) ;
     vector<pair<int,int>> fillPath(shared_ptr<Node> &node);
     vector<unique_ptr<Tile> > getGameBoard() ;

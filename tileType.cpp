@@ -10,7 +10,14 @@ std::string getStringForEnum(TileType enum_val)
             case TileType::XEnemy: return "X";
             case TileType::HealthPack: return "H";
             case TileType::Blocked : return "B";
+            case TileType::TakenHealthpack: return "T";
             case TileType::NormalTile:
             default:return "0";
         }
+}
+
+
+static bool isEnemy(TileType type)
+{
+   return (type== TileType::PEnemy) || (type== TileType::Enemy) ||(type== TileType::XEnemy);
 }

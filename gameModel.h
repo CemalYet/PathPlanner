@@ -12,7 +12,6 @@
 #include "world.h"
 #include "PenemyModel.h"
 #include "XenemyModel.h"
-
 #include "tileType.h"
 
 class GameModel
@@ -37,6 +36,15 @@ private:
     //const char sep=':';
 
 
+    std::map<std::string,TileType> tileTypeMap;
+    std::map<std::string,std::shared_ptr<Enemy>> enemyTileMap;
+    std::map<std::string,std::shared_ptr<Tile>> healthTileMap;
+
+    int rows;
+    int cols;
+    std::string sep =":";
+
+
 public:
      GameModel();
 
@@ -55,9 +63,11 @@ public:
     TileType getTileType(int xposTile,int YposTile);
     std::shared_ptr<TileModel>getTileAtAPos(const int &xpos,const int &ypos);
     std::shared_ptr<Enemy>getEnemyTileFromEnemyTileMap(const int &xpos,const int &ypos);
+    std::shared_ptr<Tile>getHealthPackFromHealthTileMap(const int &xpos,const int &ypos);
     void setTileBlockedIntileTypeMap(const int &xpos,const int &ypos);
     void clearProtagonistFromMap();
     void updateProtagonistPositionInMap();
+
     int getRows() const;
     int getCols() const;
     void setRows(int newRows);

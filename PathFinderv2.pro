@@ -9,8 +9,12 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    arrowtextcommand.cpp \
+    gototextcommand.cpp \
+    helptextcommand.cpp \
     main.cpp \
     mainwindow.cpp \
+    nearestenemycommand.cpp \
     node.cpp \
     pathplanner.cpp \
     HealthPackModel.cpp \
@@ -29,10 +33,16 @@ SOURCES += \
     enemyModel.cpp \
     gameModel.cpp \
     protagonistModel.cpp \
+    stringtextview.cpp \
+    textcommands.cpp \
     tileType.cpp
 
 HEADERS += \
+    arrowtextcommand.h \
+    gototextcommand.h \
+    helptextcommand.h \
     mainwindow.h \
+    nearestenemycommand.h \
     node.h \
     pathplanner.h \
     HealthPackModel.h \
@@ -51,6 +61,8 @@ HEADERS += \
     enemyModel.h \
     gameModel.h \
     protagonistModel.h \
+    stringtextview.h \
+    textcommands.h \
     tileType.h
 
 FORMS += \
@@ -63,10 +75,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 #Library
 
 
-unix:!macx: LIBS += -L$$PWD/../world_source_v4/ -lworld
+#unix:!macx: LIBS += -L$$PWD/../world_source_v4/ -lworld
 
-INCLUDEPATH += $$PWD/../world_source_v4
-DEPENDPATH += $$PWD/../world_source_v4
+#INCLUDEPATH += $$PWD/../world_source_v4
+#DEPENDPATH += $$PWD/../world_source_v4
 
 RESOURCES += \
     images.qrc
@@ -77,3 +89,10 @@ RESOURCES += \
 
 #INCLUDEPATH += $$PWD/mylib
 #DEPENDPATH += $$PWD/mylib
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../world_v4/release/ -lworld
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../world_v4/debug/ -lworld
+else:unix: LIBS += -L$$PWD/../world_v4/ -lworld
+
+INCLUDEPATH += $$PWD/../world_v4
+DEPENDPATH += $$PWD/../world_v4
