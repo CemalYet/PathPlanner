@@ -7,7 +7,9 @@
 #include <QTimer>
 #include <memory>
 #include "world.h"
+
 const float maxEH {100.0F};
+
 class  protagonistModel
 {
 
@@ -23,8 +25,6 @@ public:
     void decreaseEnergy(float value);
     void increaseHealth(float value);
     void increaseEnergy();
-
-
     std::shared_ptr<Protagonist> getProtagonist() const{return protagonist;};
     void setProtagonist(std::unique_ptr<Protagonist> &value){protagonist = std::move(value);};
 

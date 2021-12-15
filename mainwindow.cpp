@@ -18,7 +18,9 @@
 #include <qdebug.h>
 #include <vector>
 #include <memory>
+<<<<<<< mainwindow.cpp
 #include <sstream>
+#include "pathplanner.h"
 
 using namespace std;
 
@@ -31,43 +33,62 @@ MainWindow::MainWindow(QWidget *parent)
     // QObject::connect(ui->comboBox,SIGNAL(activated(int)),this,SLOT(selectWorld(int)));
     //QObject::connect(ui->comboBox,SIGNAL(activated(int)),this,SLOT(on_comboBox_activated(int)));
 
+/// (0,22) -> (1200,1205); maze3
+/// (0,45) -> (999, 938)
 
 
     world = make_shared<World>();
     world->createWorld(":/images/worldmap.jpg",10,10);
     gameModel = std::make_shared<GameModel>();
 
+       //set tiles
+       auto world_tiles=world->getTiles();
+       gameModel->setTiles(world_tiles);
 
 
-//initialize tiles in gamemodel
-    auto world_tiles=world->getTiles();
-    gameModel->setTiles(world_tiles);
-
-//initialize row and coloum of tile board in gamemodel
-            auto row=world->getRows();
-            auto col=world->getCols();
+//       //set All Type enemies
+//       auto allEnemy=world->getEnemies();
+//       gameModel->setAllTypeEnemies(allEnemy);
 
 
-            gameModel->setRows(row);
-            gameModel->setCols(col);
+
+       //set enemies
+       auto enemy=world->getEnemies();
+       gameModel->setEnemies(enemy);
+
+       //set health pack
+       auto healthpack=world->getHealthPacks();
+       gameModel->setHealthPacks(healthpack);
 
 
-//initialize enemies in gamemodel
+       //set protagonist
+       auto protagonist=world->getProtagonist();
+       auto protagonist_model=make_shared<protagonistModel>();
+       protagonist_model->setProtagonist(protagonist);
+       auto protagonist_gamemodel = protagonist_model->getProtagonist();
+       gameModel->setProtagonist(protagonist_model);
+       gameModel->getProtagonist()->getProtagonist()->setXPos(0);
+       gameModel->getProtagonist()->getProtagonist()->setYPos(0);
 
-        auto enemy=world->getEnemies();
-        gameModel->setEnemies(enemy);
-        auto penemies_gamemodel=gameModel->getPEnemies();
-        /*for (auto &e: gameModel->getEnemies()){
-        cout<<"enemies"<<e->getEnemy()->getXPos()<<","<<e->getEnemy()->getYPos()<<endl;
-        }
-        for (auto &e: gameModel->getPEnemies()){
-        cout<<"penemies"<<e->getPEnemy()->getXPos()<<","<<e->getPEnemy()->getYPos()<<endl;
-        }*/
+       gameModel->setCols(world->getCols());
+       gameModel->setRows(world->getRows());
 
 
-//initialize healthpack in gamemodel
-       auto hp=world->getHealthPacks();
-       gameModel->setHealthPacks(hp);
+      auto pathPlanner=make_shared<PathPlanner>(gameModel,1);
+      auto autoplayPath=pathPlanner->autoPlay();
+
+
+      if(autoplayPath.first){
+          cout<<"you win "<<endl;
+          cout<<autoplayPath.second.size()<<endl;
+      }else{
+          cout<<"game over"<<endl;
+          cout<<autoplayPath.second.size()<<endl;
+      }
+      //cout<<"PATH === "<<autoplayPath.second.size()<<endl;
+
+
+     pair<float,vector<pair<int,int>>> dummy=pathPlanner->solution1(1200,1205);
 
 
 
@@ -78,6 +99,7 @@ MainWindow::MainWindow(QWidget *parent)
             protagonist_model->setProtagonist(protagonist);
             auto protagonist_gamemodel = protagonist_model->getProtagonist();
             gameModel->setProtagonist(protagonist_model);
+
             //gameModel->getProtagonist()->getProtagonist()->setPos(0,22);
 
 
@@ -88,17 +110,6 @@ MainWindow::MainWindow(QWidget *parent)
 
             gameModel->getProtagonist()->getProtagonist()->setEnergy(world->getProtagonist()->getHealth());
             ui->health->setValue(gameModel->getProtagonist()->getProtagonist()->getHealth());
-
-//tile
-            /*for (auto &tile: gameModel->getTiles()){
-
-                auto XPosTile=tile->getTile()->getXPos();
-                auto YPosTile=tile->getTile()->getYPos();
-                if(tile->isObstacle()){
-                std::cout<<XPosTile<<","<<YPosTile<<tile->getTile()->getValue() <<std::endl;
-                }
-            }*/
-
 }
 
 MainWindow::~MainWindow()

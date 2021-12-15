@@ -1,3 +1,4 @@
+
 #ifndef PATHPLANNER_H
 #define PATHPLANNER_H
 #include "node.h"
@@ -14,6 +15,7 @@ using namespace std;
 class PathPlanner
 {
 public:
+
     PathPlanner(shared_ptr<GameModel> &w,float slider); //changed to shared pointer
     float findDistance(int x1,int y1,int x2,int y2) ;
     vector<pair<int,int>> fillPath(shared_ptr<Node> &node);

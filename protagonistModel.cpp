@@ -51,19 +51,17 @@ void protagonistModel::decreaseEnergy(float value)
 }
 
 void protagonistModel::increaseHealth(float value)
-{   if(protagonist->getHealth()+value<100){
+{   if(protagonist->getHealth()+value<maxEH){
         protagonist->setHealth(protagonist->getHealth() + value);
     }else{
-        protagonist->setHealth(100);
+        protagonist->setHealth(maxEH);
     }
 
 }
 
 void protagonistModel::increaseEnergy()
 {
-        protagonist->setEnergy(maxEH);
-
+    protagonist->setEnergy(maxEH);
 }
-
 
 

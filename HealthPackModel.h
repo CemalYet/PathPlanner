@@ -16,8 +16,6 @@ public:
     void setHealthPack(const std::shared_ptr<Tile> &newHealthPack);
     bool getIsPacked() const;
     void setIsPacked(bool newIsPacked);
-
-
 private:
     bool isPacked{false};
 

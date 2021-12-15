@@ -29,7 +29,7 @@ void GameModel::printMap()
 
 const std::map<std::string, std::shared_ptr<Enemy> > &GameModel::getEnemyTileMap() const
 {
-     return enemyTileMap;
+    return enemyTileMap;
 }
 
 GameModel::GameModel()
@@ -69,6 +69,7 @@ std::vector<std::shared_ptr<TileModel> > GameModel::getTiles() const
 
 
 /*void GameModel::setTiles(std::vector<std::unique_ptr<Tile> > &value)
+<<<<<<< gameModel.cpp
 {
     for(auto &tile:value){
         auto tile_model= std::make_shared<TileModel>();
@@ -99,6 +100,18 @@ void GameModel::setTiles(std::vector<std::unique_ptr<Tile> > &value)
           tiles.push_back(tile_model);
 
 
+        }
+}*/
+void GameModel::setTiles(std::vector<std::unique_ptr<Tile> > &value)
+{
+    for(auto &tile:value){
+        auto tile_model= std::make_shared<TileModel>();
+        if(tile->getValue() != std::numeric_limits<float>::infinity()){
+            //Do not remove it it requires for pathplanner
+            tile->setValue(abs(1-(tile->getValue())));
+    }
+          tile_model->setTile(std::move(tile));
+          tiles.push_back(tile_model);
         }
 }
 
@@ -187,6 +200,12 @@ std::shared_ptr<Tile> GameModel::getHealthPackFromHealthTileMap(const int &xpos,
 {
      tileTypeMap[std::to_string(xpos)+sep+std::to_string(ypos)]=TileType::Blocked;
 }*/
+
+void GameModel::setTileBlockedIntileTypeMap(const int &xpos, const int &ypos)
+{
+     tileTypeMap[std::to_string(xpos)+sep+std::to_string(ypos)]=TileType::Blocked;
+}
+
 
 std::vector<std::shared_ptr<PenemyModel> > GameModel::getPEnemies() const
 {

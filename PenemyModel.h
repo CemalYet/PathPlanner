@@ -15,7 +15,6 @@ public:
     void setPEnemy(const std::shared_ptr<PEnemy> &newPEnemy){penemy = newPEnemy;};
 private:
     std::shared_ptr<PEnemy> penemy;
-
     void getEnemyPosition();
 
 };

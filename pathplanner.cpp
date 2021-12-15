@@ -1,9 +1,8 @@
 #include "pathplanner.h"
 
 
+PathPlanner::PathPlanner(unique_ptr<GameModel> &w,float slider):slider(slider)
 
-
-PathPlanner::PathPlanner(shared_ptr<GameModel> &w, float slider):slider(slider)
 {
     gameBoard = w->getTiles();
     protogonist = w->getProtagonist();
@@ -85,6 +84,7 @@ pair<float,vector<pair<int,int>>> PathPlanner::solution1(int goalX,int goalY){
         for( int i=0;i<8;i++) {
             int sucX=x+posX[i];
             int sucY=y+posY[i];
+
 
             if(sucX >= 0 && sucX <col && sucY >= 0 && sucY < row){ //changed so the enemy will not be in the path
            // if(sucX >= 0 && sucX <col && sucY >= 0 && sucY < row and enemies.find(std::to_string(sucX)+":"+std::to_string(sucY))==enemies.end()){

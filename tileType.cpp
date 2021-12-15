@@ -16,6 +16,7 @@ std::string getStringForEnum(TileType enum_val)
         }
 }
 
+
 static bool isEnemy(TileType type)
 {
    return (type== TileType::PEnemy) || (type== TileType::Enemy) ||(type== TileType::XEnemy);
