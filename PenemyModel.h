@@ -5,9 +5,10 @@
 #include <vector>
 #include <memory>
 #include "world.h"
+#include "enemyModel.h"
 
 
-class  PenemyModel
+class  PenemyModel :public EnemyModel
 {
 public:
     const std::shared_ptr<PEnemy> &getPEnemy() const{return penemy;};

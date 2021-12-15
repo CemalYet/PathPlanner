@@ -1,9 +1,11 @@
 #include "TileModel.h"
+#include<math.h>
 
 
 bool TileModel::isObstacle()
 {
-    if(tile->getValue()==std::numeric_limits<float>::infinity()) {
+    if(tile->getValue()==std::numeric_limits<float>::infinity()){
+    //if (std::isinf(tile->getValue())){*/////   //:/
         return true;
     }
     return false;
@@ -13,6 +15,5 @@ bool TileModel::isObstacle()
 void TileModel::setInfinity()
 {
     tile->setValue(std::numeric_limits<float>::infinity());
-
 }
 
