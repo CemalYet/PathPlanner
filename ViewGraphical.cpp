@@ -9,6 +9,7 @@ ViewGraphical::ViewGraphical(int rowsize, int colsize):rows{rowsize},cols{colsiz
     scene = new QGraphicsScene();
 }
 
+
 void ViewGraphical::initWorld()
 {
 

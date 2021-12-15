@@ -31,6 +31,7 @@ SOURCES += \
     gameModel.cpp \
     main.cpp \
     mainwindow.cpp \
+    my_qlabel.cpp \
     node.cpp \
     pathplanner.cpp \
     protagonistModel.cpp
@@ -54,6 +55,7 @@ HEADERS += \
     enemyModel.h \
     gameModel.h \
     mainwindow.h \
+    my_qlabel.h \
     node.h \
     pathplanner.h \
     protagonistModel.h

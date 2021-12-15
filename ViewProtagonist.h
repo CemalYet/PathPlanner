@@ -31,6 +31,7 @@ public:
     ViewPenemy * viewPEnemy_defeated;
     ViewXenemy * viewXEnemy_defeated;
 
+
     //void keyPressEvent(QKeyEvent * event) override;
     void selectNearestEnemy();
     void addAll(std::vector<std::unique_ptr<Tile>> &tiles,std::vector<std::unique_ptr<Tile>> &data);
@@ -41,6 +42,8 @@ public:
     void moveLeft(const int protagonistXPos, const int protagonistYPos, std::shared_ptr<GameModel> g_model);
     void moveUp(const int protagonistXPos, const int protagonistYPos, std::shared_ptr<GameModel> g_model);
     void moveDown(const int protagonistXPos, const int protagonistYPos, std::shared_ptr<GameModel> g_model);
+
+    void setPosition(int x, int y);
 
 private:
     std::shared_ptr<Tile> tile;

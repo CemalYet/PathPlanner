@@ -128,6 +128,16 @@ pair<float,vector<pair<int,int>>> PathPlanner::solution1(int goalX,int goalY){
     return make_pair(totalGivenCost,dummy);
 }
 
+void PathPlanner::setSlider(float newSlider)
+{
+    slider = newSlider;
+}
+
+float PathPlanner::getSlider() const
+{
+    return slider;
+}
+
 //returns win or game-over as well as path that protagonist followed
 //pair<bool,vector<vector<pair<int,int>>>> PathPlanner::autoPlay()
 //{

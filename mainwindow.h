@@ -42,15 +42,21 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void mousePressEvent(QMouseEvent *ev);
+
 private slots:
     void on_pushButton_2_clicked();
-
     void on_pushButton_3_clicked();
-
     void on_health_valueChanged(float value);  
-
-
     void on_radioButton_clicked();
+
+    void Mouse_current_pos();
+    void Mouse_Pressed();
+    void Mouse_left();
+
+    void on_radioButton_2_clicked();
+
+    void on_horizontalSlider_sliderMoved(int position);
 
 public slots:
     void updateEnergy(float value);

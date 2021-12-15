@@ -262,6 +262,11 @@ void ViewProtagonist::moveDown(const int protagonistXPos, const int protagonistY
     //qDebug() << "the x value in ViewProtagonist: " << x() << "the y value in ViewProtagonist:" << y();
 }
 
+void ViewProtagonist::setPosition(int x, int y)
+{
+    setPos(x,y);
+}
+
 
 ViewProtagonist::ViewProtagonist(QGraphicsItem *parent)
 {

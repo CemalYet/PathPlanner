@@ -22,6 +22,10 @@ public:
     pair<bool,vector<vector<pair<int,int>>>> autoPlay();
 
 
+    void setSlider(float newSlider);
+
+    float getSlider() const;
+
 private:
     vector<shared_ptr<TileModel>> gameBoard;
     shared_ptr<protagonistModel> protogonist;
