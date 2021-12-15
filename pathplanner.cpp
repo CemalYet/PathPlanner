@@ -1,7 +1,7 @@
 #include "pathplanner.h"
 
 
-PathPlanner::PathPlanner(unique_ptr<GameModel> &w,float slider):slider(slider)
+PathPlanner::PathPlanner(shared_ptr<GameModel> &w,float slider):slider(slider)
 
 {
     gameBoard = w->getTiles();

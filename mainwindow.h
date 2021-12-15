@@ -26,7 +26,6 @@ public:
 private slots:
     void on_radioButton_Text_clicked();  
     void on_executeButton_clicked();
-    void selectWorld(int index);
    // void on_comboBox_activated(int index);
 
 public slots:

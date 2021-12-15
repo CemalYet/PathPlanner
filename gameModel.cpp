@@ -101,8 +101,8 @@ void GameModel::setTiles(std::vector<std::unique_ptr<Tile> > &value)
 
 
         }
-}*/
-void GameModel::setTiles(std::vector<std::unique_ptr<Tile> > &value)
+}
+/*void GameModel::setTiles(std::vector<std::unique_ptr<Tile> > &value)
 {
     for(auto &tile:value){
         auto tile_model= std::make_shared<TileModel>();
@@ -113,7 +113,7 @@ void GameModel::setTiles(std::vector<std::unique_ptr<Tile> > &value)
           tile_model->setTile(std::move(tile));
           tiles.push_back(tile_model);
         }
-}
+}*/
 
 
 

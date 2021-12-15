@@ -34,17 +34,6 @@ private:
     int cols;
     std::string sep =":";
     //const char sep=':';
-
-
-    std::map<std::string,TileType> tileTypeMap;
-    std::map<std::string,std::shared_ptr<Enemy>> enemyTileMap;
-    std::map<std::string,std::shared_ptr<Tile>> healthTileMap;
-
-    int rows;
-    int cols;
-    std::string sep =":";
-
-
 public:
      GameModel();
 

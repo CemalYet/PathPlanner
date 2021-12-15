@@ -18,7 +18,6 @@
 #include <qdebug.h>
 #include <vector>
 #include <memory>
-<<<<<<< mainwindow.cpp
 #include <sstream>
 #include "pathplanner.h"
 
@@ -41,75 +40,36 @@ MainWindow::MainWindow(QWidget *parent)
     world->createWorld(":/images/worldmap.jpg",10,10);
     gameModel = std::make_shared<GameModel>();
 
-       //set tiles
-       auto world_tiles=world->getTiles();
-       gameModel->setTiles(world_tiles);
+   //set tiles
+   auto world_tiles=world->getTiles();
+   gameModel->setTiles(world_tiles);
+
+   //set enemies
+   auto enemy=world->getEnemies();
+   gameModel->setEnemies(enemy);
+
+   //set health pack
+   auto healthpack=world->getHealthPacks();
+   gameModel->setHealthPacks(healthpack);
 
 
-//       //set All Type enemies
-//       auto allEnemy=world->getEnemies();
-//       gameModel->setAllTypeEnemies(allEnemy);
+   gameModel->setCols(world->getCols());
+   gameModel->setRows(world->getRows());
 
+   //initialize protagonist in gamemodel
+    auto protagonist=world->getProtagonist();
 
+    auto protagonist_model=make_shared<protagonistModel>();
+    protagonist_model->setProtagonist(protagonist);
+    auto protagonist_gamemodel = protagonist_model->getProtagonist();
+    gameModel->setProtagonist(protagonist_model);
 
-       //set enemies
-       auto enemy=world->getEnemies();
-       gameModel->setEnemies(enemy);
+    //initialize health and energy in both model and view
+    gameModel->getProtagonist()->getProtagonist()->setEnergy(world->getProtagonist()->getEnergy());
+    ui->energy->setValue(gameModel->getProtagonist()->getProtagonist()->getEnergy());
 
-       //set health pack
-       auto healthpack=world->getHealthPacks();
-       gameModel->setHealthPacks(healthpack);
-
-
-       //set protagonist
-       auto protagonist=world->getProtagonist();
-       auto protagonist_model=make_shared<protagonistModel>();
-       protagonist_model->setProtagonist(protagonist);
-       auto protagonist_gamemodel = protagonist_model->getProtagonist();
-       gameModel->setProtagonist(protagonist_model);
-       gameModel->getProtagonist()->getProtagonist()->setXPos(0);
-       gameModel->getProtagonist()->getProtagonist()->setYPos(0);
-
-       gameModel->setCols(world->getCols());
-       gameModel->setRows(world->getRows());
-
-
-      auto pathPlanner=make_shared<PathPlanner>(gameModel,1);
-      auto autoplayPath=pathPlanner->autoPlay();
-
-
-      if(autoplayPath.first){
-          cout<<"you win "<<endl;
-          cout<<autoplayPath.second.size()<<endl;
-      }else{
-          cout<<"game over"<<endl;
-          cout<<autoplayPath.second.size()<<endl;
-      }
-      //cout<<"PATH === "<<autoplayPath.second.size()<<endl;
-
-
-     pair<float,vector<pair<int,int>>> dummy=pathPlanner->solution1(1200,1205);
-
-
-
-//initialize protagonist in gamemodel
-            auto protagonist=world->getProtagonist();
-
-            auto protagonist_model=make_shared<protagonistModel>();
-            protagonist_model->setProtagonist(protagonist);
-            auto protagonist_gamemodel = protagonist_model->getProtagonist();
-            gameModel->setProtagonist(protagonist_model);
-
-            //gameModel->getProtagonist()->getProtagonist()->setPos(0,22);
-
-
-
-//initialize health and energy in both model and view
-            gameModel->getProtagonist()->getProtagonist()->setEnergy(world->getProtagonist()->getEnergy());
-            ui->energy->setValue(gameModel->getProtagonist()->getProtagonist()->getEnergy());
-
-            gameModel->getProtagonist()->getProtagonist()->setEnergy(world->getProtagonist()->getHealth());
-            ui->health->setValue(gameModel->getProtagonist()->getProtagonist()->getHealth());
+    gameModel->getProtagonist()->getProtagonist()->setEnergy(world->getProtagonist()->getHealth());
+    ui->health->setValue(gameModel->getProtagonist()->getProtagonist()->getHealth());
 }
 
 MainWindow::~MainWindow()
@@ -154,10 +114,9 @@ void MainWindow::processTextCommand(QString userCommand)
         std::string commandtail=CommandList[i].toStdString();
         joinedString.push_back(commandtail);
     }
-
    if(textCommandToClassMap[command]){
        textCommandToClassMap[command]->execute(command,joinedString);
-
+         std::cout<<"no problem"<<std::endl;
      }
 }
 
@@ -187,7 +146,6 @@ void MainWindow::on_executeButton_clicked()
 {
     ui->helpResponse->clear();
     QString inputCommand=ui->userInput->toPlainText();
-
     processTextCommand(inputCommand.toLower());
     scene->removeItem(textViewItem);
 
@@ -195,7 +153,6 @@ void MainWindow::on_executeButton_clicked()
     auto protagonistXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
     auto protagonistYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
 
-    //gameTextView->printTileViewVectors();
 
     textViewItem=scene->addText(gameTextView->buildPartialView(protagonistXPos,protagonistYPos));
     updateEnergy(gameModel->getProtagonist()->getProtagonist()->getEnergy());
@@ -203,8 +160,6 @@ void MainWindow::on_executeButton_clicked()
     QString protagonistPos="Protagonist("%QString::number(protagonistXPos)%","%QString::number(protagonistYPos)%")";//added
     ui->textBrowser->setText(protagonistPos);//added
 }
-
-
 
 void MainWindow::updateEnergy(float value){
     ui->energy->setValue(value);
@@ -267,24 +222,6 @@ void MainWindow::updateMainWindowViewSlot(QString buildview)
     }
 }*/
 
-void MainWindow::selectWorld(int index){
-    world = make_shared<World>();
-    switch(index){
-    case 1:
-        world->createWorld(":/images/worldmap.jpg",10,5);
-        break;
-    case 2:
-        world->createWorld(":/images/worldmap4.jpg",10,5);
-       break;
-    case 3:
-       world->createWorld(":/images/maze1.jpg",5,5);
-       break;
-    case 4:
-        world->createWorld(":/images/maze2.jpg",0,0);
-       break;
-    case 5:
-        world->createWorld(":/images/maze3.jpg",0,0);
-       break;
-    }
-}
+
+
 
