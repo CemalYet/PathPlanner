@@ -6,18 +6,14 @@
 #include <functional>
 #include <QTimer>
 #include <memory>
-#include "enemyModel.h"
 #include "protagonistModel.h"
 #include <QGraphicsRectItem>
 #include <QGraphicsPixmapItem>
 #include <QObject>
-#include "world.h"
-#include "world_global.h"
-#include "TileModel.h"
 #include "ViewPenemy.h"
 #include "ViewXenemy.h"
 #include "gameModel.h"
-#include "XenemyModel.h"
+//#include "XenemyModel.h"
 #include "ViewHealthPack.h"
 
 
@@ -28,6 +24,7 @@ class  ViewProtagonist :public QGraphicsPixmapItem
 {
 public:
     ViewProtagonist(QGraphicsItem * parent=0, const int & x_pos =0, const int &  y_pos=0);
+    //ViewProtagonist();
     ViewPenemy * viewPEnemy_defeated;
     ViewXenemy * viewXEnemy_defeated;
 

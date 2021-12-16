@@ -31,11 +31,17 @@ SOURCES += \
     gameModel.cpp \
     main.cpp \
     mainwindow.cpp \
-    my_qlabel.cpp \
     node.cpp \
     pathplanner.cpp \
+    arrowtextcommand.cpp \
+    gototextcommand.cpp \
+    helptextcommand.cpp \
+    nearestenemycommand.cpp \
+    nearesthealthpackcommand.cpp \
+    stringtextview.cpp \
+    textcommands.cpp \
+    tileType.cpp \
     protagonistModel.cpp
-
 
 HEADERS += \
     HealthPackModel.h \
@@ -56,9 +62,16 @@ HEADERS += \
     enemyModel.h \
     gameModel.h \
     mainwindow.h \
-    my_qlabel.h \
     node.h \
     pathplanner.h \
+    arrowtextcommand.h \
+    gototextcommand.h \
+    helptextcommand.h \
+    nearestenemycommand.h \
+    nearesthealthpackcommand.h \
+    stringtextview.h \
+    textcommands.h \
+    tileType.h \
     protagonistModel.h
 
 FORMS += \

@@ -13,6 +13,11 @@ ViewProtagonist::ViewProtagonist(QGraphicsItem *parent, const int &x, const int 
     setFocus();
 }
 
+//ViewProtagonist::ViewProtagonist()
+//{
+
+//}
+
 
 void ViewProtagonist::selectNearestEnemy()
 {
@@ -55,6 +60,8 @@ void ViewProtagonist::moveRight(const int protagonistXPos, const int protagonist
                 //g_model->getProtagonist()->decreaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
                 g_model->getProtagonist()->decreaseHealth(10);
                 //auto poison_area = scene()->addRect(-100,-100,50,50);
+                qDebug() << "ViewProtagonist x_pos is " << g_model->getProtagonist()->getProtagonist()->getXPos();
+                qDebug() << "ViewProtagonist y_pos is " << g_model->getProtagonist()->getProtagonist()->getYPos();
                 return;
             }
 

@@ -5,7 +5,7 @@
 #include <vector>
 #include <memory>
 #include "world.h"
-
+#include "enemyModel.h"
 
 
 class  PenemyModel
@@ -15,7 +15,6 @@ public:
     void setPEnemy(const std::shared_ptr<PEnemy> &newPEnemy){penemy = newPEnemy;};
 private:
     std::shared_ptr<PEnemy> penemy;
-
     void getEnemyPosition();
 
 };

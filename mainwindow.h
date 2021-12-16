@@ -26,7 +26,10 @@
 #include<QPainterPath>
 #include <QMouseEvent>
 #include "pathplanner.h"
-
+#include "ViewText.h"
+#include<QGraphicsScene>
+#include<QGraphicsView>
+#include "textcommands.h"
 
 
 
@@ -41,29 +44,26 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
-    void mousePressEvent(QMouseEvent *ev);
+    void processTextCommand(QString userCommand);
+    void createTextCommandToClassMap();
 
 private slots:
-    void on_pushButton_2_clicked();
-    void on_pushButton_3_clicked();
-    void on_health_valueChanged(float value);  
-    void on_radioButton_clicked();
+    void on_radioButton_Text_clicked();  
+    void on_executeButton_clicked();
 
-    void Mouse_current_pos();
-    void Mouse_Pressed();
-    void Mouse_left();
-
-    void on_radioButton_2_clicked();
-
-
-    void on_horizontalSlider_sliderMoved(int position);
+    void on_radioButton_graphics_clicked();
+    //void on_comboBox_activated(int index);
+    void on_pushButton_2_clicked();  //zoom out
+    void on_pushButton_3_clicked();  //zoomin
+    void on_health_valueChanged(float value);
 
 public slots:
     void updateEnergy(float value);
     void updateHealth(float value);
+    void gameOverSlot(const QString &message);
+    void updateMainWindowViewSlot(QString buildview);
 
-
+    void mousePressEvent(QMouseEvent *ev) override;
 
 private:
     Ui::MainWindow *ui;
@@ -80,13 +80,13 @@ private:
     ViewXenemy * xenemy;
     ViewHealthPack * healtPack;
 
-    //void paintEvent(QPaintEvent *event);
-//    int x() const;
-//    int y() const;
-    void mouseMoveEvent(QMouseEvent *event);
+    QGraphicsScene* scene;
+    std::shared_ptr<World> world;
 
+    std::shared_ptr<ViewText>gameTextView;
+    QGraphicsItem* textViewItem;
+    std::map<std::string,std::shared_ptr<TextCommands>>textCommandToClassMap;
 
     void keyPressEvent(QKeyEvent * event) override;
-    //void addTile(std::unique_ptr<Tile> tiles,std::vector<std::unique_ptr<Tile>> &data) ;
 };
 #endif // MAINWINDOW_H

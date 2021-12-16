@@ -4,6 +4,7 @@
 #include <QPointF>
 #include <QPolygonF>
 #include <QGraphicsScene>
+#include "ViewProtagonist.h"
 
 XenemyModel::XenemyModel(QGraphicsItem *parent)
 {
@@ -77,7 +78,7 @@ void XenemyModel::aquire_target()
     QPointF closest_pt = QPointF(0,0);
 
     for (size_t i=0, n=colliding_items.size(); i<n; i++){
-        protagonistModel* protagonist = dynamic_cast<protagonistModel *>(colliding_items[i]);  //if it's wrorong then the pointer will be set to null_ptr
+        ViewProtagonist* protagonist = dynamic_cast<ViewProtagonist *>(colliding_items[i]);  //if it's wrorong then the pointer will be set to null_ptr
         if (protagonist){     //if the casting is correct, then it's a protagonist pointer
             double this_dist = distanceTO(protagonist);
             if (this_dist < closet_distance){

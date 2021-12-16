@@ -6,9 +6,17 @@
 #include "protagonistModel.h"
 #include "PenemyModel.h"
 #include "enemyModel.h"
+#include "ViewTile.h"
 #include "pathplanner.h"
 #include "XenemyModel.h"
-#include <queue>
+#include "TileModel.h"
+#include "gameModel.h"
+#include "arrowtextcommand.h"
+#include "gototextcommand.h"
+#include "helptextcommand.h"
+#include "nearestenemycommand.h"
+#include "nearesthealthpackcommand.h"
+#include <qdebug.h>
 #include <vector>
 #include <memory>
 #include <QDebug>
@@ -29,9 +37,10 @@
 #include <QPolygonF>
 #include <QImage>
 #include "ViewGraphical.h"
-#include "my_qlabel.h"
 #include <QPainterPath>
 #include <QPainter>
+#include <sstream>
+#include "pathplanner.h"
 
 
 using namespace std;
@@ -41,17 +50,13 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 
 {
-    //setMouseTracking(true);
     ui->setupUi(this);
-    connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(zoomout()));
-    connect(ui->lblMouse, SIGNAL(Mouse_Pos()), this, SLOT(Mouse_current_pos()));
-    connect(ui->lblMouse, SIGNAL(Mouse_Pressed()), this, SLOT(Mouse_Pressed()));
-    connect(ui->lblMouse, SIGNAL(Mouse_left()), this, SLOT(Mouse_left()));
-    ui->zoom_group->hide();
+    //connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(zoomout()));
+    //ui->zoom_group->hide();
 
 
     auto world = make_shared<World>();
-    world->createWorld(":/images/maze3",20,1);
+    world->createWorld(":/images/worldmap",20,1);
     gameModel = std::make_shared<GameModel>();
     gameModel->setCols(world->getCols());
     gameModel->setRows(world->getRows());
@@ -72,35 +77,13 @@ MainWindow::MainWindow(QWidget *parent)
     gameModel->setXEnemies();
     auto xenemies = gameModel->getXEnemies();
 
-    std::cout<< "xenemies" <<std::endl;
-    for(auto &e:xenemies){
-        cout<<'['<<e->getXPosition()<<','<<e->getYPosition()<<']'<<endl;
-        //viewPenemy->setPos(e->getPEnemy()->getXPos() + 100, e->getPEnemy()->getYPos() + 100);  //line below for test to set the penemy closer
-    }
-    cout << "xenemy size" << xenemies.size()<< endl;
-
-    std::cout<< "Penemies" <<std::endl;
-    for(auto &e:penemies_gamemodel){
-        cout<<'['<<e->getPEnemy()->getXPos()<<','<<e->getPEnemy()->getYPos()<<']'<<endl;
-        //viewPenemy->setPos(e->getPEnemy()->getXPos() + 100, e->getPEnemy()->getYPos() + 100);  //line below for test to set the penemy closer
-    }
-    cout << "penemy size" << penemies_gamemodel.size()<< endl;
-
-    std::cout<< "enemies" <<std::endl;
-    for(auto &e:enemies_gamemodel){
-        cout<<'['<<e->getEnemy()->getXPos()<<','<<e->getEnemy()->getYPos()<<']'<<endl;
-        //viewPenemy->setPos(e->getPEnemy()->getXPos() + 100, e->getPEnemy()->getYPos() + 100);  //line below for test to set the penemy closer
-    }
-    cout << "enemy size" << enemies_gamemodel.size()<< endl;
-
-
     auto protagonist=world->getProtagonist();
     auto protagonist_model=make_shared<protagonistModel>();
     protagonist_model->setProtagonist(protagonist);
     auto protagonist_gamemodel = protagonist_model->getProtagonist();
     gameModel->setProtagonist(protagonist_model);
-    gameModel->getProtagonist()->getProtagonist()->setXPos(0);
-    gameModel->getProtagonist()->getProtagonist()->setYPos(45);
+    //gameModel->getProtagonist()->getProtagonist()->setXPos(0);
+    //gameModel->getProtagonist()->getProtagonist()->setYPos(45);
 
     auto health=world->getHealthPacks();
     gameModel->setHealthPacks(health);
@@ -111,12 +94,13 @@ MainWindow::MainWindow(QWidget *parent)
     gameModel->getProtagonist()->getProtagonist()->setEnergy(world->getProtagonist()->getHealth());
     ui->health->setValue(gameModel->getProtagonist()->getProtagonist()->getHealth());
 
-
     path =make_shared<PathPlanner>(gameModel,0);
 
-    //pair<float,vector<pair<int,int>>> dummy=path->solution1(1200,1205);
+    //get text scene
+    gameTextView =std::make_shared<ViewText>(gameModel->getRows(),gameModel->getCols());
+    scene = gameTextView->getScene();
 
-    //set scene
+    //get graphical scene
     graphicView = std::make_shared<ViewGraphical>(gameModel->getRows(),gameModel->getCols());
     scene_graphics = graphicView->getScene();
     auto nrOfCols = gameModel->getCols();
@@ -169,12 +153,12 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
     qDebug() <<"protagonist x position is :" << gameModel->getProtagonist()->getProtagonist()->getXPos() << "protagonist y position is :" << gameModel->getProtagonist()->getProtagonist()->getYPos();
 }
 
-void MainWindow::on_radioButton_clicked()
+void MainWindow::on_radioButton_graphics_clicked()
 {
-    ui->zoom_group->show();
+    //ui->zoom_group->show();
     ui->graphicsView->setScene(scene_graphics);
 
-    scene_graphics->addPixmap(QPixmap(":/images/maze3"));
+    scene_graphics->addPixmap(QPixmap(":/images/worldmap.jpg"));
 
 
     //ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -238,25 +222,6 @@ void MainWindow::on_radioButton_clicked()
             }
 }
 
-void MainWindow::Mouse_current_pos()
-{
-    ui->Mouse_position->setText(QString("X = %1, Y = %2").arg(ui->lblMouse->x)
-                                .arg(ui->lblMouse->y));
-    ui->Mouse_position->setText("Mouse moving");
-
-}
-
-void MainWindow::Mouse_Pressed()
-{
-    //ui->Mouse_current_event->setText("boo");
-
-    qDebug()<<"mouse is clicked";
-}
-
-void MainWindow::Mouse_left()
-{
-    ui->Mouse_current_event->setText("Mouse left");
-}
 
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -320,37 +285,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 updateEnergy(gameModel->getProtagonist()->getProtagonist()->getEnergy());
             }
         }
-//        else if (event->key() == Qt::Key_D){
-//                // create a bullet
-//                Projectile * projectile = new Projectile();
-//                projectile->setPos(x(),y());
-//                scene->addItem(projectile);
-//            }
-//        else if (event->key() == Qt::Key_Z){
-//                // create a bullet
-//                Projectile * projectile = new Projectile(5);
-//                projectile->setPos(x(),y());
-//                scene->addItem(projectile);
-//            }
-//        else if (event->key() == Qt::Key_S){
-//                // create a bullet
-//                Projectile * projectile = new Projectile(5,6);
-//                projectile->setPos(x(),y());
-//                scene->addItem(projectile);
-//            }
-//        else if (event->key() == Qt::Key_Q){
-//                // create a bullet
-//                Projectile * projectile = new Projectile(5,6,6);
-//                projectile->setPos(x(),y());
-//                scene->addItem(projectile);
-//            }
 }
 
 
-void MainWindow::mouseMoveEvent(QMouseEvent *event){
-    qDebug() << event->pos();
+//void MainWindow::mouseMoveEvent(QMouseEvent *event){
+//    qDebug() << event->pos();
 
-}
+//}
 
 
 void MainWindow::on_pushButton_2_clicked()
@@ -374,58 +315,152 @@ void MainWindow::on_health_valueChanged(float value)
 
     layout->addWidget(viewHealth);
     setLayout(layout);
+}
+
+void MainWindow::on_radioButton_Text_clicked()
+{
+    scene_graphics->clear();
+    ui->graphicsView->setScene(scene);
+    for (auto &tile: gameModel->getTiles()){
+
+        auto XPosTile=tile->getTile()->getXPos();
+        auto YPosTile=tile->getTile()->getYPos();
+        auto valueTile=tile->getTile()->getValue();
+        auto tileType=gameModel->getTileType(XPosTile,YPosTile);
+        gameTextView->setTextTileView(XPosTile,YPosTile,valueTile,tileType);
+    }
+
+    auto protagonistXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
+    auto protagonistYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
+    auto tv=gameTextView->buildPartialView(protagonistXPos,protagonistYPos);
+    textViewItem=scene->addText(tv);
+    createTextCommandToClassMap();
+}
+
+void MainWindow::processTextCommand(QString userCommand)
+{
+
+    QStringList CommandList = userCommand.split(" ");
+    std::string command=CommandList[0].toStdString();
+    std::list<std::string> joinedString = {};
+    for( int i=1; i<CommandList.count(); ++i ){
+        std::string commandtail=CommandList[i].toStdString();
+        joinedString.push_back(commandtail);
+    }
+   if(textCommandToClassMap[command]){
+       textCommandToClassMap[command]->execute(command,joinedString);
+         std::cout<<"no problem"<<std::endl;
+     }
+}
+
+void MainWindow::createTextCommandToClassMap()
+{
+
+    auto commandObject =  std::make_shared<ArrowTextCommand>(gameModel,gameTextView);
+    textCommandToClassMap["right"]=commandObject;
+    textCommandToClassMap["left"]=commandObject;
+    textCommandToClassMap["up"]=commandObject;
+    textCommandToClassMap["down"]=commandObject;
+
+    auto gotoObject=std::make_shared<GoToTextCommand>(gameModel,gameTextView);
+    textCommandToClassMap["goto"]=gotoObject;
+
+    textCommandToClassMap["help"]=std::make_shared<HelpTextCommand>(gameModel,gameTextView,ui->helpResponse);
+
+    auto nearestEnemyCommandObject=std::make_shared<NearestEnemyCommand>(gameModel,gameTextView);
+    textCommandToClassMap["enemy"]=nearestEnemyCommandObject;
+
+    auto nearestHealthCommandObject=std::make_shared<NearestHealthPackCommand>(gameModel,gameTextView);
+    textCommandToClassMap["health"]=nearestHealthCommandObject;
+
+    QObject::connect(nearestHealthCommandObject.get(),SIGNAL(gameover(const QString)),this,SLOT(gameOverSlot(const QString)));
+    QObject::connect(nearestHealthCommandObject.get(),SIGNAL(updateMainWindowView(QString)),this,SLOT(updateMainWindowViewSlot(QString)));
+
+    QObject::connect(nearestEnemyCommandObject.get(),SIGNAL(gameover(const QString)),this,SLOT(gameOverSlot(const QString)));
+    QObject::connect(nearestEnemyCommandObject.get(),SIGNAL(updateMainWindowView(QString)),this,SLOT(updateMainWindowViewSlot(QString)));
+
+    QObject::connect(commandObject.get(),SIGNAL(gameover(const QString)),this,SLOT(gameOverSlot(const QString)));
+
+    QObject::connect(gotoObject.get(),SIGNAL(gameover(const QString)),this,SLOT(gameOverSlot(const QString)));
+    QObject::connect(gotoObject.get(),SIGNAL(updateMainWindowView(QString)),this,SLOT(updateMainWindowViewSlot(QString)));
 
 }
 
+
+void MainWindow::on_executeButton_clicked()
+{
+    ui->helpResponse->clear();
+    QString inputCommand=ui->userInput->toPlainText();
+    processTextCommand(inputCommand.toLower());
+    scene->removeItem(textViewItem);
+    auto protagonistXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
+    auto protagonistYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
+    textViewItem=scene->addText(gameTextView->buildPartialView(protagonistXPos,protagonistYPos));
+    updateEnergy(gameModel->getProtagonist()->getProtagonist()->getEnergy());
+    updateHealth(gameModel->getProtagonist()->getProtagonist()->getHealth());
+    QString protagonistPos="Protagonist("%QString::number(protagonistXPos)%","%QString::number(protagonistYPos)%")";//added
+    ui->textBrowser->setText(protagonistPos);//added
+}
+
+void MainWindow::updateEnergy(float value){
+    ui->energy->setValue(value);
+}
 
 void MainWindow::updateHealth(float value)
 {
-     std::cout<<"health"<<gameModel->getProtagonist()->getProtagonist()->getHealth()<<std::endl;
+    // std::cout<<"health"<<gameModel->getProtagonist()->getProtagonist()->getHealth()<<std::endl;
      ui->health->setValue(value);
 }
 
-
-//void MainWindow::MainWindow::paintEvent(QPaintEvent *event)
-//{
-//    QPainterPath path;
-
-//    //    path.lineTo(10,250);
-//    //    path.lineTo(20,300);
-
-//        QPainter painter(this);
-//        painter.setPen(QPen(QColor(79, 106, 25), 1, Qt::SolidLine,
-//                            Qt::FlatCap, Qt::MiterJoin));
-//        painter.setBrush(QColor(122, 163, 39));
-
-//        for(int i =0;i<30;i++){
-//            path.addRect(i+5,i+3,i+10,i+13);
-//            painter.drawPath(path);
-//        }
-
-
-//        painter.drawPath(path);
-//}
-
-
-
-void MainWindow::updateEnergy(float value){
-    std::cout<<"energy"<<gameModel->getProtagonist()->getProtagonist()->getEnergy()<<std::endl;
-    ui->energy->setValue(value);
-
-}
-
-
-
-void MainWindow::on_radioButton_2_clicked()
+void MainWindow::gameOverSlot(const QString &message)
 {
-    scene_graphics->clear();
+    ui->textBrowser->setStyleSheet("background-color: red;");
+    ui->textBrowser->setText(message);
+    ui->executeButton->setEnabled(false);
 }
 
-
-void MainWindow::on_horizontalSlider_sliderMoved(int position)
+void MainWindow::updateMainWindowViewSlot(QString buildview)
 {
-    //ui->h_weight->setValue(position);
-    path->setSlider(position);
-    qDebug() << "slider value is" << position;
+
+    scene->removeItem(textViewItem);
+    textViewItem=scene->addText(buildview);
+    //show protagonist position as well
+    auto protagonist=gameModel->getProtagonist()->getProtagonist();
+    QString xpos=QString::number(protagonist->getXPos());
+    QString ypos=QString::number(protagonist->getYPos());
+    QString protagonistPosition="Protagonist("%xpos%","%ypos%")";
+    ui->textBrowser->setText(protagonistPosition);
+    updateEnergy(protagonist->getEnergy());
+    updateHealth(protagonist->getHealth());
 }
+
+
+
+/*void MainWindow::on_comboBox_activated(int index)
+{
+    //world = make_shared<World>();
+    switch(index){
+    case 1:
+        world->createWorld(":/images/worldmap.jpg",10,5);
+        std::cout<<" case1"<<std::endl;
+        break;
+    case 2:
+        world->createWorld(":/images/worldmap4.jpg",10,5);
+        std::cout<<" case2"<<std::endl;
+       break;
+    case 3:
+       //world->createWorld(":/images/maze1.jpg",5,5);
+       std::cout<<" case3"<<std::endl;
+       break;
+    case 4:
+       // world->createWorld(":/images/maze2.jpg",0,0);
+        std::cout<<" case4"<<std::endl;
+       break;
+    case 5:
+        //world->createWorld(":/images/maze3.jpg",0,0);
+        std::cout<<" case5"<<std::endl;
+       break;
+    }
+}*/
+
 

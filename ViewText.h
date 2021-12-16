@@ -8,31 +8,40 @@
 #include <memory>
 #include "ViewGraphical.h"
 #include "controllerViewSwitch.h"
+#include "QGraphicsRectItem"
+#include "tileType.h"
+#include "stringtextview.h"
 
-class ViewGraphical;
-class ControllerViewSwitch;
+//class ViewGraphical;
+//class ControllerViewSwitch;
+
 
 class  ViewText
 {
+private:
+
+    QGraphicsScene* scene;
+    int rows;
+    int cols;
+    std::string tiletype;
+    std::vector<std::shared_ptr<StringTextView>>tileViewVectors;
+    void appendBoundaryLine(QString &tileBuilded,const int &number);
 public:
 
-    std::shared_ptr<ViewText> textView;
-    std::shared_ptr<ViewGraphical> graphicsView;
-    bool isText;
-    std::shared_ptr<ControllerViewSwitch> controller;
-
+    ViewText(int rows,int col);
     void initWorld();
     void gameResult();
     void updateOverallView();
-
-public slots:
-    void startNewGame();
-    void startAutoPlay();
-    void moveLeft();
-    void moveRight();
-    void moveUp();
-    void moveDown();
-    void isEnemyDefeated();
+    void selectNearestTile();
+    void setTextTileView(int Xpos,int Ypos, float value,TileType type);
+    QGraphicsScene *getScene() const;
+    QString buildView();
+    QString buildPartialView(const int &xPos, const int &yPos);
+    void updateProgonistTileView(const int &xPos,const int &yPos);
+    void updateDeadEnemyView(const int &xPos,const int &yPos);
+    void updateTakenHealthPackView(const int &xPos,const int &yPos);
+    void clearProtagonistTileView(const int &xPos,const int &yPos);
+    void printTileViewVectors();//for testing purpose, delete after once the game is working
 
 
 };

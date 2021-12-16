@@ -19,7 +19,7 @@ private:
 public:
     TileModel() {}
     bool isObstacle();
-
+    void setInfinity();
     const std::shared_ptr<Tile> &getTile() const{return tile;};
     void setTile(const std::shared_ptr<Tile> &newTile){tile = newTile;};
 };

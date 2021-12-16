@@ -20,11 +20,12 @@
 #include <QPointF>
 #include <QObject>
 #include "Projectile.h"
+
 //#include "ViewProtagonist.h"
 #include "protagonistModel.h"
 
 
-class XenemyModel : public QObject, public PenemyModel, public QGraphicsPixmapItem
+class XenemyModel : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:
@@ -42,6 +43,7 @@ public:
 
 public slots:
     void aquire_target();
+
 
 private:
     std::shared_ptr<PEnemy> xenemy;

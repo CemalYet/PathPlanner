@@ -18,7 +18,7 @@ void protagonistModel::moveLeft()
 
 void protagonistModel::moveUp()
 {
-    protagonist->setYPos(protagonist->getYPos()-1);
+    protagonist->setYPos(protagonist->getYPos()-1);//in text view(string builder) it is only possible to go to next line and not possible to go a line back
 }
 
 void protagonistModel::moveDown()
@@ -53,13 +53,18 @@ void protagonistModel::decreaseEnergy(float value)
 }
 
 void protagonistModel::increaseHealth(float value)
-{   if(protagonist->getHealth()+value<100){
+{   if(protagonist->getHealth()+value<maxEH){
         protagonist->setHealth(protagonist->getHealth() + value);
     }else{
-        protagonist->setHealth(100);
+        protagonist->setHealth(maxEH);
     }
 
 
+}
+
+void protagonistModel::increaseEnergy()
+{
+    protagonist->setEnergy(maxEH);
 }
 
 

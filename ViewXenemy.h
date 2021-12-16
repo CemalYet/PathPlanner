@@ -9,6 +9,7 @@
 #include <QGraphicsPolygonItem>
 #include <QGraphicsItem>
 #include "XenemyModel.h"
+//#include "ViewProtagonist.h"
 
 class ViewXenemy : public QObject, public QGraphicsPixmapItem
 {
@@ -28,7 +29,7 @@ public slots:
     void aquire_target();
 
 private:
-    std::shared_ptr<XenemyModel> xenemy;
+    //std::shared_ptr<XenemyModel> xenemy;
     //std::vector<std::shared_ptr<XenemyModel>> xEnemies;
     int xPosition;
     int yPosition;

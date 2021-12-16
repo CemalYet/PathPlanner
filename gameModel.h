@@ -10,9 +10,8 @@
 #include "enemyModel.h"
 #include "HealthPackModel.h"
 #include "PenemyModel.h"
-//#include "ViewProtagonist.h"
 #include "XenemyModel.h"
-#include <QGraphicsRectItem>
+#include "tileType.h"
 
 
 class GameModel
@@ -28,7 +27,12 @@ private:
     std::vector<std::shared_ptr<EnemyModel>> enemies;
     std::vector<std::shared_ptr<PenemyModel>> pEnemies;
     std::vector<std::shared_ptr<XenemyModel>> xEnemies;
-
+    std::map<std::string,TileType> tileTypeMap;
+    std::map<std::string,std::shared_ptr<Enemy>> enemyTileMap;
+    std::map<std::string,std::shared_ptr<Enemy>> penemyTileMap;
+    std::map<std::string,std::shared_ptr<Tile>> healthTileMap;
+    //std::vector<std::shared_ptr<EnemyModel>> allTypeEnemies;
+    std::string sep =":";
 public:
     GameModel();
     void setRows(int newRows);
@@ -49,6 +53,17 @@ public:
         return xEnemies;
     };
     void setXEnemies();
+
+    TileType getTileType(int xposTile,int YposTile);
+    std::shared_ptr<Enemy>getEnemyTileFromEnemyTileMap(const int &xpos,const int &ypos);
+    std::shared_ptr<Tile>getHealthPackFromHealthTileMap(const int &xpos,const int &ypos);
+    void setTileBlockedIntileTypeMap(const int &xpos,const int &ypos);
+    void clearProtagonistFromMap();
+    void updateProtagonistPositionInMap();
+    void printMap();//for testing purpose, delete after once the game is working
+
+    //pathplanner needs it
+    const std::map<std::string, std::shared_ptr<Enemy> > &getEnemyTileMap() const;
 };
 
 
