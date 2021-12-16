@@ -27,7 +27,7 @@
 class  ViewProtagonist :public QGraphicsPixmapItem
 {
 public:
-    ViewProtagonist(QGraphicsItem * parent=0);
+    ViewProtagonist(QGraphicsItem * parent=0, const int & x_pos =0, const int &  y_pos=0);
     ViewPenemy * viewPEnemy_defeated;
     ViewXenemy * viewXEnemy_defeated;
 

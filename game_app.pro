@@ -36,6 +36,7 @@ SOURCES += \
     pathplanner.cpp \
     protagonistModel.cpp
 
+
 HEADERS += \
     HealthPackModel.h \
     PenemyModel.h \

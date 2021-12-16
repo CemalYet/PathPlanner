@@ -16,8 +16,10 @@
 class  ViewPenemy : public QGraphicsPixmapItem
 {
 public:
+    ViewPenemy(QGraphicsItem *parent = 0, const int & x_pos =0, const int &  y_pos=0 );
     std::shared_ptr<PenemyModel> pEnemy;
     void selectNearestEnemy();
+
 
 };
 

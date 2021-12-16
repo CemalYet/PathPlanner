@@ -5,6 +5,14 @@
 #include <QGraphicsScene>
 #include <QList>
 
+ViewProtagonist::ViewProtagonist(QGraphicsItem *parent, const int &x, const int &y)
+{
+    setPixmap(QPixmap(":/images/scorpion_4.png"));
+    setPos(x, y);
+    setFlag(QGraphicsItem::ItemIsFocusable);
+    setFocus();
+}
+
 
 void ViewProtagonist::selectNearestEnemy()
 {
@@ -44,7 +52,8 @@ void ViewProtagonist::moveRight(const int protagonistXPos, const int protagonist
                 //draw the poison after defeating an enemy
 
                 //dvrease health when hitting an enemy
-                g_model->getProtagonist()->decreaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
+                //g_model->getProtagonist()->decreaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
+                g_model->getProtagonist()->decreaseHealth(10);
                 //auto poison_area = scene()->addRect(-100,-100,50,50);
                 return;
             }
@@ -54,7 +63,7 @@ void ViewProtagonist::moveRight(const int protagonistXPos, const int protagonist
                 scene()->removeItem(colliding_items[i]);
 
                 //add another png to show the defeated enemy
-                viewXEnemy_defeated = new ViewXenemy();
+                viewXEnemy_defeated = new ViewXenemy(0,7,8);
                 viewXEnemy_defeated->setPixmap(QPixmap(":/images/dead.png"));
                 //std::cout<<"penemy x coordination is : "<< viewPEnemy->pEnemy->getPEnemy()->getXPos()<<std::endl;
                 viewXEnemy_defeated->setPos(protagonistXPos, 0);
@@ -102,7 +111,8 @@ void ViewProtagonist::moveLeft(const int protagonistXPos, const int protagonistY
             //delete this;
 
             //decrease health
-            g_model->getProtagonist()->decreaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
+            //g_model->getProtagonist()->decreaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
+            g_model->getProtagonist()->decreaseHealth(10);
             //draw the poison after defeating an enemy
 //            ViewProtagonist * poisoned_protagonist = new ViewProtagonist();
 //            poisoned_protagonist->protagonist;
@@ -120,7 +130,7 @@ void ViewProtagonist::moveLeft(const int protagonistXPos, const int protagonistY
             scene()->removeItem(colliding_items[i]);
 
             //add another png to show the defeated enemy
-            viewXEnemy_defeated = new ViewXenemy();
+            viewXEnemy_defeated = new ViewXenemy(0,7,8);
             viewXEnemy_defeated->setPixmap(QPixmap(":/images/dead.png"));
             //std::cout<<"penemy x coordination is : "<< viewPEnemy->pEnemy->getPEnemy()->getXPos()<<std::endl;
             viewXEnemy_defeated->setPos(protagonistXPos, 0);
@@ -167,6 +177,7 @@ void ViewProtagonist::moveUp(const int protagonistXPos, const int protagonistYPo
 
             //decrease health
             g_model->getProtagonist()->decreaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
+            g_model->getProtagonist()->decreaseHealth(10);
 
             //draw the poison after defeating an enemy
 
@@ -179,7 +190,7 @@ void ViewProtagonist::moveUp(const int protagonistXPos, const int protagonistYPo
             scene()->removeItem(colliding_items[i]);
 
             //add another png to show the defeated enemy
-            viewXEnemy_defeated = new ViewXenemy();
+            viewXEnemy_defeated = new ViewXenemy(0,7,8);
             viewXEnemy_defeated->setPixmap(QPixmap(":/images/dead.png"));
             //std::cout<<"penemy x coordination is : "<< viewPEnemy->pEnemy->getPEnemy()->getXPos()<<std::endl;
             viewXEnemy_defeated->setPos(protagonistXPos, 0);
@@ -225,7 +236,8 @@ void ViewProtagonist::moveDown(const int protagonistXPos, const int protagonistY
             //delete this;
 
             //decrease health
-            g_model->getProtagonist()->decreaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
+            //g_model->getProtagonist()->decreaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
+            g_model->getProtagonist()->decreaseHealth(10);
 
             //draw the poison after defeating an enemy
 
@@ -237,7 +249,7 @@ void ViewProtagonist::moveDown(const int protagonistXPos, const int protagonistY
             scene()->removeItem(colliding_items[i]);
 
             //add another png to show the defeated enemy
-            viewXEnemy_defeated = new ViewXenemy();
+            viewXEnemy_defeated = new ViewXenemy(0,7,8);
             viewXEnemy_defeated->setPixmap(QPixmap(":/images/dead.png"));
             //std::cout<<"penemy x coordination is : "<< viewPEnemy->pEnemy->getPEnemy()->getXPos()<<std::endl;
             viewXEnemy_defeated->setPos(protagonistXPos, 0);
@@ -268,10 +280,7 @@ void ViewProtagonist::setPosition(int x, int y)
 }
 
 
-ViewProtagonist::ViewProtagonist(QGraphicsItem *parent)
-{
 
-}
 
 //void ViewProtagonist::keyPressEvent(QKeyEvent *event)
 //{

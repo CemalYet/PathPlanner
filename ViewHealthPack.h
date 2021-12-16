@@ -13,6 +13,7 @@
 class  ViewHealthPack : public QGraphicsPixmapItem
 {
 public:
+    ViewHealthPack(QGraphicsItem *parent = 0, const int & x_pos =0, const int &  y_pos=0 );
     std::shared_ptr<HealthPackModel> healthPack;
 
     void selectNearestPack();

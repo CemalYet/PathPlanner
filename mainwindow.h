@@ -56,6 +56,7 @@ private slots:
 
     void on_radioButton_2_clicked();
 
+
     void on_horizontalSlider_sliderMoved(int position);
 
 public slots:
@@ -71,12 +72,12 @@ private:
     std::shared_ptr<ViewGraphical> graphicView;
     QGraphicsItem * graphicViewItem;
     //--------------------------------------
-    QGraphicsScene * scene;
+    QGraphicsScene * scene_graphics;
     ViewProtagonist * viewProtagonist;
     ViewHealth * viewHealth;
     ViewPenemy * viewPenemy;
     ViewXenemy * viewXenemy;
-    XenemyModel * xenemy;
+    ViewXenemy * xenemy;
     ViewHealthPack * healtPack;
 
     //void paintEvent(QPaintEvent *event);

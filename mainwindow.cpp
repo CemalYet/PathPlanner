@@ -47,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->lblMouse, SIGNAL(Mouse_Pos()), this, SLOT(Mouse_current_pos()));
     connect(ui->lblMouse, SIGNAL(Mouse_Pressed()), this, SLOT(Mouse_Pressed()));
     connect(ui->lblMouse, SIGNAL(Mouse_left()), this, SLOT(Mouse_left()));
+    ui->zoom_group->hide();
 
 
     auto world = make_shared<World>();
@@ -117,17 +118,19 @@ MainWindow::MainWindow(QWidget *parent)
 
     //set scene
     graphicView = std::make_shared<ViewGraphical>(gameModel->getRows(),gameModel->getCols());
-    scene = graphicView->getScene();
+    scene_graphics = graphicView->getScene();
+    auto nrOfCols = gameModel->getCols();
+    auto nrOfRows = gameModel->getRows();
+    scene_graphics->setSceneRect(0,0,nrOfCols,nrOfRows);
 
 
-    viewPenemy = new ViewPenemy();
-    viewPenemy->setPixmap(QPixmap(":/images/Raiden.png"));
-    for(auto &e:penemies_gamemodel){
-        //cout<<'['<<e->getPEnemy()->getXPos()<<','<<e->getPEnemy()->getYPos()<<']'<<endl;
-        //viewPenemy->setPos(e->getPEnemy()->getXPos() + 100, e->getPEnemy()->getYPos() + 100);  //line below for test to set the penemy closer
-        viewPenemy->setPos(50,50);
-        scene->addItem(viewPenemy);
-    }
+//    for(auto &e:penemies_gamemodel){
+//           viewPenemy = new ViewPenemy(0, e->getPEnemy()->getXPos(), e->getPEnemy()->getYPos());
+//           scene_graphics->addItem(viewPenemy);
+//           qDebug() << "Penemmy is added";
+//           show();
+//       }
+
 }
 
 MainWindow::~MainWindow()
@@ -138,12 +141,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::mousePressEvent(QMouseEvent *ev)
 {
-//        QPainterPath path_protagonist;
-//        QPainter painter(this);
-//        painter.setPen(QPen(QColor(79, 106, 25), 0.2, Qt::SolidLine,
-//                                Qt::FlatCap, Qt::MiterJoin));
-//        painter.setBrush(QColor(122, 163, 39));
-
     auto protagonistCurrentXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
     auto protagonistCurrentYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
 
@@ -156,7 +153,7 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
     pen.setWidth(10);
     for(auto & ab : dummy.second){
         //qDebug() << "inside for loop, ab.first is"<< ab.first << "ab.second is"<< ab.second;
-        line = scene->addLine(QLineF(ab.first, ab.second, dummy.second[index + 1].first, dummy.second[index + 1].second), pen);
+        line = scene_graphics->addLine(QLineF(ab.first, ab.second, dummy.second[index + 1].first, dummy.second[index + 1].second), pen);
         line->setVisible(true);
         qDebug() << ab.first << ab.second << dummy.second[index + 1].first << dummy.second[index + 1].second;
         index++;
@@ -174,14 +171,12 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
 
 void MainWindow::on_radioButton_clicked()
 {
-   // graphicView = std::make_shared<ViewGraphical>(gameModel->getRows(),gameModel->getCols());
-   // scene = graphicView->getScene();
-    auto nrOfCols = gameModel->getCols();
-    auto nrOfRows = gameModel->getRows();
-    scene->setSceneRect(0,0,nrOfCols,nrOfRows);
-    //ui->graphicsView->setBackgroundBrush(QBrush(QImage(":/images/maze3")));
-    ui->graphicsView->setScene(scene);
-    scene->addPixmap(QPixmap(":/images/maze3"));
+    ui->zoom_group->show();
+    ui->graphicsView->setScene(scene_graphics);
+
+    scene_graphics->addPixmap(QPixmap(":/images/maze3"));
+
+
     //ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     //ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     //ui->graphicsView->setFixedSize(nrOfCols,nrOfRows);
@@ -191,63 +186,56 @@ void MainWindow::on_radioButton_clicked()
 //-----------------------------------------------------------------------------------------------
 //----------------------  Protagonist   ---------------------------------------------------------
 //-----------------------------------------------------------------------------------------------
-            viewProtagonist = new ViewProtagonist();
-            //viewProtagonist->setRect(0,0,90,90);
-            viewProtagonist->setPixmap(QPixmap(":/images/scorpion_4.png"));
-            viewProtagonist->setPos(0,45);
-            viewProtagonist->setFlag(QGraphicsItem::ItemIsFocusable);
-            viewProtagonist->setFocus();
-            scene->addItem(viewProtagonist);
+    auto protagonistXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
+    auto protagonistYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
+    viewProtagonist = new ViewProtagonist(0, protagonistXPos, protagonistYPos);
+    scene_graphics->addItem(viewProtagonist);
 
-            //scene->addLine(QLineF(200, 300, 100, 150));
 
 //-----------------------------------------------------------------------------------------------
 //----------------------  Penemies  ---------------------------------------------------------
 //-----------------------------------------------------------------------------------------------
-            //auto actual_penemies= gameModel->getPEnemies();
+    auto actual_penemies= gameModel->getPEnemies();
 
-            //scene->addItem(viewPenemy);
+
+    for(auto &e:actual_penemies){
+        viewPenemy = new ViewPenemy(0, e->getPEnemy()->getXPos(), e->getPEnemy()->getYPos());
+        scene_graphics->addItem(viewPenemy);
+    }
+    scene_graphics->addItem(viewPenemy);
+//    scene_graphics->update();
 
 //-----------------------------------------------------------------------------------------------
 //----------------------  Xenemies   ---------------------------------------------------------
 //-----------------------------------------------------------------------------------------------
-//            auto actual_xenemies= gameModel->getPEnemies();
-//            xenemy = new XenemyModel();
-//            int xPos=0; int yPos=0;
-//            for(auto &x_enemy:actual_xenemies){
-//                //cout<<'['<<(x_enemy->getPEnemy()->getXPos())/2 <<','<<x_enemy->getPEnemy()->getYPos() + rand() % 2+1<<']'<<endl;
-//                xPos = x_enemy->getPEnemy()->getXPos() + rand() % 1000;
-//                if(xPos > 2200){
-//                    xPos = xPos - rand() % 25 + 1;
-//                }
-//                yPos = x_enemy->getPEnemy()->getYPos() + rand() % 1000;
-//                if (yPos > 2200){
-//                    yPos = yPos - rand() % 25 + 1;
-//                }
-//                std::cout<<"Xenemies at"<<endl;
-//                std::cout<<xPos<<","<<yPos<<endl;
-//             }
-            //xenemy->setPos(xPos, yPos);   //this line should be used but i'm using the one below just to check the functionality easier
-//            xenemy->setPos(0, 100);
-//            scene->addItem(xenemy);
-            //show();
+
+    auto actual_xenemies=gameModel->getXEnemies();
+
+    for(auto &e:actual_xenemies){
+        //cout<<'['<<e->getPEnemy()->getXPos()<<','<<e->getPEnemy()->getYPos()<<']'<<endl;
+        //viewPenemy->setPos(e->getPEnemy()->getXPos() + 100, e->getPEnemy()->getYPos() + 100);  //line below for test to set the penemy closer
+        auto xEnemyXPos = e->getXPosition();
+        auto xEnemyYPos = e->getYPosition();
+        xenemy = new ViewXenemy(0, xEnemyXPos, xEnemyYPos);
+
+
+        //viewPenemy->setPos(xEnemyXPos, xEnemyYPos);
+
+        scene_graphics->addItem(xenemy);
+    }
 //-----------------------------------------------------------------------------------------------
 //----------------------  Health packs   ---------------------------------------------------------
 //-----------------------------------------------------------------------------------------------
+            //cout<<"Health pack at "<<endl;
+            auto actual_healthpack=gameModel->getHealthPacks();
 
-//            cout<<"Health pack at "<<endl;
-
-//            auto actual_healthpack=gameModel->getHealthPacks();
-
-//            healtPack = new ViewHealthPack();
-//            healtPack->setPixmap(QPixmap(":/images/healthpack.png"));
-//            for(auto &h:actual_healthpack){
-//                //cout<<'['<<h->getHealthPack()->getXPos()<<','<<h->getHealthPack()->getYPos()<<']'<<endl;
-//                //healtPack->setPos(h->getHealthPack()->getXPos(), h->getHealthPack()->getYPos()); //this line should be used but i'm using the one below just to check the functionality easier
-//                healtPack->setPos(0, 150);
-//            }
-//            scene->addItem(healtPack);
-
+            //healtPack->setPixmap(QPixmap(":/images/healthpack.png"));
+            for(auto &h:actual_healthpack){
+                //cout<<'['<<h->getHealthPack()->getXPos()<<','<<h->getHealthPack()->getYPos()<<']'<<endl;
+                healtPack = new ViewHealthPack(0, h->getHealthPack()->getXPos(), h->getHealthPack()->getYPos());
+                //healtPack->setPos(0, 150);
+                scene_graphics->addItem(healtPack);
+            }
 }
 
 void MainWindow::Mouse_current_pos()
@@ -303,7 +291,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 auto dummy = path->solution1(10,10);
                 for(unsigned long i=0; 14<i ; i++){
                     qDebug() << "inside for loop for pathplanner";
-                    scene->addLine(QLineF(dummy.second[i].first, dummy.second[i].second, dummy.second[i+1].first, dummy.second[i+1].second));
+                    scene_graphics->addLine(QLineF(dummy.second[i].first, dummy.second[i].second, dummy.second[i+1].first, dummy.second[i+1].second));
                 }
 
                 //-----------------------------------------------------------------------------------------------------------------------
@@ -430,7 +418,7 @@ void MainWindow::updateEnergy(float value){
 
 void MainWindow::on_radioButton_2_clicked()
 {
-    scene->clear();
+    scene_graphics->clear();
 }
 
 
@@ -438,6 +426,6 @@ void MainWindow::on_horizontalSlider_sliderMoved(int position)
 {
     //ui->h_weight->setValue(position);
     path->setSlider(position);
-    qDebug() << "slider value is" << path->getSlider();
+    qDebug() << "slider value is" << position;
 }
 
