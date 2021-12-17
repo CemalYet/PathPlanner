@@ -33,10 +33,10 @@ void ArrowTextCommand::checkIfNextTileType(const int &xpos, const int &ypos)//di
           }
      }
     else if (tileT==TileType::HealthPack){
-           std::shared_ptr<Tile> healthtile=gameModel->getHealthPackFromHealthTileMap(xpos,ypos);
-           gameModel->getProtagonist()->increaseHealth(healthtile->getValue());//increase health
-           //healthtile->setIsPacked(true);//update it's status as packed
-           healthtile->setValue(0);                                     //update its healthvalue as 0
+           std::shared_ptr<HealthPackModel> healthtile=gameModel->getHealthPackFromHealthTileMap(xpos,ypos);
+           gameModel->getProtagonist()->increaseHealth(healthtile->getHealthPack()->getValue());//increase health
+           healthtile->setIsPacked(true);//update it's status as packed
+           healthtile->getHealthPack()->setValue(0);                                     //update its healthvalue as 0
            textView->updateTakenHealthPackView(xpos,ypos);              //update view as health pack taken view                                                   //update view as healthPackTaken
          }
     else if (tileT==TileType::NormalTile){

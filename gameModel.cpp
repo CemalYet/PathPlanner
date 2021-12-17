@@ -124,7 +124,8 @@ void GameModel::setHealthPacks( std::vector<std::unique_ptr<Tile> > &value)
        auto healthPackXPos=std::to_string(healthpack_model->getHealthPack()->getXPos());
        auto healthPackYPos=std::to_string(healthpack_model->getHealthPack()->getYPos());
        tileTypeMap[healthPackXPos+sep+healthPackYPos]=TileType::HealthPack;
-       healthTileMap[healthPackXPos+sep+healthPackYPos]=healthpack_model->getHealthPack();
+      // healthTileMap[healthPackXPos+sep+healthPackYPos]=healthpack_model->getHealthPack();
+       healthTileMap[healthPackXPos+sep+healthPackYPos]=healthpack_model;
     }
 }
 std::vector<std::shared_ptr<EnemyModel>> GameModel::getEnemies() const
@@ -182,9 +183,10 @@ std::shared_ptr<Enemy> GameModel::getEnemyTileFromEnemyTileMap(const int &xpos, 
     return it->second;
 }
 
-std::shared_ptr<Tile> GameModel::getHealthPackFromHealthTileMap(const int &xpos, const int &ypos)
+std::shared_ptr<HealthPackModel> GameModel::getHealthPackFromHealthTileMap(const int &xpos, const int &ypos)
 {
-    std::map<std::string,std::shared_ptr<Tile>>::iterator it;
+    std::map<std::string,std::shared_ptr<HealthPackModel>>::iterator it;
+    //it= healthTileMap.find(std::to_string(xpos)+sep+std::to_string(ypos));
     it= healthTileMap.find(std::to_string(xpos)+sep+std::to_string(ypos));
     return it->second;
 }

@@ -79,7 +79,7 @@ MainWindow::MainWindow(QWidget *parent)
     auto protagonist=world->getProtagonist();
     auto protagonist_model=make_shared<protagonistModel>();
     protagonist_model->setProtagonist(protagonist);
-    auto protagonist_gamemodel = protagonist_model->getProtagonist();
+    //auto protagonist_gamemodel = protagonist_model->getProtagonist();
     gameModel->setProtagonist(protagonist_model);
     //gameModel->getProtagonist()->getProtagonist()->setXPos(0);
     //gameModel->getProtagonist()->getProtagonist()->setYPos(45);
@@ -93,7 +93,7 @@ MainWindow::MainWindow(QWidget *parent)
     gameModel->getProtagonist()->getProtagonist()->setEnergy(world->getProtagonist()->getHealth());
     ui->health->setValue(gameModel->getProtagonist()->getProtagonist()->getHealth());
 
-    path =make_shared<PathPlanner>(gameModel,1);
+   /* path =make_shared<PathPlanner>(gameModel,1);
     auto autoPlay=path->autoPlay();
     if(autoPlay.first){
         cout<<"you win "<<endl;
@@ -101,7 +101,7 @@ MainWindow::MainWindow(QWidget *parent)
     }else{
         cout<<"game over"<<endl;
         cout<<autoPlay.second.size()<<endl;
-    }
+    }*/
 
     //get text scene
     gameTextView =std::make_shared<ViewText>(gameModel->getRows(),gameModel->getCols());
@@ -125,6 +125,8 @@ MainWindow::MainWindow(QWidget *parent)
     //connect signals and slot
     QObject::connect(world->getProtagonist().get(),SIGNAL(healthChanged(int )),this,SLOT(updateHealth(int)));
     QObject::connect(world->getProtagonist().get(),SIGNAL(energyChanged(int )),this,SLOT(updateEnergy(int)));
+    QString protagonistPos="Protagonist("%QString::number(protagonist_model->getProtagonist()->getXPos())%","%QString::number(protagonist_model->getProtagonist()->getYPos())%")";//added
+    ui->textBrowser->setText(protagonistPos);//added
 
 //    for(auto &e:penemies_gamemodel){
 //           viewPenemy = new ViewPenemy(0, e->getPEnemy()->getXPos(), e->getPEnemy()->getYPos());
@@ -338,7 +340,6 @@ void MainWindow::on_radioButton_Text_clicked()
 {
     scene_graphics->clear();
     ui->graphicsView->setScene(scene);
-
     auto protagonistXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
     auto protagonistYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
     auto tv=gameTextView->buildPartialView(protagonistXPos,protagonistYPos);
@@ -408,8 +409,8 @@ void MainWindow::on_executeButton_clicked()
     textViewItem=scene->addText(gameTextView->buildPartialView(protagonistXPos,protagonistYPos));
     updateEnergy(gameModel->getProtagonist()->getProtagonist()->getEnergy());
     updateHealth(gameModel->getProtagonist()->getProtagonist()->getHealth());
-    QString protagonistPos="Protagonist("%QString::number(protagonistXPos)%","%QString::number(protagonistYPos)%")";//added
-    ui->textBrowser->setText(protagonistPos);//added
+//    QString protagonistPos="Protagonist("%QString::number(protagonistXPos)%","%QString::number(protagonistYPos)%")";//added
+//    ui->textBrowser->setText(protagonistPos);//added
 }
 
 void MainWindow::updateEnergy(int value)
@@ -441,8 +442,8 @@ void MainWindow::updateMainWindowViewSlot(QString buildview)
     QString ypos=QString::number(protagonist->getYPos());
     QString protagonistPosition="Protagonist("%xpos%","%ypos%")";
     ui->textBrowser->setText(protagonistPosition);
-    //updateEnergy(protagonist->getEnergy());
-    //updateHealth(protagonist->getHealth());
+    updateEnergy(protagonist->getEnergy());
+    updateHealth(protagonist->getHealth());
 }
 
 

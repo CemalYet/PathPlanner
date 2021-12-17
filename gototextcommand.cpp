@@ -88,7 +88,7 @@ void GoToTextCommand::execute(const std::string &command, std::list<std::string>
 
         //}
           if(tileT == TileType::HealthPack){
-           auto healthtile=gameModel->getHealthPackFromHealthTileMap(t.first,t.second);
+           auto healthtile=gameModel->getHealthPackFromHealthTileMap(t.first,t.second)->getHealthPack();
            gameModel->getProtagonist()->increaseHealth(healthtile->getValue());//increase energy                                                                        //update it's status as packed
            healthtile->setValue(0);                                     //update its healthvalue as 0
            textView->updateTakenHealthPackView(t.first,t.second);              //update view as health pack taken view

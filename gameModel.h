@@ -21,7 +21,6 @@ private:
     int rows;
     int cols;
     std::shared_ptr<protagonistModel> protagonist;
-    //std::shared_ptr<ViewProtagonist> protagonist_view;
     std::vector<std::shared_ptr<TileModel>> tiles;
     std::vector<std::shared_ptr<HealthPackModel>>healthPacks;
     std::vector<std::shared_ptr<EnemyModel>> enemies;
@@ -29,9 +28,7 @@ private:
     std::vector<std::shared_ptr<XenemyModel>> xEnemies;
     std::map<std::string,TileType> tileTypeMap;
     std::map<std::string,std::shared_ptr<Enemy>> enemyTileMap;
-    std::map<std::string,std::shared_ptr<Enemy>> penemyTileMap;
-    std::map<std::string,std::shared_ptr<Tile>> healthTileMap;
-    //std::vector<std::shared_ptr<EnemyModel>> allTypeEnemies;
+    std::map<std::string,std::shared_ptr<HealthPackModel>> healthTileMap;
     std::string sep =":";
 public:
     GameModel();
@@ -56,7 +53,7 @@ public:
 
     TileType getTileType(int xposTile,int YposTile);
     std::shared_ptr<Enemy>getEnemyTileFromEnemyTileMap(const int &xpos,const int &ypos);
-    std::shared_ptr<Tile>getHealthPackFromHealthTileMap(const int &xpos,const int &ypos);
+    std::shared_ptr<HealthPackModel>getHealthPackFromHealthTileMap(const int &xpos,const int &ypos);
     void setTileBlockedIntileTypeMap(const int &xpos,const int &ypos);
     void clearProtagonistFromMap();
     void updateProtagonistPositionInMap();

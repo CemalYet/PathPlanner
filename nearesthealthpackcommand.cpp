@@ -63,9 +63,9 @@ void NearestHealthPackCommand::execute(const std::string &command, std::list<std
     std::cout<<healthPackXpos<<","<<healthPackYpos<<std::endl;
     auto tileWhereHealthLocated=gameModel->getTileAtAPos(healthPackXpos,healthPackYpos)->getTile();
     auto healthPackTile=gameModel->getHealthPackFromHealthTileMap(healthPackXpos,healthPackYpos);
-    gameModel->getProtagonist()->increaseHealth(healthPackTile->getValue());
+    gameModel->getProtagonist()->increaseHealth(healthPackTile->getHealthPack()->getValue());
     nearestHealthPack->setIsPacked(true);
-    healthPackTile->setValue(0);//update its healthvalue as 0
+    healthPackTile->getHealthPack()->setValue(0);//update its healthvalue as 0
     textView->updateTakenHealthPackView(healthPackXpos,healthPackYpos);//update view as health pack taken view
 
     }
