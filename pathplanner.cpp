@@ -86,9 +86,9 @@ pair<float,vector<pair<int,int>>> PathPlanner::solution1(int goalX,int goalY){
         for( int i=0;i<8;i++) {
             int sucX=x+posX[i];
             int sucY=y+posY[i];
-
+// and (enemies.find(std::to_string(sucX)+":"+std::to_string(sucY))==enemies.end())
             if(sucX >= 0 && sucX <col && sucY >= 0 && sucY < row
-                    and (enemies.find(std::to_string(sucX)+":"+std::to_string(sucY))==enemies.end())){
+                   ){
 
                 float value=gameBoard[col*sucY+sucX]->getTile()->getValue();
                 //auto lookUpIndex =lookUp[col*sucY+sucX];
@@ -123,7 +123,6 @@ pair<float,vector<pair<int,int>>> PathPlanner::solution1(int goalX,int goalY){
 
     //std::chrono::duration<double> elapsed_seconds = end-start;
     //cout<< "elapsed time: " << elapsed_seconds.count() << "s\n";
-    cout<<"sadasdasd"<<dummy.size()<<endl;
     return make_pair(totalGivenCost,dummy);
 }
 

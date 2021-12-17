@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     auto world = make_shared<World>();
-    world->createWorld(":/images/worldmap4.jpg",5,5);
+    world->createWorld(":/images/worldmap4.jpg",10,5);
     gameModel = std::make_shared<GameModel>();
     gameModel->setCols(world->getCols());
     gameModel->setRows(world->getRows());
@@ -82,7 +82,7 @@ MainWindow::MainWindow(QWidget *parent)
     //auto protagonist_gamemodel = protagonist_model->getProtagonist();
     gameModel->setProtagonist(protagonist_model);
     gameModel->getProtagonist()->getProtagonist()->setXPos(0);
-    gameModel->getProtagonist()->getProtagonist()->setYPos(45);
+    gameModel->getProtagonist()->getProtagonist()->setYPos(0);
 
     auto health=world->getHealthPacks();
     gameModel->setHealthPacks(health);
@@ -94,15 +94,15 @@ MainWindow::MainWindow(QWidget *parent)
     ui->health->setValue(gameModel->getProtagonist()->getProtagonist()->getHealth());
 
 
-    path =make_shared<PathPlanner>(gameModel,0.001);
-//    auto autoPlay=path->autoPlay();
-//    if(autoPlay.first){
-//        cout<<"you win "<<endl;
-//        cout<<autoPlay.second.size()<<endl;
-//    }else{
-//        cout<<"game over"<<endl;
-//        cout<<autoPlay.second.size()<<endl;
-//    }
+    path =make_shared<PathPlanner>(gameModel,1);
+    auto autoPlay=path->autoPlay();
+    if(autoPlay.first){
+        cout<<"you win "<<endl;
+        cout<<autoPlay.second.size()<<endl;
+    }else{
+        cout<<"game over"<<endl;
+        cout<<autoPlay.second.size()<<endl;
+    }
 
 
     //get text scene
@@ -123,7 +123,7 @@ MainWindow::MainWindow(QWidget *parent)
     auto nrOfCols = gameModel->getCols();
     auto nrOfRows = gameModel->getRows();
     scene_graphics->setSceneRect(0,0,nrOfCols,nrOfRows);
-
+//    ui->graphicsView->setFixedSize(nrOfCols,nrOfRows);
     //connect signals and slot
     QObject::connect(world->getProtagonist().get(),SIGNAL(healthChanged(int )),this,SLOT(updateHealth(int)));
     QObject::connect(world->getProtagonist().get(),SIGNAL(energyChanged(int )),this,SLOT(updateEnergy(int)));
@@ -147,32 +147,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::mousePressEvent(QMouseEvent *ev)
 {
-    int goalX=ev->position().x();
-    int goalY=ev->position().y();
+    int goal_x=ev->position().x()-71;
+    int goal_y=ev->position().y()-61;
+    qDebug()<<" Mouse is clicked at: x="<< goal_x << "and at y="<< goal_y;
+    gameModel->getProtagonist()->goTo(goal_x,goal_y);
 
-    qDebug()<<" Mouse is clicked at: x="<< goalX << "and at y="<< goalY;
-//    auto dummy = path->solution1(999,938);  //I subtracted these values so that my initial cordination start from the corner up left of qgraphicsview window
-//    int index=0;
-//    QGraphicsLineItem *line;
-//    QPen pen(Qt::red);
-//    pen.setWidth(10);
-//    for(auto & ab : dummy.second){
-//        //qDebug() << "inside for loop, ab.first is"<< ab.first << "ab.second is"<< ab.second;
-//        line = scene_graphics->addLine(QLineF(ab.first, ab.second, dummy.second[index + 1].first, dummy.second[index + 1].second), pen);
-//        line->setVisible(true);
-//        qDebug() << ab.first << ab.second << dummy.second[index + 1].first << dummy.second[index + 1].second;
-//        index++;
-//    }
-//    line->setVisible(false);
+    viewProtagonist->setPosition(goal_x,goal_y);
+    qDebug()<<"x ="<<gameModel->getProtagonist()->getProtagonist()->getXPos() << "y= "<< gameModel->getProtagonist()->getProtagonist()->getYPos();
 
-//    //update the protagonist model position
-//    gameModel->getProtagonist()->goTo(999,938);
-
-//    //update the view position for the protagonist
-//    viewProtagonist->setPosition(999,938);
-
-
-    qDebug() <<"protagonist x position is :" << gameModel->getProtagonist()->getProtagonist()->getXPos() << "protagonist y position is :" << gameModel->getProtagonist()->getProtagonist()->getYPos();
 }
 
 
@@ -317,16 +299,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 //}
 
 
-void MainWindow::on_pushButton_2_clicked()
-{
-    ui->graphicsView->scale(1.1,1.1);
-}
 
 
-void MainWindow::on_pushButton_3_clicked()
-{
-    ui->graphicsView->scale(0.9,0.9);
-}
 
 
 void MainWindow::on_health_valueChanged(float value)
@@ -508,6 +482,7 @@ void MainWindow::on_testEfficiency_clicked()
 }
 
 void MainWindow::testPathPlanner(int pX,int pY, int goalX, int goalY ){
+    gameModel->getProtagonist()->goTo(pX,pY);
     viewProtagonist->setPosition(pX,pY);
 //    qDebug()<<" view is at: x="<< gameModel->getProtagonist()->getProtagonist()->getXPos() << "and at y="<< gameModel->getProtagonist()->getProtagonist()->getYPos();
     auto dummy = path->solution1(goalX,goalY).second;
@@ -519,7 +494,18 @@ void MainWindow::testPathPlanner(int pX,int pY, int goalX, int goalY ){
 //       qDebug() << ab.first << ab.second << dummy.second[index + 1].first << dummy.second[index + 1].second;
         index++;
     }
-//    gameModel->getProtagonist()->goTo(goalX,goalY);
-//    viewProtagonist->setPosition(goalX,goalY);
+
 
 }
+
+void MainWindow::on_zoomIn_clicked()
+{
+    ui->graphicsView->scale(1.1,1.1);
+}
+
+
+void MainWindow::on_zoomOut_clicked()
+{
+    ui->graphicsView->scale(0.9,0.9);
+}
+

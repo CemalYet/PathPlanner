@@ -53,8 +53,6 @@ private slots:
 
     void on_radioButton_graphics_clicked();
     //void on_comboBox_activated(int index);
-    void on_pushButton_2_clicked();  //zoom out
-    void on_pushButton_3_clicked();  //zoomin
     void on_health_valueChanged(float value);
     void on_pushButton_clicked();
     void on_horizontalSlider_sliderMoved(int position);
@@ -62,6 +60,10 @@ private slots:
     void on_clearLines_clicked();
     void on_testEfficiency_clicked();
     void testPathPlanner(int pX,int pY, int goalX, int goalY );
+
+    void on_zoomIn_clicked();
+
+    void on_zoomOut_clicked();
 
 public slots:
     void updateEnergy(int value);
