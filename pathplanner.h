@@ -21,7 +21,9 @@ public:
     vector<unique_ptr<Tile> > getGameBoard() ;
     pair<float,vector<pair<int,int>>> solution1(int goalX,int goalY);
     pair<bool,vector<vector<pair<int,int>>>> autoPlay();
-
+    pair<bool,shared_ptr<Enemy>>findNearestEnemy(shared_ptr<Enemy> &nearestEnemy,pair<float,vector<pair<int,int>>> &path);
+    shared_ptr<HealthPackModel> findNearestHealthPack(shared_ptr<HealthPackModel> &nearestHealthPack,pair<float,
+                                                                    vector<pair<int,int>>> &path,const float &enemyPower,const float &pHealth);
     void setSlider(float newSlider);
     float getSlider() const;
 

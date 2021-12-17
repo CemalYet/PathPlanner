@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     auto world = make_shared<World>();
-    world->createWorld(":/images/worldmap.jpg",20,1);
+    world->createWorld(":/images/worldmap.jpg",10,10);
     gameModel = std::make_shared<GameModel>();
     gameModel->setCols(world->getCols());
     gameModel->setRows(world->getRows());
@@ -93,7 +93,15 @@ MainWindow::MainWindow(QWidget *parent)
     gameModel->getProtagonist()->getProtagonist()->setEnergy(world->getProtagonist()->getHealth());
     ui->health->setValue(gameModel->getProtagonist()->getProtagonist()->getHealth());
 
-    path =make_shared<PathPlanner>(gameModel,0);
+    path =make_shared<PathPlanner>(gameModel,1);
+    auto autoPlay=path->autoPlay();
+    if(autoPlay.first){
+        cout<<"you win "<<endl;
+        cout<<autoPlay.second.size()<<endl;
+    }else{
+        cout<<"game over"<<endl;
+        cout<<autoPlay.second.size()<<endl;
+    }
 
     //get text scene
     gameTextView =std::make_shared<ViewText>(gameModel->getRows(),gameModel->getCols());
@@ -132,11 +140,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::mousePressEvent(QMouseEvent *ev)
 {
-    auto protagonistCurrentXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
-    auto protagonistCurrentYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
+    int goalX=ev->position().x()-40;
+    int goalY=ev->position().y()-61;
 
-
-    qDebug()<<" Mouse is clicked at: x="<< ev->x()-40 << "and at y="<< ev->y()-61;
+    qDebug()<<" Mouse is clicked at: x="<< goalX << "and at y="<< goalY;
     auto dummy = path->solution1(999,938);  //I subtracted these values so that my initial cordination start from the corner up left of qgraphicsview window
     int index=0;
     QGraphicsLineItem *line;

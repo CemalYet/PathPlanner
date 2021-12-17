@@ -1,4 +1,5 @@
-#include "protagonistModel.h"
+﻿#include "protagonistModel.h"
+#include "HealthPackModel.h"
 
 
 //Constructor
@@ -66,5 +67,20 @@ void protagonistModel::increaseEnergy()
 {
     protagonist->setEnergy(maxEH);
 }
+
+void protagonistModel::killEnemy(const float &tileEnergy,const float &enemyPower,std::shared_ptr<Enemy> &nearestEnemy){
+    decreaseEnergy(tileEnergy);
+    decreaseHealth(enemyPower);
+    goTo(nearestEnemy->getXPos(),nearestEnemy->getYPos());
+    increaseEnergy();
+    nearestEnemy->setDefeated(1);
+}
+void protagonistModel::grabHealthPack(std::shared_ptr<HealthPackModel> &nearestHealthPack){
+
+    increaseHealth(nearestHealthPack->getHealthPack()->getValue());
+    goTo(nearestHealthPack->getHealthPack()->getXPos(),nearestHealthPack->getHealthPack()->getYPos());
+    nearestHealthPack->setIsPacked(true);
+}
+
 
 

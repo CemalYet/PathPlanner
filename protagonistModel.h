@@ -7,6 +7,7 @@
 #include <QTimer>
 #include <memory>
 #include "world.h"
+#include "HealthPackModel.h"
 #include <QGraphicsPixmapItem>
 
 const float maxEH {100.0F};
@@ -26,6 +27,8 @@ public:
     void decreaseEnergy(float value);
     void increaseHealth(float value);
     void increaseEnergy();
+    void killEnemy(const float &tileEnergy,const float &enemyPower,std::shared_ptr<Enemy> &nearestEnemy);
+    void grabHealthPack(std::shared_ptr<HealthPackModel> &nearestHealthPack);
     std::shared_ptr<Protagonist> getProtagonist() const{return protagonist;};
     void setProtagonist(std::unique_ptr<Protagonist> &value){protagonist = std::move(value);};
 
