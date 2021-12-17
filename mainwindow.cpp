@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     auto world = make_shared<World>();
-    world->createWorld(":/images/worldmap",20,1);
+    world->createWorld(":/images/worldmap.jpg",20,1);
     gameModel = std::make_shared<GameModel>();
     gameModel->setCols(world->getCols());
     gameModel->setRows(world->getRows());
@@ -71,7 +71,6 @@ MainWindow::MainWindow(QWidget *parent)
     gameModel->setEnemies(enemy);
 
     auto penemies_gamemodel=gameModel->getPEnemies();
-
     auto enemies_gamemodel = gameModel->getEnemies();
 
     gameModel->setXEnemies();
@@ -99,6 +98,14 @@ MainWindow::MainWindow(QWidget *parent)
     //get text scene
     gameTextView =std::make_shared<ViewText>(gameModel->getRows(),gameModel->getCols());
     scene = gameTextView->getScene();
+    for (auto &tile: gamemodel_tiles){
+        auto XPosTile=tile->getTile()->getXPos();
+        auto YPosTile=tile->getTile()->getYPos();
+        auto valueTile=tile->getTile()->getValue();
+        auto tileType=gameModel->getTileType(XPosTile,YPosTile);
+        gameTextView->setTextTileView(XPosTile,YPosTile,valueTile,tileType);
+    }
+    createTextCommandToClassMap();
 
     //get graphical scene
     graphicView = std::make_shared<ViewGraphical>(gameModel->getRows(),gameModel->getCols());
@@ -156,8 +163,8 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
 void MainWindow::on_radioButton_graphics_clicked()
 {
     //ui->zoom_group->show();
+    scene->clear();
     ui->graphicsView->setScene(scene_graphics);
-
     scene_graphics->addPixmap(QPixmap(":/images/worldmap.jpg"));
 
 
@@ -321,20 +328,12 @@ void MainWindow::on_radioButton_Text_clicked()
 {
     scene_graphics->clear();
     ui->graphicsView->setScene(scene);
-    for (auto &tile: gameModel->getTiles()){
-
-        auto XPosTile=tile->getTile()->getXPos();
-        auto YPosTile=tile->getTile()->getYPos();
-        auto valueTile=tile->getTile()->getValue();
-        auto tileType=gameModel->getTileType(XPosTile,YPosTile);
-        gameTextView->setTextTileView(XPosTile,YPosTile,valueTile,tileType);
-    }
 
     auto protagonistXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
     auto protagonistYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
     auto tv=gameTextView->buildPartialView(protagonistXPos,protagonistYPos);
     textViewItem=scene->addText(tv);
-    createTextCommandToClassMap();
+
 }
 
 void MainWindow::processTextCommand(QString userCommand)
