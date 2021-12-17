@@ -142,8 +142,8 @@ pair<bool,vector<vector<pair<int,int>>>> PathPlanner::autoPlay()
     bool iskilled=true;
     shared_ptr<Enemy> nearestEnemy;
     while(counter < enemies.size()){
-        int pH=protogonist->getProtagonist()->getHealth();
-        int pE=protogonist->getProtagonist()->getEnergy();
+        float pH=protogonist->getProtagonist()->getHealth();
+        float pE=protogonist->getProtagonist()->getEnergy();
         float minDistance=std::numeric_limits<float>::infinity();
         pair<float,vector<pair<int,int>>> path;
 
@@ -157,6 +157,8 @@ pair<bool,vector<vector<pair<int,int>>>> PathPlanner::autoPlay()
 
                 if(!(e.second->getDefeated())){
                     auto enemySolution=solution1(eX,eY);
+//                   cout<<enemySolution.second.size()<<endl;
+
                     int nearestEnemyDistance=enemySolution.second.size();
 
                     if(nearestEnemyDistance < minDistance){
@@ -169,6 +171,9 @@ pair<bool,vector<vector<pair<int,int>>>> PathPlanner::autoPlay()
                 }
 
             }
+//            auto dummy=findNearestEnemy(nearestEnemy,path);
+//            nearestEnemy=dummy.second;
+//            iskilled=dummy.first;
         }
         //go to the prev enemy
         else {
@@ -183,45 +188,42 @@ pair<bool,vector<vector<pair<int,int>>>> PathPlanner::autoPlay()
         //if protagonist health and energy greater than enemy value and total path energy
         //do the following
         if(pH > enemyValue and pE > path.first){
-            protogonist->decreaseEnergy(path.first);
-            protogonist->decreaseHealth(enemyValue);
-            protogonist->goTo(nearestEnemy->getXPos(),nearestEnemy->getYPos());
-            protogonist->increaseEnergy();
-            nearestEnemy->setDefeated(1);
+            protogonist->killEnemy(path.first,enemyValue,nearestEnemy);
             gameBoard[col*nearestEnemy->getYPos()+nearestEnemy->getXPos()]->setInfinity();
             simulatorPath.push_back(path.second);
             counter++;
             iskilled=true;
-            //add to solution path
 
         //protagonist health not enough go to nearest appropriate health pack
         }else if( pH <= enemyValue and pE > path.first){
             float minHealthDistance=std::numeric_limits<float>::infinity();
             shared_ptr<HealthPackModel> nearestHealthPack;
-
-            //find nearest health pack
+//            find nearest health pack
             for(auto &h : healtPackets){
+                if(h->getIsPacked()==false){
+                    int hX=h->getHealthPack()->getXPos();
+                    int hY=h->getHealthPack()->getYPos();
+                    int hV=h->getHealthPack()->getValue();
 
-                int hX=h->getHealthPack()->getXPos();
-                int hY=h->getHealthPack()->getYPos();
-                int hV=h->getHealthPack()->getValue();
+                    auto healthSolution=solution1(hX,hY);
+                    auto nearestHealthPackDistance=healthSolution.second.size();
 
-                auto healthSolution=solution1(hX,hY);
-                auto nearestHealthPackDistance=healthSolution.second.size();
+                    if(nearestHealthPackDistance < minHealthDistance and pH + hV > enemyValue){
+                        minHealthDistance=nearestHealthPackDistance;
+                        nearestHealthPack=h;
+                        path=healthSolution;
 
-                if(nearestHealthPackDistance < minHealthDistance and pH + hV > enemyValue){
-                    minHealthDistance=nearestHealthPackDistance;
-                    nearestHealthPack=h;
-                    path=healthSolution;
+                    }
+
 
                 }
 
+
             }
-            //if health pack value enough do following
-            if(path.second.size()>0 and pE > path.first and !(nearestHealthPack->getIsPacked())){
-                protogonist->increaseHealth(nearestHealthPack->getHealthPack()->getValue());
-                protogonist->goTo(nearestHealthPack->getHealthPack()->getXPos(),nearestHealthPack->getHealthPack()->getYPos());
-                nearestHealthPack->setIsPacked(true);
+//            nearestHealthPack=findNearestHealthPack(nearestHealthPack,path,enemyValue,pH);
+
+            if(nearestHealthPack!=nullptr and path.second.size()>0 and pE > path.first and !(nearestHealthPack->getIsPacked())){
+                protogonist->grabHealthPack(nearestHealthPack);
                 simulatorPath.push_back(path.second);
 
             }else{
@@ -235,3 +237,74 @@ pair<bool,vector<vector<pair<int,int>>>> PathPlanner::autoPlay()
     }
    return make_pair(true,simulatorPath);
 }
+
+
+//pair<bool,shared_ptr<Enemy>> PathPlanner::findNearestEnemy(shared_ptr<Enemy> &nearestEnemy,pair<float,vector<pair<int,int>>> &path){
+//    float minDistance=std::numeric_limits<float>::infinity();
+//    for(auto &e : enemies){
+//        int eX=e.second->getXPos();
+//        int eY=e.second->getYPos();
+
+//        if(!(e.second->getDefeated())){
+//            auto enemySolution=solution1(eX,eY);
+//            int nearestEnemyDistance=enemySolution.second.size();
+
+//            if(nearestEnemyDistance < minDistance){
+//                minDistance=nearestEnemyDistance;
+//                nearestEnemy=e.second;
+//                path=enemySolution;
+//                return make_pair(false,nearestEnemy);
+
+//            }
+//        }
+
+//    }
+//    return make_pair(false,nullptr);
+//}
+
+//shared_ptr<HealthPackModel> PathPlanner::findNearestHealthPack(shared_ptr<HealthPackModel> &nearestHealthPack,pair<float,
+//                                                                vector<pair<int,int>>> &path,const float &enemyPower,const float &pHealth)
+//{
+//    float minHealthDistance=std::numeric_limits<float>::infinity();
+//    for(auto &h : healtPackets){
+//        if(h->getIsPacked()==false){
+//            int hX=h->getHealthPack()->getXPos();
+//            int hY=h->getHealthPack()->getYPos();
+//            int hV=h->getHealthPack()->getValue();
+
+//            auto healthSolution=solution1(hX,hY);
+//            auto nearestHealthPackDistance=healthSolution.second.size();
+
+//            if(nearestHealthPackDistance < minHealthDistance and pHealth + hV > enemyPower){
+//                minHealthDistance=nearestHealthPackDistance;
+//                nearestHealthPack=h;
+//                path=healthSolution;
+
+//            }
+
+
+//        }
+
+
+//    }
+
+//return nullptr;
+
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
