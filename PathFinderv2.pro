@@ -36,7 +36,8 @@ SOURCES += \
     protagonistModel.cpp \
     stringtextview.cpp \
     textcommands.cpp \
-    tileType.cpp
+    tileType.cpp\
+    Projectile.cpp
 
 HEADERS += \
     arrowtextcommand.h \
@@ -65,7 +66,8 @@ HEADERS += \
     protagonistModel.h \
     stringtextview.h \
     textcommands.h \
-    tileType.h
+    tileType.h\
+    Projectile.h
 
 FORMS += \
     mainwindow.ui
