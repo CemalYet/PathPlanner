@@ -60,6 +60,8 @@ private slots:
     void on_horizontalSlider_sliderMoved(int position);
 
     void on_clearLines_clicked();
+    void on_testEfficiency_clicked();
+    void testPathPlanner(int pX,int pY, int goalX, int goalY );
 
 public slots:
     void updateEnergy(int value);

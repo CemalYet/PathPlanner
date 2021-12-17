@@ -484,31 +484,13 @@ void MainWindow::updateMainWindowViewSlot(QString buildview)
 void MainWindow::on_horizontalSlider_sliderMoved(int position)
 {
     path->setSlider(position*0.1);
-    cout<<path->getSlider()<<endl;
+
 }
 
 
 void MainWindow::on_pushButton_clicked()
 {
-
-    viewProtagonist->setPosition(0,45);
-    qDebug()<<" view is at: x="<< gameModel->getProtagonist()->getProtagonist()->getXPos() << "and at y="<< gameModel->getProtagonist()->getProtagonist()->getYPos();
-
-    auto dummy = path->solution1(999,938).second;
-    qDebug()<<"slider psotion"<<path->getSlider();//I subtracted these values so that my initial cordination start from the corner up left of qgraphicsview window
-    unsigned int index=-1;
-    QPen pen(Qt::red);
-    pen.setWidth(5);
-    for(auto & ab : dummy){
-       lines.append(scene_graphics->addLine(QLineF(ab.first, ab.second, dummy[index + 1].first, dummy[index + 1].second), pen));
-//       qDebug() << ab.first << ab.second << dummy.second[index + 1].first << dummy.second[index + 1].second;
-        index++;
-    }
-    qDebug()<<"path size"<<dummy.size();
-
-
-//    gameModel->getProtagonist()->goTo(goalX,goalY);
-//    viewProtagonist->setPosition(goalX,goalY);
+    testPathPlanner(0,45,999,938);
 }
 
 
@@ -519,3 +501,25 @@ void MainWindow::on_clearLines_clicked()
         delete lines.takeAt(0);
 }
 
+
+void MainWindow::on_testEfficiency_clicked()
+{
+    testPathPlanner(0,22,1200,1205);
+}
+
+void MainWindow::testPathPlanner(int pX,int pY, int goalX, int goalY ){
+    viewProtagonist->setPosition(pX,pY);
+//    qDebug()<<" view is at: x="<< gameModel->getProtagonist()->getProtagonist()->getXPos() << "and at y="<< gameModel->getProtagonist()->getProtagonist()->getYPos();
+    auto dummy = path->solution1(goalX,goalY).second;
+    unsigned int index=-1;
+    QPen pen(Qt::red);
+    pen.setWidth(5);
+    for(auto & ab : dummy){
+       lines.append(scene_graphics->addLine(QLineF(ab.first, ab.second, dummy[index + 1].first, dummy[index + 1].second), pen));
+//       qDebug() << ab.first << ab.second << dummy.second[index + 1].first << dummy.second[index + 1].second;
+        index++;
+    }
+//    gameModel->getProtagonist()->goTo(goalX,goalY);
+//    viewProtagonist->setPosition(goalX,goalY);
+
+}

@@ -283,14 +283,14 @@ p, li { white-space: pre-wrap; }
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>680</y>
+      <x>760</x>
+      <y>660</y>
       <width>141</width>
       <height>30</height>
      </rect>
     </property>
     <property name="text">
-     <string>Test Path Planner</string>
+     <string>Test Heuristic</string>
     </property>
    </widget>
    <widget class="QPushButton" name="clearLines">
@@ -304,6 +304,19 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="text">
      <string>Clear Lines</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="testEfficiency">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>700</y>
+      <width>141</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Test Efficiency</string>
     </property>
    </widget>
   </widget>
