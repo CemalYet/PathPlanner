@@ -22,3 +22,6 @@ signals:
 };
 
 #endif // ARROWTEXTCOMMAND_H
+
+
+

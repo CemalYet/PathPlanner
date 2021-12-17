@@ -45,9 +45,8 @@ void ArrowTextCommand::checkIfNextTileType(const int &xpos, const int &ypos)//di
             // decrease energy part
             if(energyOfProtagonist >=tileValue){
             gameModel->getProtagonist()->decreaseEnergy(tileValue);//if enough energy
-               std::cout<<"arrowText command"<<std::endl;
             }
-            else{       
+            else{
                 QString message="Game Over";    //game over
                 emit gameover(message);
             }
@@ -60,10 +59,8 @@ void ArrowTextCommand::checkIfNextTileType(const int &xpos, const int &ypos)//di
 
 void ArrowTextCommand::execute(const std::string &command, std::list<std::string> commandExtras)
 {
-
     auto protagonistCurrentXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
     auto protagonistCurrentYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
-
     std::shared_ptr<TileModel> tileAtPos;
     if (command == "left" and protagonistCurrentXPos >0){
          tileAtPos=gameModel->getTileAtAPos(protagonistCurrentXPos-1,protagonistCurrentYPos);
@@ -92,13 +89,8 @@ void ArrowTextCommand::execute(const std::string &command, std::list<std::string
 
           checkIfNextTileType(tileAtPos->getTile()->getXPos(),tileAtPos->getTile()->getYPos());//checkTileType
           gameModel->updateProtagonistPositionInMap();
-
           auto protagonistNewXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
           auto protagonistNewYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
-
           textView->updateProgonistTileView(protagonistNewXPos,protagonistNewYPos);
     }
 }
-
-
-
