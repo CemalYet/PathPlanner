@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     auto world = make_shared<World>();
-    world->createWorld(":/images/worldmap.jpg",10,10);
+    world->createWorld(":/images/worldmap4.jpg",5,5);
     gameModel = std::make_shared<GameModel>();
     gameModel->setCols(world->getCols());
     gameModel->setRows(world->getRows());
@@ -81,8 +81,8 @@ MainWindow::MainWindow(QWidget *parent)
     protagonist_model->setProtagonist(protagonist);
     //auto protagonist_gamemodel = protagonist_model->getProtagonist();
     gameModel->setProtagonist(protagonist_model);
-    //gameModel->getProtagonist()->getProtagonist()->setXPos(0);
-    //gameModel->getProtagonist()->getProtagonist()->setYPos(45);
+    gameModel->getProtagonist()->getProtagonist()->setXPos(0);
+    gameModel->getProtagonist()->getProtagonist()->setYPos(45);
 
     auto health=world->getHealthPacks();
     gameModel->setHealthPacks(health);
@@ -93,15 +93,17 @@ MainWindow::MainWindow(QWidget *parent)
     gameModel->getProtagonist()->getProtagonist()->setEnergy(world->getProtagonist()->getHealth());
     ui->health->setValue(gameModel->getProtagonist()->getProtagonist()->getHealth());
 
-   /* path =make_shared<PathPlanner>(gameModel,1);
-    auto autoPlay=path->autoPlay();
-    if(autoPlay.first){
-        cout<<"you win "<<endl;
-        cout<<autoPlay.second.size()<<endl;
-    }else{
-        cout<<"game over"<<endl;
-        cout<<autoPlay.second.size()<<endl;
-    }*/
+
+    path =make_shared<PathPlanner>(gameModel,0.001);
+//    auto autoPlay=path->autoPlay();
+//    if(autoPlay.first){
+//        cout<<"you win "<<endl;
+//        cout<<autoPlay.second.size()<<endl;
+//    }else{
+//        cout<<"game over"<<endl;
+//        cout<<autoPlay.second.size()<<endl;
+//    }
+
 
     //get text scene
     gameTextView =std::make_shared<ViewText>(gameModel->getRows(),gameModel->getCols());
@@ -145,39 +147,41 @@ MainWindow::~MainWindow()
 
 void MainWindow::mousePressEvent(QMouseEvent *ev)
 {
-    int goalX=ev->position().x()-40;
-    int goalY=ev->position().y()-61;
+    int goalX=ev->position().x();
+    int goalY=ev->position().y();
 
     qDebug()<<" Mouse is clicked at: x="<< goalX << "and at y="<< goalY;
-    auto dummy = path->solution1(999,938);  //I subtracted these values so that my initial cordination start from the corner up left of qgraphicsview window
-    int index=0;
-    QGraphicsLineItem *line;
-    QPen pen(Qt::red);
-    pen.setWidth(10);
-    for(auto & ab : dummy.second){
-        //qDebug() << "inside for loop, ab.first is"<< ab.first << "ab.second is"<< ab.second;
-        line = scene_graphics->addLine(QLineF(ab.first, ab.second, dummy.second[index + 1].first, dummy.second[index + 1].second), pen);
-        line->setVisible(true);
-        qDebug() << ab.first << ab.second << dummy.second[index + 1].first << dummy.second[index + 1].second;
-        index++;
-    }
-    line->setVisible(false);
+//    auto dummy = path->solution1(999,938);  //I subtracted these values so that my initial cordination start from the corner up left of qgraphicsview window
+//    int index=0;
+//    QGraphicsLineItem *line;
+//    QPen pen(Qt::red);
+//    pen.setWidth(10);
+//    for(auto & ab : dummy.second){
+//        //qDebug() << "inside for loop, ab.first is"<< ab.first << "ab.second is"<< ab.second;
+//        line = scene_graphics->addLine(QLineF(ab.first, ab.second, dummy.second[index + 1].first, dummy.second[index + 1].second), pen);
+//        line->setVisible(true);
+//        qDebug() << ab.first << ab.second << dummy.second[index + 1].first << dummy.second[index + 1].second;
+//        index++;
+//    }
+//    line->setVisible(false);
 
-    //update the protagonist model position
-    gameModel->getProtagonist()->goTo(999,938);
+//    //update the protagonist model position
+//    gameModel->getProtagonist()->goTo(999,938);
 
-    //update the view position for the protagonist
-    viewProtagonist->setPosition(999,938);
+//    //update the view position for the protagonist
+//    viewProtagonist->setPosition(999,938);
+
 
     qDebug() <<"protagonist x position is :" << gameModel->getProtagonist()->getProtagonist()->getXPos() << "protagonist y position is :" << gameModel->getProtagonist()->getProtagonist()->getYPos();
 }
+
 
 void MainWindow::on_radioButton_graphics_clicked()
 {
     //ui->zoom_group->show();
     scene->clear();
     ui->graphicsView->setScene(scene_graphics);
-    scene_graphics->addPixmap(QPixmap(":/images/worldmap.jpg"));
+    scene_graphics->addPixmap(QPixmap(":/images/worldmap4.jpg"));
 
 
     //ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -271,17 +275,17 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 viewProtagonist->moveRight(protagonistCurrentXPos, protagonistCurrentYPos, gameModel);
 
                 //-----------------------------------------------------------------------------------------------------------------------
-                //this is a test, it should belong to mouse click event and NOT HERE!
-                auto dummy = path->solution1(10,10);
-                for(unsigned long i=0; 14<i ; i++){
-                    qDebug() << "inside for loop for pathplanner";
-                    scene_graphics->addLine(QLineF(dummy.second[i].first, dummy.second[i].second, dummy.second[i+1].first, dummy.second[i+1].second));
-                }
+//                //this is a test, it should belong to mouse click event and NOT HERE!
+//                auto dummy = path->solution1(10,10);
+//                for(unsigned long i=0; 14<i ; i++){
+//                    qDebug() << "inside for loop for pathplanner";
+//                    scene_graphics->addLine(QLineF(dummy.second[i].first, dummy.second[i].second, dummy.second[i+1].first, dummy.second[i+1].second));
+//                }
 
                 //-----------------------------------------------------------------------------------------------------------------------
                 updateHealth(gameModel->getProtagonist()->getProtagonist()->getHealth());
                 updateEnergy(gameModel->getProtagonist()->getProtagonist()->getEnergy());
-                cout<< dummy.second.size()<<"size"<<endl;
+//                cout<< dummy.second.size()<<"size"<<endl;
             }
         }
         else if (event->key() == Qt::Key_O){
@@ -475,4 +479,43 @@ void MainWindow::updateMainWindowViewSlot(QString buildview)
     }
 }*/
 
+
+
+void MainWindow::on_horizontalSlider_sliderMoved(int position)
+{
+    path->setSlider(position*0.1);
+    cout<<path->getSlider()<<endl;
+}
+
+
+void MainWindow::on_pushButton_clicked()
+{
+
+    viewProtagonist->setPosition(0,45);
+    qDebug()<<" view is at: x="<< gameModel->getProtagonist()->getProtagonist()->getXPos() << "and at y="<< gameModel->getProtagonist()->getProtagonist()->getYPos();
+
+    auto dummy = path->solution1(999,938).second;
+    qDebug()<<"slider psotion"<<path->getSlider();//I subtracted these values so that my initial cordination start from the corner up left of qgraphicsview window
+    unsigned int index=-1;
+    QPen pen(Qt::red);
+    pen.setWidth(5);
+    for(auto & ab : dummy){
+       lines.append(scene_graphics->addLine(QLineF(ab.first, ab.second, dummy[index + 1].first, dummy[index + 1].second), pen));
+//       qDebug() << ab.first << ab.second << dummy.second[index + 1].first << dummy.second[index + 1].second;
+        index++;
+    }
+    qDebug()<<"path size"<<dummy.size();
+
+
+//    gameModel->getProtagonist()->goTo(goalX,goalY);
+//    viewProtagonist->setPosition(goalX,goalY);
+}
+
+
+void MainWindow::on_clearLines_clicked()
+{
+    int iNum = lines.count();
+    for (int i=0; i<iNum; i++)
+        delete lines.takeAt(0);
+}
 

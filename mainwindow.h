@@ -56,6 +56,10 @@ private slots:
     void on_pushButton_2_clicked();  //zoom out
     void on_pushButton_3_clicked();  //zoomin
     void on_health_valueChanged(float value);
+    void on_pushButton_clicked();
+    void on_horizontalSlider_sliderMoved(int position);
+
+    void on_clearLines_clicked();
 
 public slots:
     void updateEnergy(int value);
@@ -71,6 +75,7 @@ private:
     std::shared_ptr<PathPlanner> path;
     std::shared_ptr<ViewGraphical> graphicView;
     QGraphicsItem * graphicViewItem;
+    QList<QGraphicsItem *> lines;
     //--------------------------------------
     QGraphicsScene * scene_graphics;
     ViewProtagonist * viewProtagonist;

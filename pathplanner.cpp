@@ -37,8 +37,12 @@ vector<pair<int,int>> PathPlanner::fillPath(shared_ptr<Node> &node){
 //returns as a first total cost of path and as a second solution path vector
 pair<float,vector<pair<int,int>>> PathPlanner::solution1(int goalX,int goalY){
     //initialize lookUp vector
+
     vector<pair<bool,float>> d (col,make_pair(false,0.0));
     vector<vector<pair<bool,float>>> lookUp(row,d);
+
+    //Do not remove it is needed
+    openQueue = priority_queue <pair<float,shared_ptr<Node>>,vector<pair<float,shared_ptr<Node>>>, std::greater<pair<float,shared_ptr<Node>>> >();
 
     //set 8 tiles A* needs to check
     int posX []={-1,  1, -1, 0,  1, -1, 0, 1};
@@ -83,14 +87,13 @@ pair<float,vector<pair<int,int>>> PathPlanner::solution1(int goalX,int goalY){
             int sucX=x+posX[i];
             int sucY=y+posY[i];
 
-            if(sucX >= 0 && sucX <col && sucY >= 0 && sucY < row){
+            if(sucX >= 0 && sucX <col && sucY >= 0 && sucY < row ){
 
                 float value=gameBoard[col*sucY+sucX]->getTile()->getValue();
                 //auto lookUpIndex =lookUp[col*sucY+sucX];
                 auto lookUpIndex =lookUp[sucY][sucX];
 
                 if(value != std::numeric_limits<float>::infinity() and !(lookUpIndex.first==true)){
-
                     float givenCostOfSuccessor=currentNodeGivenCost+value+0.001;
 
 
@@ -119,10 +122,11 @@ pair<float,vector<pair<int,int>>> PathPlanner::solution1(int goalX,int goalY){
 
     //std::chrono::duration<double> elapsed_seconds = end-start;
     //cout<< "elapsed time: " << elapsed_seconds.count() << "s\n";
+    cout<<"sadasdasd"<<dummy.size()<<endl;
     return make_pair(totalGivenCost,dummy);
 }
 
-void PathPlanner::setSlider(float newSlider)
+void PathPlanner::setSlider(const float &newSlider)
 {
     slider = newSlider;
 }

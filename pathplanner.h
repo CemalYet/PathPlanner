@@ -24,7 +24,7 @@ public:
     pair<bool,shared_ptr<Enemy>>findNearestEnemy(shared_ptr<Enemy> &nearestEnemy,pair<float,vector<pair<int,int>>> &path);
     shared_ptr<HealthPackModel> findNearestHealthPack(shared_ptr<HealthPackModel> &nearestHealthPack,pair<float,
                                                                     vector<pair<int,int>>> &path,const float &enemyPower,const float &pHealth);
-    void setSlider(float newSlider);
+    void setSlider(const float &newSlider);
     float getSlider() const;
 
 private:
