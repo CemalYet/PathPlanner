@@ -114,6 +114,9 @@ MainWindow::MainWindow(QWidget *parent)
     auto nrOfRows = gameModel->getRows();
     scene_graphics->setSceneRect(0,0,nrOfCols,nrOfRows);
 
+    //connect signals and slot
+    QObject::connect(world->getProtagonist().get(),SIGNAL(healthChanged(int )),this,SLOT(updateHealth(int)));
+    QObject::connect(world->getProtagonist().get(),SIGNAL(energyChanged(int )),this,SLOT(updateEnergy(int)));
 
 //    for(auto &e:penemies_gamemodel){
 //           viewPenemy = new ViewPenemy(0, e->getPEnemy()->getXPos(), e->getPEnemy()->getYPos());
@@ -375,6 +378,7 @@ void MainWindow::createTextCommandToClassMap()
     QObject::connect(nearestHealthCommandObject.get(),SIGNAL(gameover(const QString)),this,SLOT(gameOverSlot(const QString)));
     QObject::connect(nearestHealthCommandObject.get(),SIGNAL(updateMainWindowView(QString)),this,SLOT(updateMainWindowViewSlot(QString)));
 
+
     QObject::connect(nearestEnemyCommandObject.get(),SIGNAL(gameover(const QString)),this,SLOT(gameOverSlot(const QString)));
     QObject::connect(nearestEnemyCommandObject.get(),SIGNAL(updateMainWindowView(QString)),this,SLOT(updateMainWindowViewSlot(QString)));
 
@@ -401,19 +405,20 @@ void MainWindow::on_executeButton_clicked()
     ui->textBrowser->setText(protagonistPos);//added
 }
 
-void MainWindow::updateEnergy(float value){
+void MainWindow::updateEnergy(int value)
+{
     ui->energy->setValue(value);
 }
 
-void MainWindow::updateHealth(float value)
+void MainWindow::updateHealth(int value)
 {
-    // std::cout<<"health"<<gameModel->getProtagonist()->getProtagonist()->getHealth()<<std::endl;
      ui->health->setValue(value);
 }
 
 void MainWindow::gameOverSlot(const QString &message)
 {
     ui->textBrowser->setStyleSheet("background-color: red;");
+    ui->textBrowser->clear();
     ui->textBrowser->setText(message);
     ui->executeButton->setEnabled(false);
 }
@@ -429,8 +434,8 @@ void MainWindow::updateMainWindowViewSlot(QString buildview)
     QString ypos=QString::number(protagonist->getYPos());
     QString protagonistPosition="Protagonist("%xpos%","%ypos%")";
     ui->textBrowser->setText(protagonistPosition);
-    updateEnergy(protagonist->getEnergy());
-    updateHealth(protagonist->getHealth());
+    //updateEnergy(protagonist->getEnergy());
+    //updateHealth(protagonist->getHealth());
 }
 
 

@@ -37,42 +37,43 @@ void NearestEnemyCommand::execute(const std::string &command, std::list<std::str
 
 std::reverse(pathToNearestEnemy.begin(),pathToNearestEnemy.end());
 
+    if(pathToNearestEnemy.size()!=0){
+        for(auto &t:pathToNearestEnemy){
 
-for(auto &t:pathToNearestEnemy){
+            auto valueOfTile=gameModel->getTileAtAPos(t.first,t.second)->getTile()->getValue();
+            gameModel->clearProtagonistFromMap();//clear current protagonist from map
+            auto protagonistXPosition=gameModel->getProtagonist()->getProtagonist()->getXPos();
+            auto protagonistYPosition=gameModel->getProtagonist()->getProtagonist()->getYPos();
+            textView->clearProtagonistTileView(protagonistXPosition,protagonistYPosition);//clear current position of protagonist from view as well
 
-    auto valueOfTile=gameModel->getTileAtAPos(t.first,t.second)->getTile()->getValue();
-    gameModel->clearProtagonistFromMap();//clear current protagonist from map
-    auto protagonistXPosition=gameModel->getProtagonist()->getProtagonist()->getXPos();
-    auto protagonistYPosition=gameModel->getProtagonist()->getProtagonist()->getYPos();
-    textView->clearProtagonistTileView(protagonistXPosition,protagonistYPosition);//clear current position of protagonist from view as well
-
-    gameModel->getProtagonist()->decreaseEnergy(valueOfTile);//reduce energy
-    gameModel->getProtagonist()->getProtagonist()->setPos(t.first,t.second);//set protagonist new position
-    gameModel->updateProtagonistPositionInMap();//update new position in map as well
+            gameModel->getProtagonist()->decreaseEnergy(valueOfTile);//reduce energy
+            gameModel->getProtagonist()->getProtagonist()->setPos(t.first,t.second);//set protagonist new position
+            gameModel->updateProtagonistPositionInMap();//update new position in map as well
 
 
-    textView->updateProgonistTileView(t.first,t.second); //update protogonist position to the changed position
+            textView->updateProgonistTileView(t.first,t.second); //update protogonist position to the changed position
 
-    auto updatedView=textView->buildPartialView(t.first,t.second);
-    std::cout<<t.first<<","<<t.second<<std::endl;
-    emit updateMainWindowView(updatedView);
-    auto protogonistEnergy=gameModel->getProtagonist()->getProtagonist()->getEnergy();
-    /*if(protogonistEnergy <=0){
-        QString message="Game over";
-        emit gameover(message);
-    }*/
-    delay();
-    }
+            auto updatedView=textView->buildPartialView(t.first,t.second);
+            std::cout<<t.first<<","<<t.second<<std::endl;
+            emit updateMainWindowView(updatedView);
+            auto protogonistEnergy=gameModel->getProtagonist()->getProtagonist()->getEnergy();
+            /*if(protogonistEnergy <=0){
+                QString message="Game over";
+                emit gameover(message);
+            }*/
+            delay();
+            }
 
-auto enemyXpos=nearestEnemy->getXPos();
-auto enemyYPos=nearestEnemy->getYPos();
-std::cout<<enemyXpos<<","<<enemyYPos<<std::endl;
-auto tileWhereEnemyLocated=gameModel->getTileAtAPos(enemyXpos,enemyYPos)->getTile();
-auto enemyT=gameModel->getEnemyTileFromEnemyTileMap(enemyXpos,enemyYPos);
-enemyT->setDefeated(true);
-enemyT->setValue(std::numeric_limits<double>::infinity());//make enemy defeated
-tileWhereEnemyLocated->setValue(std::numeric_limits<double>::infinity());//make tile impassable
-textView->updateDeadEnemyView(enemyXpos,enemyYPos); //set tile as blocked in view                                                //make it as blocked in view
-gameModel->getProtagonist()->decreaseHealth(enemyT->getValue());
-gameModel->getProtagonist()->increaseEnergy();//max energy restored*/
+        auto enemyXpos=nearestEnemy->getXPos();
+        auto enemyYPos=nearestEnemy->getYPos();
+        std::cout<<enemyXpos<<","<<enemyYPos<<std::endl;
+        auto tileWhereEnemyLocated=gameModel->getTileAtAPos(enemyXpos,enemyYPos)->getTile();
+        auto enemyT=gameModel->getEnemyTileFromEnemyTileMap(enemyXpos,enemyYPos);
+        enemyT->setDefeated(true);
+        enemyT->setValue(std::numeric_limits<double>::infinity());//make enemy defeated
+        tileWhereEnemyLocated->setValue(std::numeric_limits<double>::infinity());//make tile impassable
+        textView->updateDeadEnemyView(enemyXpos,enemyYPos); //set tile as blocked in view                                                //make it as blocked in view
+        gameModel->getProtagonist()->decreaseHealth(enemyT->getValue());
+        gameModel->getProtagonist()->increaseEnergy();//max energy restored*/
+     }
 }

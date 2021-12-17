@@ -58,8 +58,8 @@ private slots:
     void on_health_valueChanged(float value);
 
 public slots:
-    void updateEnergy(float value);
-    void updateHealth(float value);
+    void updateEnergy(int value);
+    void updateHealth(int value);
     void gameOverSlot(const QString &message);
     void updateMainWindowViewSlot(QString buildview);
 
