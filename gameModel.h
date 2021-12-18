@@ -16,6 +16,7 @@
 
 class GameModel
 {
+
 private:
 
     int rows;
@@ -55,12 +56,14 @@ public:
     std::shared_ptr<Enemy>getEnemyTileFromEnemyTileMap(const int &xpos,const int &ypos);
     std::shared_ptr<HealthPackModel>getHealthPackFromHealthTileMap(const int &xpos,const int &ypos);
     void setTileBlockedIntileTypeMap(const int &xpos,const int &ypos);
-    void clearProtagonistFromMap();
+    void clearProtagonistFromMap(int prevXpos,int prevYPos);
     void updateProtagonistPositionInMap();
     void printMap();//for testing purpose, delete after once the game is working
 
     //pathplanner needs it
     const std::map<std::string, std::shared_ptr<Enemy> > &getEnemyTileMap() const;
+
+
 };
 
 

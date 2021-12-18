@@ -42,6 +42,7 @@ void ArrowTextCommand::checkIfNextTileType(const int &xpos, const int &ypos)//di
     else if (tileT==TileType::NormalTile){
             if(energyOfProtagonist >=tileValue){      // decrease energy part
                 gameModel->getProtagonist()->decreaseEnergy(tileValue);//if enough energy
+                std::cout<<"energy"<<tileValue<<std::endl;
             }
             else{
                 QString message="Game Over";    //game over
@@ -68,9 +69,11 @@ void ArrowTextCommand::execute(const std::string &command, std::list<std::string
         tileAtPos=gameModel->getTileAtAPos(protagonistCurrentXPos,protagonistCurrentYPos+1);
     }
 
+    checkIfNextTileType(tileAtPos->getTile()->getXPos(),tileAtPos->getTile()->getYPos());//checkTileType
+
     if(tileAtPos != nullptr && !(tileAtPos->isObstacle())){
-        gameModel->clearProtagonistFromMap();
-        textView->clearProtagonistTileView(protagonistCurrentXPos,protagonistCurrentYPos);
+        //gameModel->clearProtagonistFromMap();
+        //textView->clearProtagonistTileView(protagonistCurrentXPos,protagonistCurrentYPos);
         if (command == "left" and protagonistCurrentXPos >0){
             gameModel->getProtagonist()->moveLeft();
         } else if(command == "right" and protagonistCurrentXPos < gameModel->getCols()-1){
@@ -81,12 +84,12 @@ void ArrowTextCommand::execute(const std::string &command, std::list<std::string
             gameModel->getProtagonist()->moveDown();
         }
 
-    checkIfNextTileType(tileAtPos->getTile()->getXPos(),tileAtPos->getTile()->getYPos());//checkTileType
-    gameModel->updateProtagonistPositionInMap();
 
-    auto protagonistNewXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
-    auto protagonistNewYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
-    textView->updateProgonistTileView(protagonistNewXPos,protagonistNewYPos);
+   // gameModel->updateProtagonistPositionInMap();
+
+//    auto protagonistNewXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
+//    auto protagonistNewYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
+   // textView->updateProgonistTileView(protagonistNewXPos,protagonistNewYPos);
 
     }
 }

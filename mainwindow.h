@@ -82,6 +82,8 @@ public slots:
     void mousePressEvent(QMouseEvent *ev) override;
     void projectile_timer(ViewXenemy * xenemy);
 
+    void protagonistPositionChangedSlot(int xPos, int yPos);
+
 private:
     Ui::MainWindow *ui;
     std::shared_ptr<GameModel> gameModel;
@@ -106,7 +108,10 @@ private:
     QGraphicsItem* textViewItem;
     std::map<std::string,std::shared_ptr<TextCommands>>textCommandToClassMap;
     void switchMap(shared_ptr<World> &world,shared_ptr<GameModel> &gameModel,QString const& worldName);
+    void createTextView();
 
     void keyPressEvent(QKeyEvent * event) override;
+    int protPreviousXPos=0;
+    int protPreviousYPos=0;
 };
 #endif // MAINWINDOW_H

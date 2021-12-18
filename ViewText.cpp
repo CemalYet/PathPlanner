@@ -99,12 +99,13 @@ void ViewText::updateTakenHealthPackView(const int &xPos, const int &yPos)
 }
 
 
-void ViewText::clearProtagonistTileView(const int &xPos, const int &yPos)
+void ViewText::clearProtagonistTileView(const int &prevXPos,const int &prevYPos)
 {
-    auto currentProtagonistView=tileViewVectors.at(xPos+yPos*cols);
-    if(currentProtagonistView->getTileType()==TileType::Protagonist){
+    auto previousProtagonistView=tileViewVectors.at(prevXPos+prevYPos*cols);
+    std::cout<<getStringForEnum(previousProtagonistView->getTileType())<<std::endl;
+    if(previousProtagonistView->getTileType()==TileType::Protagonist){
         //std::cout<<"protagonist clear"<<xPos<<","<<yPos<<std::endl;
-        currentProtagonistView->setTileType(TileType::NormalTile);
+        previousProtagonistView->setTileType(TileType::NormalTile);
     }
 }
 
@@ -114,6 +115,7 @@ void ViewText::printTileViewVectors()
     std::cout<<"["<<v->getStringXpos()<<","<<v->getStringYpos()<<"], " <<getStringForEnum(v->getTileType())<<std::endl;
     }
 }
+
 
 void ViewText::appendBoundaryLine(QString &tileBuilded,const int &number){
     QString upperdimension="+----";

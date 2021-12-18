@@ -68,17 +68,17 @@ void GoToTextCommand::execute(const std::string &command, std::list<std::string>
             //if(tileT==TileType::NormalTile){
 
                 //std::cout<<"path"<<t.first<<t.second<<std::endl;
-                gameModel->clearProtagonistFromMap();//clear current protagonist from map
-                textView->clearProtagonistTileView(getProtagonist->getXPos(),getProtagonist->getYPos());//clear current position of protagonist from view as well
+  //              gameModel->clearProtagonistFromMap();//clear current protagonist from map
+  //              textView->clearProtagonistTileView(getProtagonist->getXPos(),getProtagonist->getYPos());//clear current position of protagonist from view as well
 
                 gameModel->getProtagonist()->decreaseEnergy(valueOfTile);//reduce energy
                 gameModel->getProtagonist()->getProtagonist()->setPos(t.first,t.second);//set protagonist new position
-                gameModel->updateProtagonistPositionInMap();//update new position in map as well
-                qDebug() << "goto text protagonist X_pos is" << gameModel->getProtagonist()->getProtagonist()->getXPos();
-                qDebug() << "goto text protagonist Y_pos is" << gameModel->getProtagonist()->getProtagonist()->getYPos();
+            //    gameModel->updateProtagonistPositionInMap();//update new position in map as well
+//                qDebug() << "goto text protagonist X_pos is" << gameModel->getProtagonist()->getProtagonist()->getXPos();
+//                qDebug() << "goto text protagonist Y_pos is" << gameModel->getProtagonist()->getProtagonist()->getYPos();
 
 
-                textView->updateProgonistTileView(t.first,t.second); //update protogonist position to the changed position
+              //  textView->updateProgonistTileView(t.first,t.second); //update protogonist position to the changed position
 
                 auto updatedView=textView->buildPartialView(t.first,t.second);
                 emit updateMainWindowView(updatedView);

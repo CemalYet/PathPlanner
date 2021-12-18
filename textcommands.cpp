@@ -8,7 +8,7 @@ TextCommands::TextCommands(std::shared_ptr<GameModel>gameMdl, std::shared_ptr<Vi
 
 void TextCommands::delay()
 {
-    QTime dieTime= QTime::currentTime().addSecs(1);
+    QTime dieTime= QTime::currentTime().addMSecs(500);             // addSecs(1);
     while (QTime::currentTime() < dieTime)
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }

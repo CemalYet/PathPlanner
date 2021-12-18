@@ -25,7 +25,7 @@ void NearestHealthPackCommand::execute(const std::string &command, std::list<std
             auto healthSolution=pathplanner->solution1(healthpackXpos,healthpackYpos);
             auto nearestHealthPackDistance=healthSolution.second.size();
 
-            if(nearestHealthPackDistance < minHealthDistance){
+            if( nearestHealthPackDistance !=0 && (nearestHealthPackDistance < minHealthDistance)){
                 minHealthDistance=nearestHealthPackDistance;
                 nearestHealthPack=h;
                 pathToNearestHealthPack=healthSolution.second;
@@ -36,21 +36,21 @@ void NearestHealthPackCommand::execute(const std::string &command, std::list<std
     for(auto &path :pathToNearestHealthPack){
 
         auto valueOfTile=gameModel->getTileAtAPos(path.first,path.second)->getTile()->getValue();
-        gameModel->clearProtagonistFromMap();//clear current protagonist from map
-        auto protagonistXPosition=gameModel->getProtagonist()->getProtagonist()->getXPos();
-        auto protagonistYPosition=gameModel->getProtagonist()->getProtagonist()->getYPos();
-        textView->clearProtagonistTileView(protagonistXPosition,protagonistYPosition);//clear current position of protagonist from view as well
+       // gameModel->clearProtagonistFromMap();//clear current protagonist from map
+       // auto protagonistXPosition=gameModel->getProtagonist()->getProtagonist()->getXPos();
+      //  auto protagonistYPosition=gameModel->getProtagonist()->getProtagonist()->getYPos();
+      //  textView->clearProtagonistTileView(protagonistXPosition,protagonistYPosition);//clear current position of protagonist from view as well
 
         gameModel->getProtagonist()->decreaseEnergy(valueOfTile);//reduce energy
         gameModel->getProtagonist()->getProtagonist()->setPos(path.first,path.second);//set protagonist new position
-        gameModel->updateProtagonistPositionInMap();//update new position in map as well
+      //  gameModel->updateProtagonistPositionInMap();//update new position in map as well
 
-        textView->updateProgonistTileView(path.first,path.second); //update protogonist position to the changed position
+       // textView->updateProgonistTileView(path.first,path.second); //update protogonist position to the changed position
         auto updatedView=textView->buildPartialView(path.first,path.second);
 
-        std::cout<<"path:"<<path.first<<","<<path.second<<std::endl;
+        //std::cout<<"path:"<<path.first<<","<<path.second<<std::endl;
         emit updateMainWindowView(updatedView);
-        auto protogonistEnergy=gameModel->getProtagonist()->getProtagonist()->getEnergy();
+       // auto protogonistEnergy=gameModel->getProtagonist()->getProtagonist()->getEnergy();
         /*if(protogonistEnergy <=0){
             QString message="Game over";
             emit gameover(message);
@@ -60,7 +60,7 @@ void NearestHealthPackCommand::execute(const std::string &command, std::list<std
 
     auto healthPackXpos=nearestHealthPack->getHealthPack()->getXPos();
     auto healthPackYpos=nearestHealthPack->getHealthPack()->getYPos();
-    std::cout<<healthPackXpos<<","<<healthPackYpos<<std::endl;
+    //std::cout<<healthPackXpos<<","<<healthPackYpos<<std::endl;
     auto tileWhereHealthLocated=gameModel->getTileAtAPos(healthPackXpos,healthPackYpos)->getTile();
     auto healthPackTile=gameModel->getHealthPackFromHealthTileMap(healthPackXpos,healthPackYpos);
     gameModel->getProtagonist()->increaseHealth(healthPackTile->getHealthPack()->getValue());

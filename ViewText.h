@@ -16,8 +16,9 @@
 //class ControllerViewSwitch;
 
 
-class  ViewText
+class  ViewText :public QObject
 {
+Q_OBJECT;
 private:
 
     QGraphicsScene* scene;
@@ -40,7 +41,7 @@ public:
     void updateProgonistTileView(const int &xPos,const int &yPos);
     void updateDeadEnemyView(const int &xPos,const int &yPos);
     void updateTakenHealthPackView(const int &xPos,const int &yPos);
-    void clearProtagonistTileView(const int &xPos,const int &yPos);
+    void clearProtagonistTileView(const int &prevXPos, const int &prevYPos);
     void printTileViewVectors();//for testing purpose, delete after once the game is working
 
 

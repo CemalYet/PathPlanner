@@ -32,6 +32,7 @@ const std::map<std::string, std::shared_ptr<Enemy> > &GameModel::getEnemyTileMap
     return enemyTileMap;
 }
 
+
 GameModel::GameModel()
 {
 
@@ -51,9 +52,9 @@ void GameModel::setProtagonist(std::shared_ptr<protagonistModel> &value)
     updateProtagonistPositionInMap();
 }
 
-void GameModel::clearProtagonistFromMap(){
-    auto protagonistXPos=std::to_string(protagonist->getProtagonist()->getXPos());
-    auto protagonistYPos=std::to_string(protagonist->getProtagonist()->getYPos());
+void GameModel::clearProtagonistFromMap(int prevXpos,int prevYPos){
+    auto protagonistXPos=std::to_string(prevXpos);
+    auto protagonistYPos=std::to_string(prevYPos);
     tileTypeMap.erase(protagonistXPos+sep+protagonistYPos);
 }
 

@@ -59,7 +59,8 @@ MainWindow::MainWindow(QWidget *parent)
 //    world->createWorld(":/images/worldmap.jpg",10,10);
     gameModel = std::make_shared<GameModel>();
 //    path=make_shared<PathPlanner>();
-    switchMap(world,gameModel,":/images/maze3.jpg");
+    switchMap(world,gameModel,":/images/worldmap.jpg");
+    createTextView();
 
 //    qDebug()<<path->getGameBoard().size();
 
@@ -111,15 +112,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     //get text scene
-    gameTextView =std::make_shared<ViewText>(gameModel->getRows(),gameModel->getCols());
-    scene = gameTextView->getScene();
-    for (auto &tile: gameModel->getTiles()){
-        auto XPosTile=tile->getTile()->getXPos();
-        auto YPosTile=tile->getTile()->getYPos();
-        auto valueTile=tile->getTile()->getValue();
-        auto tileType=gameModel->getTileType(XPosTile,YPosTile);
-        gameTextView->setTextTileView(XPosTile,YPosTile,valueTile,tileType);
-    }
+
     createTextCommandToClassMap();
    // ui->textBrowser->hide();
 
@@ -132,9 +125,9 @@ MainWindow::MainWindow(QWidget *parent)
     //ui->graphicsView->setFixedSize(nrOfCols,nrOfRows);
 
     //connect signals and slot
-    QObject::connect(world->getProtagonist().get(),SIGNAL(healthChanged(int )),this,SLOT(updateHealth(int)));
-    QObject::connect(world->getProtagonist().get(),SIGNAL(energyChanged(int )),this,SLOT(updateEnergy(int)));
-
+    QObject::connect(gameModel->getProtagonist()->getProtagonist().get(),SIGNAL(healthChanged(int)),this,SLOT(updateHealth(int)));
+    QObject::connect(gameModel->getProtagonist()->getProtagonist().get(),SIGNAL(energyChanged(int)),this,SLOT(updateEnergy(int)));
+    QObject::connect(gameModel->getProtagonist()->getProtagonist().get(),SIGNAL(posChanged(int,int)),this,SLOT(protagonistPositionChangedSlot(int,int)));
 
 //    for(auto &e:penemies_gamemodel){
 //           viewPenemy = new ViewPenemy(0, e->getPEnemy()->getXPos(), e->getPEnemy()->getYPos());
@@ -173,6 +166,8 @@ void MainWindow::projectile_timer(ViewXenemy * xenemy)
 
     xenemy->aquire_target(scene_graphics);
 }
+
+
 
 
 void MainWindow::on_radioButton_graphics_clicked()
@@ -497,6 +492,7 @@ void MainWindow::on_comboBox_activated(int index)
            ui->graphicsView->setScene(scene);
           break;
        }
+       createTextView();
     }
 
 
@@ -617,6 +613,30 @@ void MainWindow::switchMap(shared_ptr<World> &world,shared_ptr<GameModel> &gameM
 
 
 
+
+}
+
+void MainWindow::createTextView()
+{
+    gameTextView =std::make_shared<ViewText>(gameModel->getRows(),gameModel->getCols());
+    scene = gameTextView->getScene();
+    for (auto &tile: gameModel->getTiles()){
+        auto XPosTile=tile->getTile()->getXPos();
+        auto YPosTile=tile->getTile()->getYPos();
+        auto valueTile=tile->getTile()->getValue();
+        auto tileType=gameModel->getTileType(XPosTile,YPosTile);
+        gameTextView->setTextTileView(XPosTile,YPosTile,valueTile,tileType);
+    }
+}
+
+void MainWindow::protagonistPositionChangedSlot(int xPos, int yPos)
+{
+    gameModel->clearProtagonistFromMap(protPreviousXPos,protPreviousYPos);
+    gameTextView->clearProtagonistTileView(protPreviousXPos,protPreviousYPos);
+    protPreviousXPos=xPos;
+    protPreviousYPos=yPos;
+    gameModel->updateProtagonistPositionInMap();
+    gameTextView->updateProgonistTileView(xPos,yPos);
 
 }
 
