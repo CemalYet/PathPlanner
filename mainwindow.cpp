@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     auto world = make_shared<World>();
-    world->createWorld(":/images/maze2.jpg",10,10);
+    world->createWorld(":/images/worldmap.jpg",10,10);
 
     gameModel = std::make_shared<GameModel>();
     gameModel->setCols(world->getCols());
@@ -117,6 +117,7 @@ MainWindow::MainWindow(QWidget *parent)
         gameTextView->setTextTileView(XPosTile,YPosTile,valueTile,tileType);
     }
     createTextCommandToClassMap();
+   // ui->textBrowser->hide();
 
     //get graphical scene
     graphicView = std::make_shared<ViewGraphical>(gameModel->getRows(),gameModel->getCols());
@@ -129,8 +130,7 @@ MainWindow::MainWindow(QWidget *parent)
     //connect signals and slot
     QObject::connect(world->getProtagonist().get(),SIGNAL(healthChanged(int )),this,SLOT(updateHealth(int)));
     QObject::connect(world->getProtagonist().get(),SIGNAL(energyChanged(int )),this,SLOT(updateEnergy(int)));
-    QString protagonistPos="Protagonist("%QString::number(protagonist_model->getProtagonist()->getXPos())%","%QString::number(protagonist_model->getProtagonist()->getYPos())%")";//added
-    ui->textBrowser->setText(protagonistPos);//added
+
 
 //    for(auto &e:penemies_gamemodel){
 //           viewPenemy = new ViewPenemy(0, e->getPEnemy()->getXPos(), e->getPEnemy()->getYPos());
@@ -177,7 +177,7 @@ void MainWindow::on_radioButton_graphics_clicked()
     scene->clear();
     ui->textBrowser->hide();
     ui->graphicsView->setScene(scene_graphics);
-    scene_graphics->addPixmap(QPixmap(":/images/maze2.jpg"));
+    scene_graphics->addPixmap(QPixmap(":/images/worldmap.jpg"));
 
 
     //ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -330,10 +330,12 @@ void MainWindow::on_health_valueChanged(float value)
 void MainWindow::on_radioButton_Text_clicked()
 {
     scene_graphics->clear();
-    ui->textBrowser->show();
-    ui->graphicsView->setScene(scene);
     auto protagonistXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
     auto protagonistYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
+    ui->textBrowser->show();
+    QString protagonistPos="Protagonist("%QString::number(gameModel->getProtagonist()->getProtagonist()->getXPos())%","%QString::number(gameModel->getProtagonist()->getProtagonist()->getYPos())%")";//added
+    ui->textBrowser->setText(protagonistPos);//added
+    ui->graphicsView->setScene(scene);
     auto tv=gameTextView->buildPartialView(protagonistXPos,protagonistYPos);
     textViewItem=scene->addText(tv);
 
@@ -400,8 +402,8 @@ void MainWindow::on_executeButton_clicked()
     textViewItem=scene->addText(gameTextView->buildPartialView(protagonistXPos,protagonistYPos));
     updateEnergy(gameModel->getProtagonist()->getProtagonist()->getEnergy());
     updateHealth(gameModel->getProtagonist()->getProtagonist()->getHealth());
-//    QString protagonistPos="Protagonist("%QString::number(protagonistXPos)%","%QString::number(protagonistYPos)%")";//added
-//    ui->textBrowser->setText(protagonistPos);//added
+    QString protagonistPos="Protagonist("%QString::number(protagonistXPos)%","%QString::number(protagonistYPos)%")";//added
+    ui->textBrowser->setText(protagonistPos);//added
 }
 
 void MainWindow::updateEnergy(int value)
@@ -525,6 +527,20 @@ void MainWindow::on_zoomOut_clicked()
 
 void MainWindow::on_AutoPlayButton_clicked()
 {
+    int counter=0;
+        auto enemies=gameModel->getEnemyTileMap();
+        auto enemyPathStatus=path->findNearestEnemyPath();
+        while(counter < static_cast<int>(enemies.size())){
+            if(enemyPathStatus.first == true && !enemyPathStatus.second.empty()){
+              counter++;
 
+            }
+            else if(enemyPathStatus.first == false && !enemyPathStatus.second.empty()){
+                auto nearestHealthStatus=path->findNearestHealthPack();
+                if(nearestHealthStatus.first == true && !nearestHealthStatus.second.empty()){
+
+                }
+            }
+        }
 }
 
