@@ -154,9 +154,9 @@ p, li { white-space: pre-wrap; }
    <widget class="QTextBrowser" name="textBrowser">
     <property name="geometry">
      <rect>
-      <x>730</x>
-      <y>730</y>
-      <width>321</width>
+      <x>620</x>
+      <y>720</y>
+      <width>431</width>
       <height>61</height>
      </rect>
     </property>

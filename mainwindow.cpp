@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     auto world = make_shared<World>();
-    world->createWorld(":/images/worldmap4.jpg",10,5);
+    world->createWorld(":/images/maze2.jpg",10,10);
 
     gameModel = std::make_shared<GameModel>();
     gameModel->setCols(world->getCols());
@@ -96,14 +96,14 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     path =make_shared<PathPlanner>(gameModel,1);
-    auto autoPlay=path->autoPlay();
+   /* auto autoPlay=path->autoPlay();
     if(autoPlay.first){
         cout<<"you win "<<endl;
         cout<<autoPlay.second.size()<<endl;
     }else{
         cout<<"game over"<<endl;
         cout<<autoPlay.second.size()<<endl;
-    }
+    }*/
 
 
     //get text scene
@@ -174,10 +174,10 @@ void MainWindow::projectile_timer(ViewXenemy * xenemy)
 void MainWindow::on_radioButton_graphics_clicked()
 {
     //ui->zoom_group->show();
-    //scene->clear();
+    scene->clear();
     ui->textBrowser->hide();
     ui->graphicsView->setScene(scene_graphics);
-    scene_graphics->addPixmap(QPixmap(":/images/worldmap4.jpg"));
+    scene_graphics->addPixmap(QPixmap(":/images/maze2.jpg"));
 
 
     //ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -330,6 +330,7 @@ void MainWindow::on_health_valueChanged(float value)
 void MainWindow::on_radioButton_Text_clicked()
 {
     scene_graphics->clear();
+    ui->textBrowser->show();
     ui->graphicsView->setScene(scene);
     auto protagonistXPos=gameModel->getProtagonist()->getProtagonist()->getXPos();
     auto protagonistYPos=gameModel->getProtagonist()->getProtagonist()->getYPos();
@@ -350,7 +351,6 @@ void MainWindow::processTextCommand(QString userCommand)
     }
    if(textCommandToClassMap[command]){
        textCommandToClassMap[command]->execute(command,joinedString);
-         std::cout<<"no problem"<<std::endl;
      }
 }
 
