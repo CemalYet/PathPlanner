@@ -72,6 +72,7 @@ public slots:
     void updateMainWindowViewSlot(QString buildview);
 
     void mousePressEvent(QMouseEvent *ev) override;
+    void projectile_timer(ViewXenemy * xenemy);
 
 private:
     Ui::MainWindow *ui;

@@ -89,7 +89,7 @@ void ViewProtagonist::moveRight(const int protagonistXPos, const int protagonist
 
             if (typeid(*(colliding_items[i])) == typeid(ViewHealthPack)){
                 scene()->removeItem(colliding_items[i]);
-                g_model->getProtagonist()->increaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
+                g_model->getProtagonist()->increaseHealth(10);
             }
         }
     // move protagonist to the right
@@ -155,7 +155,7 @@ void ViewProtagonist::moveLeft(const int protagonistXPos, const int protagonistY
         }
         if (typeid(*(colliding_items[i])) == typeid(ViewHealthPack)){
             scene()->removeItem(colliding_items[i]);
-            g_model->getProtagonist()->increaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
+            g_model->getProtagonist()->increaseHealth(10);
         }
     }
     setPos(x()-1,y());
@@ -215,7 +215,7 @@ void ViewProtagonist::moveUp(const int protagonistXPos, const int protagonistYPo
         }
         if (typeid(*(colliding_items[i])) == typeid(ViewHealthPack)){
             scene()->removeItem(colliding_items[i]);
-            g_model->getProtagonist()->increaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
+            g_model->getProtagonist()->increaseHealth(10);
         }
     }
     setPos(x(),y()-1);
@@ -274,7 +274,7 @@ void ViewProtagonist::moveDown(const int protagonistXPos, const int protagonistY
         }
         if (typeid(*(colliding_items[i])) == typeid(ViewHealthPack)){
             scene()->removeItem(colliding_items[i]);
-            g_model->getProtagonist()->increaseHealth(g_model->getTileAtAPos(protagonistXPos, protagonistYPos)->getTile()->getValue());
+            g_model->getProtagonist()->increaseHealth(10);
         }
     }
     setPos(x(),y()+1);

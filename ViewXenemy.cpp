@@ -1,20 +1,6 @@
 #include "ViewXenemy.h"
 #include "ViewProtagonist.h"
 
-//void ViewXenemy::selectNearestEnemy()
-//{
-
-//}
-
-
-//ViewXenemy::ViewXenemy(QGraphicsItem *parent, const int &x_pos, const int &y_pos)
-//{
-//    setPixmap(QPixmap(":/images/sindel.png"));
-//    setPos(x_pos, y_pos);
-//    setFlag(QGraphicsItem::ItemIsFocusable);
-//}
-
-
 ViewXenemy::ViewXenemy(QGraphicsItem *parent, int xPosition, int yPosition)
 {
         setPixmap(QPixmap(":/images/sindel.png"));
@@ -37,7 +23,7 @@ ViewXenemy::ViewXenemy(QGraphicsItem *parent, int xPosition, int yPosition)
         // create the QGraphicsPolygonItem
         attackBoundry = new QGraphicsPolygonItem(QPolygonF(points),this);
         // move the polygon
-        QPointF poly_center(1.5,1.5);
+        QPointF poly_center(3,3);
         poly_center *= SCALE_FACTOR;
         poly_center = mapToScene(poly_center);;
         QPointF xenemy_center(x()+25,y()+25);
@@ -59,19 +45,7 @@ double ViewXenemy::distanceTO(QGraphicsItem *item)
     return ln.length();
 }
 
-void ViewXenemy::fire()
-{
-    Projectile * projectile = new Projectile();
-    projectile->setPos(x()+20, y()+20);
-
-    QLineF ln(QPointF(x()+20, y()+20), attack_dest);
-    int angle = ln.angle();
-
-    projectile->setRotation(angle);
-    //scene()->addItem(projectile);
-}
-
-void ViewXenemy::aquire_target()
+void ViewXenemy::aquire_target(QGraphicsScene * scene)
 {
     QList<QGraphicsItem *> colliding_items = attackBoundry->collidingItems();
 
@@ -98,7 +72,15 @@ void ViewXenemy::aquire_target()
         }
     }
     attack_dest = closest_pt;
-    fire();
+
+    Projectile * projectile = new Projectile();
+    projectile->setPos(x()+20, y()+20);
+
+    QLineF ln(QPointF(x()+20, y()+20), attack_dest);
+    int angle = ln.angle();
+
+    projectile->setRotation(angle);
+    scene->addItem(projectile);
 }
 
 

@@ -8,8 +8,8 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsPolygonItem>
 #include <QGraphicsItem>
-#include "XenemyModel.h"
-//#include "ViewProtagonist.h"
+#include <QGraphicsScene>
+#include "Projectile.h"
 
 class ViewXenemy : public QObject, public QGraphicsPixmapItem
 {
@@ -17,8 +17,6 @@ class ViewXenemy : public QObject, public QGraphicsPixmapItem
 public:
     ViewXenemy(QGraphicsItem *parent = 0, int xPosition =0, int yPosition=0);  //create xenemy logic
     double distanceTO(QGraphicsItem * item);
-    void fire();
-
     void setXPosition(int newXPosition);
     void setYPosition(int newYPosition);
 
@@ -26,11 +24,9 @@ public:
     int getYPosition() const;
 
 public slots:
-    void aquire_target();
+    void aquire_target(QGraphicsScene * scene);
 
 private:
-    //std::shared_ptr<XenemyModel> xenemy;
-    //std::vector<std::shared_ptr<XenemyModel>> xEnemies;
     int xPosition;
     int yPosition;
     QGraphicsPolygonItem * attackBoundry;

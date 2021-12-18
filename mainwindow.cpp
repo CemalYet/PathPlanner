@@ -57,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     auto world = make_shared<World>();
     world->createWorld(":/images/worldmap4.jpg",10,5);
+
     gameModel = std::make_shared<GameModel>();
     gameModel->setCols(world->getCols());
     gameModel->setRows(world->getRows());
@@ -123,7 +124,8 @@ MainWindow::MainWindow(QWidget *parent)
     auto nrOfCols = gameModel->getCols();
     auto nrOfRows = gameModel->getRows();
     scene_graphics->setSceneRect(0,0,nrOfCols,nrOfRows);
-//    ui->graphicsView->setFixedSize(nrOfCols,nrOfRows);
+    //ui->graphicsView->setFixedSize(nrOfCols,nrOfRows);
+
     //connect signals and slot
     QObject::connect(world->getProtagonist().get(),SIGNAL(healthChanged(int )),this,SLOT(updateHealth(int)));
     QObject::connect(world->getProtagonist().get(),SIGNAL(energyChanged(int )),this,SLOT(updateEnergy(int)));
@@ -147,8 +149,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::mousePressEvent(QMouseEvent *ev)
 {
-    int goal_x=ev->position().x()-71;
-    int goal_y=ev->position().y()-61;
+    int goal_x=ev->position().x()-30;
+    int goal_y=ev->position().y()-65;
     qDebug()<<" Mouse is clicked at: x="<< goal_x << "and at y="<< goal_y;
     gameModel->getProtagonist()->goTo(goal_x,goal_y);
 
@@ -157,19 +159,29 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
 
 }
 
+void MainWindow::projectile_timer(ViewXenemy * xenemy)
+{
+
+    //create a timer to attack the protagonist
+    QTimer * timer = new QTimer();
+    connect(timer, SIGNAL(timeout()), this, SLOT(xenemy->aquire_target(scene_graphics)));
+    timer->start(1000);
+
+    xenemy->aquire_target(scene_graphics);
+}
+
 
 void MainWindow::on_radioButton_graphics_clicked()
 {
     //ui->zoom_group->show();
-    scene->clear();
+    //scene->clear();
+    ui->textBrowser->hide();
     ui->graphicsView->setScene(scene_graphics);
     scene_graphics->addPixmap(QPixmap(":/images/worldmap4.jpg"));
 
 
     //ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     //ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    //ui->graphicsView->setFixedSize(nrOfCols,nrOfRows);
-
 
 
 //-----------------------------------------------------------------------------------------------
@@ -188,12 +200,11 @@ void MainWindow::on_radioButton_graphics_clicked()
 
 
     for(auto &e:actual_penemies){
-        viewPenemy = new ViewPenemy(0, e->getPEnemy()->getXPos(), e->getPEnemy()->getYPos());
+        //viewPenemy = new ViewPenemy(0, e->getPEnemy()->getXPos(), e->getPEnemy()->getYPos());
+        viewPenemy = new ViewPenemy(0, 10, 10);
         scene_graphics->addItem(viewPenemy);
     }
-    scene_graphics->addItem(viewPenemy);
 //    scene_graphics->update();
-
 //-----------------------------------------------------------------------------------------------
 //----------------------  Xenemies   ---------------------------------------------------------
 //-----------------------------------------------------------------------------------------------
@@ -205,13 +216,15 @@ void MainWindow::on_radioButton_graphics_clicked()
         //viewPenemy->setPos(e->getPEnemy()->getXPos() + 100, e->getPEnemy()->getYPos() + 100);  //line below for test to set the penemy closer
         auto xEnemyXPos = e->getXPosition();
         auto xEnemyYPos = e->getYPosition();
-        xenemy = new ViewXenemy(0, xEnemyXPos, xEnemyYPos);
+        //xenemy = new ViewXenemy(0, xEnemyXPos, xEnemyYPos);
+        xenemy = new ViewXenemy(0, 80, 90);
 
 
         //viewPenemy->setPos(xEnemyXPos, xEnemyYPos);
 
         scene_graphics->addItem(xenemy);
     }
+    projectile_timer(xenemy);
 //-----------------------------------------------------------------------------------------------
 //----------------------  Health packs   ---------------------------------------------------------
 //-----------------------------------------------------------------------------------------------
