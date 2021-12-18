@@ -55,38 +55,42 @@ MainWindow::MainWindow(QWidget *parent)
     //ui->zoom_group->hide();
 
 
-    auto world = make_shared<World>();
-    world->createWorld(":/images/worldmap.jpg",10,10);
-
+    world = make_shared<World>();
+//    world->createWorld(":/images/worldmap.jpg",10,10);
     gameModel = std::make_shared<GameModel>();
-    gameModel->setCols(world->getCols());
-    gameModel->setRows(world->getRows());
+//    path=make_shared<PathPlanner>();
+    switchMap(world,gameModel,":/images/maze3.jpg");
+
+//    qDebug()<<path->getGameBoard().size();
+
+//    gameModel->setCols(world->getCols());
+//    gameModel->setRows(world->getRows());
 
 
-    auto world_tiles=world->getTiles();
-    gameModel->setTiles(world_tiles);
-    auto gamemodel_tiles=gameModel->getTiles();
+//    auto world_tiles=world->getTiles();
+//    gameModel->setTiles(world_tiles);
+//    auto gamemodel_tiles=gameModel->getTiles();
 
-    auto enemy=world->getEnemies();
-    cout<<"size of enemies directlr is"<< enemy.size() <<endl;
-    gameModel->setEnemies(enemy);
+//    auto enemy=world->getEnemies();
+//    cout<<"size of enemies directlr is"<< enemy.size() <<endl;
+//    gameModel->setEnemies(enemy);
 
-    auto penemies_gamemodel=gameModel->getPEnemies();
-    auto enemies_gamemodel = gameModel->getEnemies();
+//    auto penemies_gamemodel=gameModel->getPEnemies();
+//    auto enemies_gamemodel = gameModel->getEnemies();
 
-    gameModel->setXEnemies();
-    auto xenemies = gameModel->getXEnemies();
+//    gameModel->setXEnemies();
+//    auto xenemies = gameModel->getXEnemies();
 
-    auto protagonist=world->getProtagonist();
-    auto protagonist_model=make_shared<protagonistModel>();
-    protagonist_model->setProtagonist(protagonist);
-    //auto protagonist_gamemodel = protagonist_model->getProtagonist();
-    gameModel->setProtagonist(protagonist_model);
-    gameModel->getProtagonist()->getProtagonist()->setXPos(0);
-    gameModel->getProtagonist()->getProtagonist()->setYPos(0);
+//    auto protagonist=world->getProtagonist();
+//    auto protagonist_model=make_shared<protagonistModel>();
+//    protagonist_model->setProtagonist(protagonist);
+//    //auto protagonist_gamemodel = protagonist_model->getProtagonist();
+//    gameModel->setProtagonist(protagonist_model);
+//    gameModel->getProtagonist()->getProtagonist()->setXPos(0);
+//    gameModel->getProtagonist()->getProtagonist()->setYPos(0);
 
-    auto health=world->getHealthPacks();
-    gameModel->setHealthPacks(health);
+//    auto health=world->getHealthPacks();
+//    gameModel->setHealthPacks(health);
 
     gameModel->getProtagonist()->getProtagonist()->setEnergy(world->getProtagonist()->getEnergy());
     ui->energy->setValue(gameModel->getProtagonist()->getProtagonist()->getEnergy());
@@ -95,7 +99,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->health->setValue(gameModel->getProtagonist()->getProtagonist()->getHealth());
 
 
-    path =make_shared<PathPlanner>(gameModel,1);
+
    /* auto autoPlay=path->autoPlay();
     if(autoPlay.first){
         cout<<"you win "<<endl;
@@ -109,7 +113,7 @@ MainWindow::MainWindow(QWidget *parent)
     //get text scene
     gameTextView =std::make_shared<ViewText>(gameModel->getRows(),gameModel->getCols());
     scene = gameTextView->getScene();
-    for (auto &tile: gamemodel_tiles){
+    for (auto &tile: gameModel->getTiles()){
         auto XPosTile=tile->getTile()->getXPos();
         auto YPosTile=tile->getTile()->getYPos();
         auto valueTile=tile->getTile()->getValue();
@@ -177,7 +181,19 @@ void MainWindow::on_radioButton_graphics_clicked()
     scene->clear();
     ui->textBrowser->hide();
     ui->graphicsView->setScene(scene_graphics);
-    scene_graphics->addPixmap(QPixmap(":/images/worldmap.jpg"));
+    int game_cols=gameModel->getCols();
+    if(maps.size()!=0){delete maps.at(0);}
+    if(game_cols==30){
+         maps.append(scene_graphics->addPixmap(QPixmap(":/images/worldmap.jpg")));
+    }else if(game_cols==1000){
+         maps.append(scene_graphics->addPixmap(QPixmap(":/images/worldmap4.jpg")));
+    }else if(game_cols==500){
+         maps.append(scene_graphics->addPixmap(QPixmap(":/images/maze1.jpg")));
+    }else if(game_cols==800){
+         maps.append(scene_graphics->addPixmap(QPixmap(":/images/maze2.jpg")));
+    }else{
+        maps.append(scene_graphics->addPixmap(QPixmap(":/images/maze3.jpg")));
+    }
 
 
     //ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -441,32 +457,48 @@ void MainWindow::updateMainWindowViewSlot(QString buildview)
 
 
 
-/*void MainWindow::on_comboBox_activated(int index)
+void MainWindow::on_comboBox_activated(int index)
 {
     //world = make_shared<World>();
-    switch(index){
-    case 1:
-        world->createWorld(":/images/worldmap.jpg",10,5);
-        std::cout<<" case1"<<std::endl;
-        break;
-    case 2:
-        world->createWorld(":/images/worldmap4.jpg",10,5);
-        std::cout<<" case2"<<std::endl;
-       break;
-    case 3:
-       //world->createWorld(":/images/maze1.jpg",5,5);
-       std::cout<<" case3"<<std::endl;
-       break;
-    case 4:
-       // world->createWorld(":/images/maze2.jpg",0,0);
-        std::cout<<" case4"<<std::endl;
-       break;
-    case 5:
-        //world->createWorld(":/images/maze3.jpg",0,0);
-        std::cout<<" case5"<<std::endl;
-       break;
+       switch(index){
+
+       case 0:
+           switchMap(world,gameModel,":/images/worldmap.jpg");
+           scene_graphics->setSceneRect(0,0,gameModel->getCols(),gameModel->getRows());
+           ui->graphicsView->setScene(scene_graphics);
+           ui->graphicsView->setScene(scene);
+           ui->graphicsView->scale(gameModel->getCols(), gameModel->getRows());
+           break;
+       case 1:
+           switchMap(world,gameModel,":/images/worldmap4.jpg");
+           scene_graphics->setSceneRect(0,0,gameModel->getCols(),gameModel->getRows());
+           ui->graphicsView->setScene(scene_graphics);
+           ui->graphicsView->setScene(scene);
+
+          break;
+       case 2:
+          switchMap(world,gameModel,":/images/maze1.jpg");
+          scene_graphics->setSceneRect(0,0,gameModel->getCols(),gameModel->getRows());
+          ui->graphicsView->setScene(scene_graphics);
+          ui->graphicsView->setScene(scene);
+          break;
+       case 3:
+
+           switchMap(world,gameModel,":/images/maze2.jpg");
+           scene_graphics->setSceneRect(0,0,gameModel->getCols(),gameModel->getRows());
+           ui->graphicsView->setScene(scene_graphics);
+           ui->graphicsView->setScene(scene);
+
+          break;
+       case 4:
+           switchMap(world,gameModel,":/images/maze3.jpg");
+           scene_graphics->setSceneRect(0,0,gameModel->getCols(),gameModel->getRows());
+           ui->graphicsView->setScene(scene_graphics);
+           ui->graphicsView->setScene(scene);
+          break;
+       }
     }
-}*/
+
 
 
 
@@ -477,10 +509,11 @@ void MainWindow::on_horizontalSlider_sliderMoved(int position)
 }
 
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_testHeuristic_clicked()
 {
-    testPathPlanner(0,45,999,938);
+     testPathPlanner(1,45,999,938);
 }
+
 
 
 void MainWindow::on_clearLines_clicked()
@@ -496,11 +529,15 @@ void MainWindow::on_testEfficiency_clicked()
     testPathPlanner(0,22,1200,1205);
 }
 
-void MainWindow::testPathPlanner(int pX,int pY, int goalX, int goalY ){
+void MainWindow::testPathPlanner(const int &pX,const int &pY, const int &goalX, const int &goalY ){
     gameModel->getProtagonist()->goTo(pX,pY);
     viewProtagonist->setPosition(pX,pY);
-//    qDebug()<<" view is at: x="<< gameModel->getProtagonist()->getProtagonist()->getXPos() << "and at y="<< gameModel->getProtagonist()->getProtagonist()->getYPos();
+
+    qDebug()<<" view is at: x="<< gameModel->getProtagonist()->getProtagonist()->getXPos() << "and at y="<< gameModel->getProtagonist()->getProtagonist()->getYPos();
+//    qDebug()<<"goal x"<<goalX;
+//    qDebug()<<"goal y"<<goalY;
     auto dummy = path->solution1(goalX,goalY).second;
+    qDebug()<<"pathplanner size"<<dummy.size();
     unsigned int index=-1;
     QPen pen(Qt::red);
     pen.setWidth(5);
@@ -543,4 +580,44 @@ void MainWindow::on_AutoPlayButton_clicked()
             }
         }
 }
+
+void MainWindow::switchMap(shared_ptr<World> &world,shared_ptr<GameModel> &gameModel,QString const& worldName){
+
+    world->createWorld(worldName,10,5);
+
+    gameModel->setCols(world->getCols());
+    gameModel->setRows(world->getRows());
+
+
+    auto world_tiles=world->getTiles();
+    gameModel->setTiles(world_tiles);
+    auto tiles=gameModel->getTiles();
+    qDebug()<<"TILES"<<gameModel->getTiles().size();
+
+
+    auto enemy=world->getEnemies();
+    gameModel->setEnemies(enemy);
+
+    gameModel->setXEnemies();
+
+
+    auto protagonist=world->getProtagonist();
+    auto protagonist_model=make_shared<protagonistModel>();
+    protagonist_model->setProtagonist(protagonist);
+    //auto protagonist_gamemodel = protagonist_model->getProtagonist();
+    gameModel->setProtagonist(protagonist_model);
+    gameModel->getProtagonist()->getProtagonist()->setXPos(0);
+    gameModel->getProtagonist()->getProtagonist()->setYPos(0);
+
+    auto health=world->getHealthPacks();
+    gameModel->setHealthPacks(health);
+//    scene_graphics->setSceneRect(0,0,gameModel->getCols(),gameModel->getRows());
+    path=make_shared<PathPlanner>(gameModel,0.001);
+
+
+
+
+
+}
+
 

@@ -15,6 +15,7 @@ using namespace std;
 class PathPlanner
 {
 public:
+    PathPlanner() {}
     PathPlanner(shared_ptr<GameModel> &w,float slider); //changed to shared pointer
     float findDistance(int x1,int y1,int x2,int y2) ;
     vector<pair<int,int>> fillPath(shared_ptr<Node> &node);
@@ -29,6 +30,13 @@ public:
 
     pair<bool, vector<pair<int, int>>> findNearestEnemyPath();
     pair<bool, vector<pair<int, int>>> findNearestHealthPack();
+
+    void setGameBoard(const vector<shared_ptr<TileModel> > &newGameBoard);
+    void setProtogonist(const shared_ptr<protagonistModel> &newProtogonist);
+    void setEnemies(const std::map<std::string, std::shared_ptr<Enemy> > &newEnemies);
+    void setHealtPackets(const vector<shared_ptr<HealthPackModel> > &newHealtPackets);
+    void setCol(int newCol);
+    void setRow(int newRow);
 
 private:
     vector<shared_ptr<TileModel>> gameBoard;

@@ -37,7 +37,6 @@ vector<pair<int,int>> PathPlanner::fillPath(shared_ptr<Node> &node){
 //returns as a first total cost of path and as a second solution path vector
 pair<float,vector<pair<int,int>>> PathPlanner::solution1(int goalX,int goalY){
     //initialize lookUp vector
-
     vector<pair<bool,float>> d (col,make_pair(false,0.0));
     vector<vector<pair<bool,float>>> lookUp(row,d);
 
@@ -86,9 +85,9 @@ pair<float,vector<pair<int,int>>> PathPlanner::solution1(int goalX,int goalY){
         for( int i=0;i<8;i++) {
             int sucX=x+posX[i];
             int sucY=y+posY[i];
+
 // and (enemies.find(std::to_string(sucX)+":"+std::to_string(sucY))==enemies.end())
-            if(sucX >= 0 && sucX <col && sucY >= 0 && sucY < row
-                   ){
+            if(sucX >= 0 && sucX <col && sucY >= 0 && sucY < row){
 
                 float value=gameBoard[col*sucY+sucX]->getTile()->getValue();
                 //auto lookUpIndex =lookUp[col*sucY+sucX];
@@ -96,8 +95,6 @@ pair<float,vector<pair<int,int>>> PathPlanner::solution1(int goalX,int goalY){
 
                 if(value != std::numeric_limits<float>::infinity() and !(lookUpIndex.first==true)){
                     float givenCostOfSuccessor=currentNodeGivenCost+value+0.001;
-
-
                     if(!(lookUpIndex.first==false and lookUpIndex.second !=0.0) or (lookUpIndex.first==false and givenCostOfSuccessor <
                                                                                     lookUpIndex.second and lookUpIndex.second!=0.0)){
                         float heuristicOfSuccessor=findDistance(goalX,goalY,sucX,sucY);
@@ -378,6 +375,36 @@ pair<bool, vector<pair<int, int> > > PathPlanner::findNearestHealthPack()
     }else{
         return  make_pair(false,path.second);//not enough energy to grab health pack
     }
+}
+
+void PathPlanner::setGameBoard(const vector<shared_ptr<TileModel> > &newGameBoard)
+{
+    gameBoard = newGameBoard;
+}
+
+void PathPlanner::setProtogonist(const shared_ptr<protagonistModel> &newProtogonist)
+{
+    protogonist = newProtogonist;
+}
+
+void PathPlanner::setEnemies(const std::map<std::string, std::shared_ptr<Enemy> > &newEnemies)
+{
+    enemies = newEnemies;
+}
+
+void PathPlanner::setHealtPackets(const vector<shared_ptr<HealthPackModel> > &newHealtPackets)
+{
+    healtPackets = newHealtPackets;
+}
+
+void PathPlanner::setCol(int newCol)
+{
+    col = newCol;
+}
+
+void PathPlanner::setRow(int newRow)
+{
+    row = newRow;
 }
 
 

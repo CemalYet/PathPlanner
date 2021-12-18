@@ -33,6 +33,9 @@
 
 
 
+
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -52,19 +55,23 @@ private slots:
     void on_executeButton_clicked();
 
     void on_radioButton_graphics_clicked();
-    //void on_comboBox_activated(int index);
+    void on_comboBox_activated(int index);
     void on_health_valueChanged(float value);
-    void on_pushButton_clicked();
+//    void on_pushButton_clicked();
     void on_horizontalSlider_sliderMoved(int position);
 
     void on_clearLines_clicked();
     void on_testEfficiency_clicked();
-    void testPathPlanner(int pX,int pY, int goalX, int goalY );
+     void on_testHeuristic_clicked();
+    void testPathPlanner(const int &pX,const int &pY, const int &goalX, const int &goalY );
 
     void on_zoomIn_clicked();
     void on_zoomOut_clicked();
 
     void on_AutoPlayButton_clicked();
+
+
+
 
 public slots:
     void updateEnergy(int value);
@@ -82,6 +89,7 @@ private:
     std::shared_ptr<ViewGraphical> graphicView;
     QGraphicsItem * graphicViewItem;
     QList<QGraphicsItem *> lines;
+    QList<QGraphicsItem *> maps;
     //--------------------------------------
     QGraphicsScene * scene_graphics;
     ViewProtagonist * viewProtagonist;
@@ -97,6 +105,7 @@ private:
     std::shared_ptr<ViewText>gameTextView;
     QGraphicsItem* textViewItem;
     std::map<std::string,std::shared_ptr<TextCommands>>textCommandToClassMap;
+    void switchMap(shared_ptr<World> &world,shared_ptr<GameModel> &gameModel,QString const& worldName);
 
     void keyPressEvent(QKeyEvent * event) override;
 };

@@ -87,7 +87,7 @@ std::vector<std::shared_ptr<TileModel> > GameModel::getTiles() const
 }*/
 //testing :if not working uncomment top code
 void GameModel::setTiles(std::vector<std::unique_ptr<Tile> > &value)
-{
+{   tiles.clear();
     for(auto &tile:value){
         auto tile_model= std::make_shared<TileModel>();
         if(tile->getValue() != std::numeric_limits<float>::infinity()){
@@ -116,7 +116,7 @@ std::vector<std::shared_ptr<HealthPackModel> > GameModel::getHealthPacks() const
 }
 
 void GameModel::setHealthPacks( std::vector<std::unique_ptr<Tile> > &value)
-{
+{   healthPacks.clear();
     for(auto &t:value){
        auto healthpack_model=std::make_shared<HealthPackModel>();
        healthpack_model->setHealthPack(std::move(t));
@@ -208,7 +208,7 @@ std::vector<std::shared_ptr<PenemyModel> > GameModel::getPEnemies() const
 }
 
 void GameModel::setXEnemies()
-{
+{               xEnemies.clear();
                 int xPos=0; int yPos=0;
                 for(auto &x_enemy:pEnemies){
                     auto xEnemy =std::make_shared<XenemyModel> ();
