@@ -27,6 +27,9 @@ public:
     void setSlider(const float &newSlider);
     float getSlider() const;
 
+    pair<bool, vector<pair<int, int>>> findNearestEnemyPath();
+    pair<bool, vector<pair<int, int>>> findNearestHealthPack();
+
 private:
     vector<shared_ptr<TileModel>> gameBoard;
     shared_ptr<protagonistModel> protogonist;

@@ -296,6 +296,92 @@ pair<bool,vector<vector<pair<int,int>>>> PathPlanner::autoPlay()
 
 //}
 
+pair<bool, vector<pair<int, int> > > PathPlanner::findNearestEnemyPath()
+//return true and solution path if enough energy & health to attack nearest enemy
+{
+    float pH=protogonist->getProtagonist()->getHealth();
+    float pE=protogonist->getProtagonist()->getEnergy();
+    float minDistance=std::numeric_limits<float>::infinity();
+    std::shared_ptr<Enemy> nearestEnemy;
+    bool iskilled=true;
+    pair<float,vector<pair<int,int>>>path;
+    if (iskilled)
+        {
+            for(auto &e : enemies){
+                int eX=e.second->getXPos();
+                int eY=e.second->getYPos();
+
+                if(!(e.second->getDefeated())){
+                    auto enemySolution=solution1(eX,eY);
+                    int nearestEnemyDistance=enemySolution.second.size();
+
+                    if(nearestEnemyDistance < minDistance){
+                        minDistance=nearestEnemyDistance;
+                        nearestEnemy=e.second;
+                        path=enemySolution;
+                        iskilled=false;
+                      }
+                 }
+
+              }
+          }
+    else {
+             auto e=nearestEnemy;
+             path=solution1(e->getXPos(),e->getYPos());
+         }
+    if(nearestEnemy==nullptr){
+        return make_pair(false,path.second); //return no nearest enemy and path=empty
+    }
+    float enemyValue=nearestEnemy->getValue();
+    //if protagonist health and energy greater than enemy value it is possible to kill
+    if(pH > enemyValue and pE > path.first){
+        protogonist->killEnemy(path.first,enemyValue,nearestEnemy);
+        gameBoard[col*nearestEnemy->getYPos()+nearestEnemy->getXPos()]->setInfinity();
+        nearestEnemy->setValue(std::numeric_limits<double>::infinity());
+        return make_pair(true,path.second); //enemy can be attacked and path is available
+
+    }
+    return make_pair(false,path.second);//return not enough health and energy to attack and path=some value
+}
+
+pair<bool, vector<pair<int, int> > > PathPlanner::findNearestHealthPack()
+//return true and solution path if enough energy to grab nearest healthpack
+{
+    float pH=protogonist->getProtagonist()->getHealth();
+    float pE=protogonist->getProtagonist()->getEnergy();
+    float minDistance=std::numeric_limits<float>::infinity();
+    std::shared_ptr<HealthPackModel>nearestHealthPack;
+    pair<float,vector<pair<int,int>>>path;
+    for(auto &h : healtPackets){
+        if(h->getIsPacked()==false){
+            int hX=h->getHealthPack()->getXPos();
+            int hY=h->getHealthPack()->getYPos();
+            int hV=h->getHealthPack()->getValue();
+
+            auto healthSolution=solution1(hX,hY);
+            auto nearestHealthPackDistance=healthSolution.second.size();
+
+            if(nearestHealthPackDistance < minDistance){
+                minDistance=nearestHealthPackDistance;
+                nearestHealthPack=h;
+                path=healthSolution;
+
+            }
+
+
+        }
+    }
+    if(nearestHealthPack!=nullptr and path.second.size()>0 and pE > path.first and !(nearestHealthPack->getIsPacked())){
+        protogonist->grabHealthPack(nearestHealthPack);
+        return  make_pair(true,path.second); //enough energy to grab health pack and it's path
+
+    }else{
+        return  make_pair(false,path.second);//not enough energy to grab health pack
+    }
+}
+
+
+
 
 
 

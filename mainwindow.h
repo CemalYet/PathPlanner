@@ -62,8 +62,9 @@ private slots:
     void testPathPlanner(int pX,int pY, int goalX, int goalY );
 
     void on_zoomIn_clicked();
-
     void on_zoomOut_clicked();
+
+    void on_AutoPlayButton_clicked();
 
 public slots:
     void updateEnergy(int value);

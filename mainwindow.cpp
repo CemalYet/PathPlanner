@@ -522,3 +522,9 @@ void MainWindow::on_zoomOut_clicked()
     ui->graphicsView->scale(0.9,0.9);
 }
 
+
+void MainWindow::on_AutoPlayButton_clicked()
+{
+
+}
+
