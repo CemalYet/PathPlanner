@@ -1,4 +1,4 @@
-# PathPlanner
+# PathFinder with A*
 
 The protagonist needs to have sufficient intelligence to navigate in an unknown world, populated
 with health packs and enemies. So I developed a path-finding algorithm to calculate the
@@ -19,4 +19,19 @@ This is possible in less than 1 second.
 
 See the images for solution path for big maze 1.17 sec.
 
+![alt text](https://github.com/CemalYet/PathPlanner/blob/production/PathPlanner.png?raw=true)
+
 See the images for visualizing effect of heuristic.
+
+Heuristic_0
+![alt text](https://github.com/CemalYet/PathPlanner/blob/production/Heuristic_0.png?raw=true)
+
+Heuristic_0.2
+![alt text](https://github.com/CemalYet/PathPlanner/blob/production/Heuristic_0.2.png?raw=true)
+
+Heuristic_0.5
+![alt text](https://github.com/CemalYet/PathPlanner/blob/production/Heuristic_0.5.png?raw=true)
+
+Heuristic_1
+![alt text](https://github.com/CemalYet/PathPlanner/blob/production/Heuristic_1.png?raw=true)
+
