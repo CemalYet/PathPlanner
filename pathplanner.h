@@ -19,7 +19,7 @@ public:
     PathPlanner(shared_ptr<GameModel> &w,float slider); //changed to shared pointer
     float findDistance(int x1,int y1,int x2,int y2) ;
     vector<pair<int,int>> fillPath(shared_ptr<Node> &node);
-    vector<unique_ptr<Tile> > getGameBoard() ;
+
     pair<float,vector<pair<int,int>>> solution1(int goalX,int goalY);
     pair<bool,vector<vector<pair<int,int>>>> autoPlay();
     pair<bool,shared_ptr<Enemy>>findNearestEnemy(shared_ptr<Enemy> &nearestEnemy,pair<float,vector<pair<int,int>>> &path);
@@ -37,6 +37,10 @@ public:
     void setHealtPackets(const vector<shared_ptr<HealthPackModel> > &newHealtPackets);
     void setCol(int newCol);
     void setRow(int newRow);
+
+    const vector<shared_ptr<TileModel> > &getGameBoard() const;
+
+    const std::map<std::string, std::shared_ptr<Enemy> > &getEnemies() const;
 
 private:
     vector<shared_ptr<TileModel>> gameBoard;

@@ -51,47 +51,16 @@ MainWindow::MainWindow(QWidget *parent)
 
 {
     ui->setupUi(this);
-    //connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(zoomout()));
-    //ui->zoom_group->hide();
+
 
 
     world = make_shared<World>();
-//    world->createWorld(":/images/worldmap.jpg",10,10);
     gameModel = std::make_shared<GameModel>();
-//    path=make_shared<PathPlanner>();
-    switchMap(world,gameModel,":/images/worldmap.jpg");
+    switchMap(world,gameModel,":/images/worldmap.png");
     createTextView();
 
-//    qDebug()<<path->getGameBoard().size();
-
-//    gameModel->setCols(world->getCols());
-//    gameModel->setRows(world->getRows());
 
 
-//    auto world_tiles=world->getTiles();
-//    gameModel->setTiles(world_tiles);
-//    auto gamemodel_tiles=gameModel->getTiles();
-
-//    auto enemy=world->getEnemies();
-//    cout<<"size of enemies directlr is"<< enemy.size() <<endl;
-//    gameModel->setEnemies(enemy);
-
-//    auto penemies_gamemodel=gameModel->getPEnemies();
-//    auto enemies_gamemodel = gameModel->getEnemies();
-
-//    gameModel->setXEnemies();
-//    auto xenemies = gameModel->getXEnemies();
-
-//    auto protagonist=world->getProtagonist();
-//    auto protagonist_model=make_shared<protagonistModel>();
-//    protagonist_model->setProtagonist(protagonist);
-//    //auto protagonist_gamemodel = protagonist_model->getProtagonist();
-//    gameModel->setProtagonist(protagonist_model);
-//    gameModel->getProtagonist()->getProtagonist()->setXPos(0);
-//    gameModel->getProtagonist()->getProtagonist()->setYPos(0);
-
-//    auto health=world->getHealthPacks();
-//    gameModel->setHealthPacks(health);
 
     gameModel->getProtagonist()->getProtagonist()->setEnergy(world->getProtagonist()->getEnergy());
     ui->energy->setValue(gameModel->getProtagonist()->getProtagonist()->getEnergy());
@@ -100,21 +69,21 @@ MainWindow::MainWindow(QWidget *parent)
     ui->health->setValue(gameModel->getProtagonist()->getProtagonist()->getHealth());
 
 
-
-   /* auto autoPlay=path->autoPlay();
+//    path=make_shared<PathPlanner>(gameModel,0.001);
+    auto autoPlay=path->autoPlay();
     if(autoPlay.first){
         cout<<"you win "<<endl;
         cout<<autoPlay.second.size()<<endl;
     }else{
         cout<<"game over"<<endl;
         cout<<autoPlay.second.size()<<endl;
-    }*/
+    }
 
 
     //get text scene
 
     createTextCommandToClassMap();
-   // ui->textBrowser->hide();
+
 
     //get graphical scene
     graphicView = std::make_shared<ViewGraphical>(gameModel->getRows(),gameModel->getCols());
@@ -122,19 +91,14 @@ MainWindow::MainWindow(QWidget *parent)
     auto nrOfCols = gameModel->getCols();
     auto nrOfRows = gameModel->getRows();
     scene_graphics->setSceneRect(0,0,nrOfCols,nrOfRows);
-    //ui->graphicsView->setFixedSize(nrOfCols,nrOfRows);
+
 
     //connect signals and slot
     QObject::connect(gameModel->getProtagonist()->getProtagonist().get(),SIGNAL(healthChanged(int)),this,SLOT(updateHealth(int)));
     QObject::connect(gameModel->getProtagonist()->getProtagonist().get(),SIGNAL(energyChanged(int)),this,SLOT(updateEnergy(int)));
     QObject::connect(gameModel->getProtagonist()->getProtagonist().get(),SIGNAL(posChanged(int,int)),this,SLOT(protagonistPositionChangedSlot(int,int)));
 
-//    for(auto &e:penemies_gamemodel){
-//           viewPenemy = new ViewPenemy(0, e->getPEnemy()->getXPos(), e->getPEnemy()->getYPos());
-//           scene_graphics->addItem(viewPenemy);
-//           qDebug() << "Penemmy is added";
-//           show();
-//       }
+
 
 }
 
@@ -174,25 +138,23 @@ void MainWindow::on_radioButton_graphics_clicked()
 {
     //ui->zoom_group->show();
     scene->clear();
+    scene_graphics->clear();
     ui->textBrowser->hide();
     ui->graphicsView->setScene(scene_graphics);
     int game_cols=gameModel->getCols();
-    if(maps.size()!=0){delete maps.at(0);}
+
     if(game_cols==30){
-         maps.append(scene_graphics->addPixmap(QPixmap(":/images/worldmap.jpg")));
+         scene_graphics->addPixmap(QPixmap(":/images/worldmap.jpg"));
     }else if(game_cols==1000){
-         maps.append(scene_graphics->addPixmap(QPixmap(":/images/worldmap4.jpg")));
+        scene_graphics->addPixmap(QPixmap(":/images/worldmap4.png"));
     }else if(game_cols==500){
-         maps.append(scene_graphics->addPixmap(QPixmap(":/images/maze1.jpg")));
+        scene_graphics->addPixmap(QPixmap(":/images/maze1.png"));
     }else if(game_cols==800){
-         maps.append(scene_graphics->addPixmap(QPixmap(":/images/maze2.jpg")));
+         scene_graphics->addPixmap(QPixmap(":/images/maze2.png"));
     }else{
-        maps.append(scene_graphics->addPixmap(QPixmap(":/images/maze3.jpg")));
+        scene_graphics->addPixmap(QPixmap(":/images/maze3.png"));
     }
 
-
-    //ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    //ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
 
 //-----------------------------------------------------------------------------------------------
@@ -215,7 +177,7 @@ void MainWindow::on_radioButton_graphics_clicked()
         viewPenemy = new ViewPenemy(0, 10, 10);
         scene_graphics->addItem(viewPenemy);
     }
-//    scene_graphics->update();
+
 //-----------------------------------------------------------------------------------------------
 //----------------------  Xenemies   ---------------------------------------------------------
 //-----------------------------------------------------------------------------------------------
@@ -280,18 +242,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 //update the view
                 viewProtagonist->moveRight(protagonistCurrentXPos, protagonistCurrentYPos, gameModel);
 
-                //-----------------------------------------------------------------------------------------------------------------------
-//                //this is a test, it should belong to mouse click event and NOT HERE!
-//                auto dummy = path->solution1(10,10);
-//                for(unsigned long i=0; 14<i ; i++){
-//                    qDebug() << "inside for loop for pathplanner";
-//                    scene_graphics->addLine(QLineF(dummy.second[i].first, dummy.second[i].second, dummy.second[i+1].first, dummy.second[i+1].second));
-//                }
 
-                //-----------------------------------------------------------------------------------------------------------------------
                 updateHealth(gameModel->getProtagonist()->getProtagonist()->getHealth());
                 updateEnergy(gameModel->getProtagonist()->getProtagonist()->getEnergy());
-//                cout<< dummy.second.size()<<"size"<<endl;
+
             }
         }
         else if (event->key() == Qt::Key_O){
@@ -317,10 +271,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 }
 
 
-//void MainWindow::mouseMoveEvent(QMouseEvent *event){
-//    qDebug() << event->pos();
-
-//}
 
 
 
@@ -486,7 +436,7 @@ void MainWindow::on_comboBox_activated(int index)
 
           break;
        case 4:
-           switchMap(world,gameModel,":/images/maze3.jpg");
+           switchMap(world,gameModel,":/images/maze3.png");
            scene_graphics->setSceneRect(0,0,gameModel->getCols(),gameModel->getRows());
            ui->graphicsView->setScene(scene_graphics);
            ui->graphicsView->setScene(scene);
@@ -529,9 +479,6 @@ void MainWindow::testPathPlanner(const int &pX,const int &pY, const int &goalX, 
     gameModel->getProtagonist()->goTo(pX,pY);
     viewProtagonist->setPosition(pX,pY);
 
-    qDebug()<<" view is at: x="<< gameModel->getProtagonist()->getProtagonist()->getXPos() << "and at y="<< gameModel->getProtagonist()->getProtagonist()->getYPos();
-//    qDebug()<<"goal x"<<goalX;
-//    qDebug()<<"goal y"<<goalY;
     auto dummy = path->solution1(goalX,goalY).second;
     qDebug()<<"pathplanner size"<<dummy.size();
     unsigned int index=-1;
@@ -539,7 +486,7 @@ void MainWindow::testPathPlanner(const int &pX,const int &pY, const int &goalX, 
     pen.setWidth(5);
     for(auto & ab : dummy){
        lines.append(scene_graphics->addLine(QLineF(ab.first, ab.second, dummy[index + 1].first, dummy[index + 1].second), pen));
-//       qDebug() << ab.first << ab.second << dummy.second[index + 1].first << dummy.second[index + 1].second;
+
         index++;
     }
 
@@ -584,35 +531,26 @@ void MainWindow::switchMap(shared_ptr<World> &world,shared_ptr<GameModel> &gameM
     gameModel->setCols(world->getCols());
     gameModel->setRows(world->getRows());
 
-
     auto world_tiles=world->getTiles();
     gameModel->setTiles(world_tiles);
+
     auto tiles=gameModel->getTiles();
     qDebug()<<"TILES"<<gameModel->getTiles().size();
-
-
     auto enemy=world->getEnemies();
     gameModel->setEnemies(enemy);
-
     gameModel->setXEnemies();
-
 
     auto protagonist=world->getProtagonist();
     auto protagonist_model=make_shared<protagonistModel>();
     protagonist_model->setProtagonist(protagonist);
-    //auto protagonist_gamemodel = protagonist_model->getProtagonist();
     gameModel->setProtagonist(protagonist_model);
     gameModel->getProtagonist()->getProtagonist()->setXPos(0);
     gameModel->getProtagonist()->getProtagonist()->setYPos(0);
 
     auto health=world->getHealthPacks();
     gameModel->setHealthPacks(health);
-//    scene_graphics->setSceneRect(0,0,gameModel->getCols(),gameModel->getRows());
-    path=make_shared<PathPlanner>(gameModel,0.001);
 
-
-
-
+    path=make_shared<PathPlanner>(gameModel,0.01);
 
 }
 
@@ -639,5 +577,3 @@ void MainWindow::protagonistPositionChangedSlot(int xPos, int yPos)
     gameTextView->updateProgonistTileView(xPos,yPos);
 
 }
-
-

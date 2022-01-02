@@ -79,10 +79,10 @@ FORMS += \
 #Library
 
 
-#unix:!macx: LIBS += -L$$PWD/../world_source_v4/ -lworld
+unix:!macx: LIBS += -L$$PWD/../world_source_v4/ -lworld
 
-#INCLUDEPATH += $$PWD/../world_source_v4
-#DEPENDPATH += $$PWD/../world_source_v4
+INCLUDEPATH += $$PWD/../world_source_v4
+DEPENDPATH += $$PWD/../world_source_v4
 
 RESOURCES += \
     images.qrc

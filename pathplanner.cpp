@@ -14,9 +14,6 @@ PathPlanner::PathPlanner(shared_ptr<GameModel> &w,float slider):slider(slider)
 
 
 float PathPlanner::findDistance(int x1,int y1,int x2,int y2) {
-    //return slider*(float)(abs(x1-x2)+abs(y1-y2));
-    //return slider*sqrt(pow(x2 - x1, 2) +
-    //pow(y2 - y1, 2));
     float dx = abs(x1-x2);
     float dy = abs(y1-y2);
     return slider * ((dx + dy) + (1.414 - 2) * min(dx, dy));
@@ -47,7 +44,7 @@ pair<float,vector<pair<int,int>>> PathPlanner::solution1(int goalX,int goalY){
     int posX []={-1,  1, -1, 0,  1, -1, 0, 1};
     int posY []={ 0 , 0 ,-1,-1, -1,  1, 1, 1};
 
-    //auto start = std::chrono::system_clock::now();
+//    auto start = std::chrono::system_clock::now();
 
     //Get protagonist position
     int startX=protogonist->getProtagonist()->getXPos();
@@ -79,6 +76,8 @@ pair<float,vector<pair<int,int>>> PathPlanner::solution1(int goalX,int goalY){
         if(x==goalX && y==goalY) {
             dummy=fillPath(currentNode);
             totalGivenCost=currentNodeGivenCost;
+
+
             break;
         }
 
@@ -116,10 +115,10 @@ pair<float,vector<pair<int,int>>> PathPlanner::solution1(int goalX,int goalY){
 
     }
 
-   // auto end = std::chrono::system_clock::now();
+//    auto end = std::chrono::system_clock::now();
 
-    //std::chrono::duration<double> elapsed_seconds = end-start;
-    //cout<< "elapsed time: " << elapsed_seconds.count() << "s\n";
+//    std::chrono::duration<double> elapsed_seconds = end-start;
+//    cout<< "elapsed time: " << elapsed_seconds.count() << "s\n";
     return make_pair(totalGivenCost,dummy);
 }
 
@@ -143,6 +142,7 @@ pair<bool,vector<vector<pair<int,int>>>> PathPlanner::autoPlay()
     bool iskilled=true;
     shared_ptr<Enemy> nearestEnemy;
     while(counter < enemies.size()){
+        cout<<"------------------------------------------"<<endl;
         float pH=protogonist->getProtagonist()->getHealth();
         float pE=protogonist->getProtagonist()->getEnergy();
         float minDistance=std::numeric_limits<float>::infinity();
@@ -172,9 +172,6 @@ pair<bool,vector<vector<pair<int,int>>>> PathPlanner::autoPlay()
                 }
 
             }
-//            auto dummy=findNearestEnemy(nearestEnemy,path);
-//            nearestEnemy=dummy.second;
-//            iskilled=dummy.first;
         }
         //go to the prev enemy
         else {
@@ -186,10 +183,15 @@ pair<bool,vector<vector<pair<int,int>>>> PathPlanner::autoPlay()
             return make_pair(false,simulatorPath);
         }
         float enemyValue=nearestEnemy->getValue();
+        cout<<"Enemy "<<counter<<" is detected"<<endl;
+        cout<<"Enemy power is "<<enemyValue<<endl;
         //if protagonist health and energy greater than enemy value and total path energy
         //do the following
         if(pH > enemyValue and pE > path.first){
+            cout<<"My health and energy is enough to kill enemy"<<endl;
+            cout<<"Enemy location X: "<<nearestEnemy->getXPos()<<" Y : "<<nearestEnemy->getYPos()<<" Enemy power "<<enemyValue<<endl;
             protogonist->killEnemy(path.first,enemyValue,nearestEnemy);
+            cout<<"After Killing enemy Protagonist health :"<<protogonist->getProtagonist()->getHealth()<<", energy : "<<protogonist->getProtagonist()->getEnergy()<<endl;
             gameBoard[col*nearestEnemy->getYPos()+nearestEnemy->getXPos()]->setInfinity();
             simulatorPath.push_back(path.second);
             counter++;
@@ -221,10 +223,13 @@ pair<bool,vector<vector<pair<int,int>>>> PathPlanner::autoPlay()
 
 
             }
-//            nearestHealthPack=findNearestHealthPack(nearestHealthPack,path,enemyValue,pH);
-
             if(nearestHealthPack!=nullptr and path.second.size()>0 and pE > path.first and !(nearestHealthPack->getIsPacked())){
-                protogonist->grabHealthPack(nearestHealthPack);
+                protogonist->decreaseEnergy(path.first);
+                cout<<"My health is not enough for killing enemy I will grab health pack"<<endl;
+                cout<<"Before grabbing health pack my health is "<<pH<<" energy is "<<pE<<endl;
+                cout<<"Health pack value :"<<nearestHealthPack->getHealthPack()->getValue()<<endl;
+                protogonist->grabHealthPack(path.first,nearestHealthPack);
+                cout<<"After grabbing health pack my health is "<<protogonist->getProtagonist()->getHealth()<<endl;
                 simulatorPath.push_back(path.second);
 
             }else{
@@ -240,58 +245,6 @@ pair<bool,vector<vector<pair<int,int>>>> PathPlanner::autoPlay()
 }
 
 
-//pair<bool,shared_ptr<Enemy>> PathPlanner::findNearestEnemy(shared_ptr<Enemy> &nearestEnemy,pair<float,vector<pair<int,int>>> &path){
-//    float minDistance=std::numeric_limits<float>::infinity();
-//    for(auto &e : enemies){
-//        int eX=e.second->getXPos();
-//        int eY=e.second->getYPos();
-
-//        if(!(e.second->getDefeated())){
-//            auto enemySolution=solution1(eX,eY);
-//            int nearestEnemyDistance=enemySolution.second.size();
-
-//            if(nearestEnemyDistance < minDistance){
-//                minDistance=nearestEnemyDistance;
-//                nearestEnemy=e.second;
-//                path=enemySolution;
-//                return make_pair(false,nearestEnemy);
-
-//            }
-//        }
-
-//    }
-//    return make_pair(false,nullptr);
-//}
-
-//shared_ptr<HealthPackModel> PathPlanner::findNearestHealthPack(shared_ptr<HealthPackModel> &nearestHealthPack,pair<float,
-//                                                                vector<pair<int,int>>> &path,const float &enemyPower,const float &pHealth)
-//{
-//    float minHealthDistance=std::numeric_limits<float>::infinity();
-//    for(auto &h : healtPackets){
-//        if(h->getIsPacked()==false){
-//            int hX=h->getHealthPack()->getXPos();
-//            int hY=h->getHealthPack()->getYPos();
-//            int hV=h->getHealthPack()->getValue();
-
-//            auto healthSolution=solution1(hX,hY);
-//            auto nearestHealthPackDistance=healthSolution.second.size();
-
-//            if(nearestHealthPackDistance < minHealthDistance and pHealth + hV > enemyPower){
-//                minHealthDistance=nearestHealthPackDistance;
-//                nearestHealthPack=h;
-//                path=healthSolution;
-
-//            }
-
-
-//        }
-
-
-//    }
-
-//return nullptr;
-
-//}
 
 pair<bool, vector<pair<int, int> > > PathPlanner::findNearestEnemyPath()
 //return true and solution path if enough energy & health to attack nearest enemy
@@ -369,7 +322,7 @@ pair<bool, vector<pair<int, int> > > PathPlanner::findNearestHealthPack()
         }
     }
     if(nearestHealthPack!=nullptr and path.second.size()>0 and pE > path.first and !(nearestHealthPack->getIsPacked())){
-        protogonist->grabHealthPack(nearestHealthPack);
+        protogonist->grabHealthPack(path.first,nearestHealthPack);
         return  make_pair(true,path.second); //enough energy to grab health pack and it's path
 
     }else{
@@ -407,21 +360,14 @@ void PathPlanner::setRow(int newRow)
     row = newRow;
 }
 
+const vector<shared_ptr<TileModel> > &PathPlanner::getGameBoard() const
+{
+    return gameBoard;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+const std::map<std::string, std::shared_ptr<Enemy> > &PathPlanner::getEnemies() const
+{
+    return enemies;
+}
 
 

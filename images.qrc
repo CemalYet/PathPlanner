@@ -1,8 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/maze1.jpg</file>
-        <file>images/maze2.jpg</file>
-        <file>images/maze3.jpg</file>
         <file>images/worldmap.jpg</file>
         <file>images/worldmap4.jpg</file>
         <file>images/dead.png</file>
@@ -14,5 +11,10 @@
         <file>images/scorpion_4.png</file>
         <file>images/poisoned_player.png</file>
         <file>images/healthy_player.png</file>
+        <file>images/maze3.png</file>
+        <file>images/worldmap4.png</file>
+        <file>images/maze1.png</file>
+        <file>images/maze2.png</file>
+        <file>images/worldmap.png</file>
     </qresource>
 </RCC>

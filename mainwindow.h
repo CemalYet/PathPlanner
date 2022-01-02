@@ -51,7 +51,7 @@ public:
     void createTextCommandToClassMap();
 
 private slots:
-    void on_radioButton_Text_clicked();  
+    void on_radioButton_Text_clicked();
     void on_executeButton_clicked();
 
     void on_radioButton_graphics_clicked();

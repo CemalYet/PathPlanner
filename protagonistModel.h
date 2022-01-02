@@ -28,7 +28,7 @@ public:
     void increaseHealth(float value);
     void increaseEnergy();
     void killEnemy(const float &tileEnergy,const float &enemyPower,std::shared_ptr<Enemy> &nearestEnemy);
-    void grabHealthPack(std::shared_ptr<HealthPackModel> &nearestHealthPack);
+    void grabHealthPack(const float &tileEnergy,std::shared_ptr<HealthPackModel> &nearestHealthPack);
     std::shared_ptr<Protagonist> getProtagonist() const{return protagonist;};
     void setProtagonist(std::unique_ptr<Protagonist> &value){protagonist = std::move(value);};
 

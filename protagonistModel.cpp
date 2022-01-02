@@ -70,13 +70,14 @@ void protagonistModel::increaseEnergy()
 
 void protagonistModel::killEnemy(const float &tileEnergy,const float &enemyPower,std::shared_ptr<Enemy> &nearestEnemy){
     decreaseEnergy(tileEnergy);
+     std::cout<<"Before killing enemy Protagonist health : "<<protagonist->getHealth()<<", energy : "<<protagonist->getEnergy()<<std::endl;
     decreaseHealth(enemyPower);
     goTo(nearestEnemy->getXPos(),nearestEnemy->getYPos());
     increaseEnergy();
     nearestEnemy->setDefeated(1);
 }
-void protagonistModel::grabHealthPack(std::shared_ptr<HealthPackModel> &nearestHealthPack){
-
+void protagonistModel::grabHealthPack(const float &tileEnergy,std::shared_ptr<HealthPackModel> &nearestHealthPack){
+    decreaseEnergy(tileEnergy);
     increaseHealth(nearestHealthPack->getHealthPack()->getValue());
     goTo(nearestHealthPack->getHealthPack()->getXPos(),nearestHealthPack->getHealthPack()->getYPos());
     nearestHealthPack->setIsPacked(true);
